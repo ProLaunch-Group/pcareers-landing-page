@@ -69,9 +69,54 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    // ── MODAL LOGIC (OPEN/CLOSE)
+    const modal = document.getElementById('signupModal');
+    const closeBtn = document.getElementById('closeModal');
+    const openModalBtns = document.querySelectorAll('.open-signup-btn, .nav-cta, .mobile-cta, .cta-btn, a[href="#signup"]');
+
+    function openModal() {
+        if (modal) {
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; 
+            }, 10);
+        }
+    }
+
+    function closeModal() {
+        if (modal) {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+    }
+
+    openModalBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            if (btn.classList.contains('mobile-cta') || btn.classList.contains('nav-cta') || btn.getAttribute('href') === '#signup') {
+                e.preventDefault();
+            }
+            openModal();
+        });
+    });
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    }
+
+
     // ── FORM SUBMISSION (ZAPIER + SUCCESS REDIRECT)
     if (form) {
-        const ZAPIER_WEBHOOK_URL = CONFIG.ZAPIER_WEBHOOK_URL;
+        const IER_WEBHOOK_URL = CONFIG.IER_WEBHOOK_URL;
         const SUCCESS_PAGE_URL = CONFIG.SUCCESS_PAGE_URL;
 
         form.addEventListener('submit', async (e) => {
