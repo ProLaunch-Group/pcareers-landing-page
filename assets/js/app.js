@@ -116,8 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── FORM SUBMISSION (ZAPIER + SUCCESS REDIRECT)
     if (form) {
-        const IER_WEBHOOK_URL = CONFIG.IER_WEBHOOK_URL;
-        const SUCCESS_PAGE_URL = CONFIG.SUCCESS_PAGE_URL;
+        const ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/26961179/unyjjmh/";
+        const SUCCESS_PAGE_URL = "success.html";
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
