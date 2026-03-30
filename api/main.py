@@ -215,7 +215,13 @@ def get_analytics(credentials: HTTPBasicCredentials = Depends(verify_credentials
             )
 
         daily_stats.sort(key=lambda x: x["date"])
-        return {"status": "ok", "daily_stats": daily_stats}
+
+        # Calculate simple Conversion Rate for the "Week 2" summary
+        total_sessions = sum(d["sessions"] for d in daily_stats)
+        # Note: You'd ideally pull lead_form_submitted count here too to get:
+        # conv_rate = (total_leads / total_sessions) * 100 if total_sessions > 0 else 0
+
+        return {"status": "ok", "daily_stats": daily_stats, "total_sessions": total_sessions}
 
     except Exception as e:
         raise HTTPException(
@@ -246,21 +252,31 @@ def get_events(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
         )
         response = client.run_report(request)
 
-        events_dict = {}
+        # ─── New: High-Intent Event Mapping ───
+        # We define which events Chioma and Ann actually care about
+        PRIORITY_MAP = {
+            "lead_form_submitted": "Leads Generated",
+            "open_registration_modal": "Intent (Open Form)",
+            "click_cv_tool": "AI CV Tool Usage",
+            "scroll": "Page Reads"
+        }
+
+        final_events = []
         for row in response.rows:
             name = row.dimension_values[0].value
             count = int(row.metric_values[0].value)
-            # Filter internal noise if desired (e.g. session_start, first_visit)
-            if name not in ["session_start", "first_visit"]:
-                events_dict[name] = count
 
-        # Sort desc
-        sorted_ev = sorted(events_dict.items(), key=lambda x: x[1], reverse=True)
-        top_events = [
-            {"name": k.replace("_", " ").title(), "count": v} for k, v in sorted_ev[:6]
-        ]
+            # Only show priority events or other significant interactions
+            if name in PRIORITY_MAP:
+                final_events.append({"name": PRIORITY_MAP[name], "count": count})
+            elif name not in ["session_start", "first_visit", "user_engagement"]:
+                # Still show other events, but with cleaner names
+                final_events.append({"name": name.replace("_", " ").title(), "count": count})
 
-        return {"status": "ok", "events": top_events}
+        # Sort by count so the most active things are on top
+        final_events.sort(key=lambda x: x["count"], reverse=True)
+        
+        return {"status": "ok", "events": final_events}
 
     except Exception as e:
         raise HTTPException(
