@@ -62,6 +62,67 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+    // ── PREMIUM NUMBER COUNTER ANIMATION
+    const statObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                const text = el.getAttribute('data-target') || el.innerText.trim();
+                
+                // If not animated yet
+                if(!el.hasAttribute('data-animated')) {
+                    el.setAttribute('data-animated', 'true');
+                    
+                    const num = parseFloat(text.replace(/,/g, ''));
+                    if (isNaN(num)) return; // Skip if no number is found
+                    
+                    const isFloat = text.includes('.') && num % 1 !== 0;
+                    const suffix = text.replace(/[0-9.,]/g, ''); // Extract '+' or '★'
+                    
+                    // Start animation
+                    let startTimestamp = null;
+                    const duration = 2000; // 2 seconds
+                    
+                    const step = (timestamp) => {
+                        if (!startTimestamp) startTimestamp = timestamp;
+                        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                        
+                        // Expo Ease-out for an ultra-smooth finish without jumping
+                        const easeOut = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                        let current = easeOut * num;
+                        
+                        if(progress < 1) {
+                            if(isFloat) {
+                                el.innerText = current.toFixed(1) + suffix;
+                            } else {
+                                el.innerText = Math.round(current) + suffix;
+                            }
+                            window.requestAnimationFrame(step);
+                        } else {
+                            // Ensure exact final text to avoid any rounding discrepancies
+                            el.innerText = text; 
+                        }
+                    };
+                    window.requestAnimationFrame(step);
+                }
+            }
+        });
+    }, { threshold: 0.2 }); // Trigger slightly before fully in view
+
+    document.querySelectorAll('.stat-num').forEach(el => {
+        const text = el.innerText.trim();
+        const num = parseFloat(text.replace(/,/g, ''));
+        
+        // Exclude specific stats (like Active Cohorts: 2, and Rating: 4.7) from animation
+        if (isNaN(num) || num < 10) return;
+        
+        // Set initial state to 0 so it counts up nicely
+        const suffix = text.replace(/[0-9.,]/g, '');
+        el.setAttribute('data-target', text);
+        el.innerText = '0' + suffix;
+        statObserver.observe(el);
+    });
+
     if ('requestIdleCallback' in window) {
         requestIdleCallback(initReveal);
     } else {
@@ -187,6 +248,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
 
+                // ── SUCCESS TRACKING (CRITICAL FOR WEEK 2 REPORT)
+                trackEvent('lead_form_submitted', interest); // Tracks which program they picked!
+
                 // 4. Persistence & Immediate Redirect
                 localStorage.setItem('registered_email', email);
                 window.location.href = SUCCESS_PAGE_URL;
@@ -220,29 +284,24 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // ── GA4 EVENT TRACKING
-    const cvAnalyzerLink = document.querySelector('a[href*="prolaunch-cv-optimizer"]');
-    if (cvAnalyzerLink) {
-        cvAnalyzerLink.addEventListener('click', function() {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'click_cv_analyzer', {
-                    'event_category': 'engagement',
-                    'event_label': 'Hero Section - AI Optimizer',
-                    'value': 1
-                });
-            }
-        });
-    }
+    // ── GA4 EVENT TRACKING (NEW)
+    const trackEvent = (name, label) => {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', name, {
+                'event_category': 'engagement',
+                'event_label': label
+            });
+            console.log(`GA4 Tracked: ${name} - ${label}`);
+        }
+    };
 
-    document.querySelectorAll('.open-signup-btn, .nav-cta, .mobile-cta').forEach(button => {
-        button.addEventListener('click', function() {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'click_grooming_camp', {
-                    'event_category': 'conversion',
-                    'event_label': 'Cohort 02 Enrollment',
-                    'value': 1
-                });
-            }
-        });
+    // Track Hero CTA Click (Opening the Modal)
+    document.querySelectorAll('.open-signup-btn, .nav-cta, .mobile-cta').forEach(btn => {
+        btn.addEventListener('click', () => trackEvent('open_registration_modal', 'Hero/Nav CTA'));
+    });
+
+    // Track AI CV Tool Clicks (Outbound)
+    document.querySelectorAll('a[href*="cv-optimizer"]').forEach(link => {
+        link.addEventListener('click', () => trackEvent('click_cv_tool', 'Outbound to Analyzer'));
     });
 });

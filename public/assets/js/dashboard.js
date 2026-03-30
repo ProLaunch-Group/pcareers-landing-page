@@ -284,7 +284,7 @@ function buildGA4Charts(){
     labels:S.ga4Sources.map(s=>s.label),
     datasets:[{data:S.ga4Sources.map(s=>s.val),backgroundColor:S.ga4Sources.map(s=>s.color+'99'),borderColor:S.ga4Sources.map(s=>s.color),borderWidth:1.5}]
   },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}});
-  $('src-legend').innerHTML=S.ga4Sources.map(s=>`<div style="display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:2px;background:${s.color};flex-shrink:0"></span><span style="color:var(--muted)">${s.label}</span><span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:12px">${s.val}</span></div>`).join('');
+  $('src-legend').innerHTML=S.ga4Sources.map(s=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;"><span style="width:10px;height:10px;border-radius:2px;background:${s.color};flex-shrink:0"></span><span style="color:var(--muted);flex:1;word-break:break-word;">${s.label}</span><span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;">${s.val}</span></div>`).join('');
 }
 
 // ─── CONN STATUS ─────────────────────────────────────────
