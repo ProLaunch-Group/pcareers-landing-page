@@ -168,6 +168,7 @@ async function fetchEvents(){
     S.ga4Sources = evs.map((e,i) => ({
       label: e.name,
       val: e.count,
+      sessions: e.sessions,
       color: colors[i%colors.length]
     }));
   }catch(e){
@@ -279,12 +280,44 @@ function buildGA4Charts(){
     data:sess,borderColor:CC.b,backgroundColor:'rgba(25,160,140,0.08)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:CC.b
   }]},options:bOpts()});
   if(!S.ga4Sources.length) return;
-  if(CH.src) CH.src.destroy();
-  CH.src=new Chart($('c-src'),{type:'doughnut',data:{
-    labels:S.ga4Sources.map(s=>s.label),
-    datasets:[{data:S.ga4Sources.map(s=>s.val),backgroundColor:S.ga4Sources.map(s=>s.color+'99'),borderColor:S.ga4Sources.map(s=>s.color),borderWidth:1.5}]
-  },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}});
-  $('src-legend').innerHTML=S.ga4Sources.map(s=>`<div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;"><span style="width:10px;height:10px;border-radius:2px;background:${s.color};flex-shrink:0"></span><span style="color:var(--muted);flex:1;word-break:break-word;">${s.label}</span><span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;">${s.val}</span></div>`).join('');
+  
+  const tMap = {
+    "Form Started": { def: "Someone clicked into a text box in the registration form.", insight: "High intent! They started the process but might have gotten stuck." },
+    "Intent (Opened Form)": { def: "Someone clicked a \"Join\" button to see the form.", insight: "They liked the pitch enough to see what the next step was." },
+    "Leads Generated": { def: "Successful form submissions sent to our database.", insight: "The Goal. These are the people Chioma needs to call today." },
+    "AI CV Tool Usage": { def: "Number of times someone tested the AI Optimizer.", insight: "Our \"Lead Magnet.\" Shows if the tech is drawing people in." },
+    "Page Reads": { def: "Number of people who scrolled to the bottom (90%).", insight: "Tells us if our \"Success Stories\" are actually being read." }
+  };
+
+  const container = $('events-card-list');
+  if(container) {
+    container.innerHTML = S.ga4Sources.map(s => `
+      <div class="event-card">
+        <div class="ec-header" style="border-left: 4px solid ${s.color};">
+          <div class="ec-title metric-title" style="display:flex;align-items:center;">
+            ${s.label}
+            ${tMap[s.label] ? `
+            <div class="tooltip">
+                <i class="fa-solid fa-circle-info"></i>
+                <span class="tooltip-text">
+                    <strong>${tMap[s.label].def}</strong><br><br>${tMap[s.label].insight}
+                </span>
+            </div>` : ''}
+          </div>
+        </div>
+        <div class="ec-body">
+          <div class="ec-stat">
+            <span class="ec-val">${s.val}</span>
+            <span class="ec-lbl">Total Interactions</span>
+          </div>
+          <div class="ec-stat" style="text-align: right;">
+            <span class="ec-val sm">${s.sessions}</span>
+            <span class="ec-lbl">Unique Visitors</span>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
 }
 
 // ─── CONN STATUS ─────────────────────────────────────────

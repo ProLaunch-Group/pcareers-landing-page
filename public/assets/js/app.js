@@ -289,7 +289,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof gtag !== 'undefined') {
             gtag('event', name, {
                 'event_category': 'engagement',
-                'event_label': label
+                'event_label': label,
+                'transport_type': 'beacon' // <--- This forces the browser to finish sending before redirecting
             });
             console.log(`GA4 Tracked: ${name} - ${label}`);
         }
