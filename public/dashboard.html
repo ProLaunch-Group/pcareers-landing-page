@@ -6,6 +6,7 @@
 <title>ProLaunch Monitor</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <link rel="stylesheet" href="assets/css/dashboard.css"/>
 </head>
 <body>
@@ -89,13 +90,13 @@
     <!-- GA4 ANALYTICS -->
     <div id="view-analytics" style="display:none">
       <div class="metrics" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:14px">
-        <div class="mcard"><div class="mlabel">Sessions</div><div class="mvalue" id="ga-sess">—</div><div class="mdelta nu">30 days</div></div>
+        <div class="mcard"><div class="mlabel" style="display:flex;align-items:center;">Unique Visitors <div class="tooltip"><i class="fa-solid fa-circle-info"></i><span class="tooltip-text"><strong>Count of individual humans (Sessions).</strong><br><br>The most accurate count of "Real People" vs "Accidental Clicks."</span></div></div><div class="mvalue" id="ga-sess">—</div><div class="mdelta nu">30 days</div></div>
         <div class="mcard"><div class="mlabel">Active users</div><div class="mvalue" id="ga-users">—</div><div class="mdelta nu">30 days</div></div>
-        <div class="mcard"><div class="mlabel">New users</div><div class="mvalue" id="ga-newu">—</div><div class="mdelta nu">30 days</div></div>
+        <div class="mcard"><div class="mlabel" style="display:flex;align-items:center;">New Users <div class="tooltip"><i class="fa-solid fa-circle-info"></i><span class="tooltip-text"><strong>People visiting ProLaunch for the very first time.</strong><br><br>Measures our outreach success and new audience growth.</span></div></div><div class="mvalue" id="ga-newu">—</div><div class="mdelta nu">30 days</div></div>
         <div class="mcard"><div class="mlabel">Page views</div><div class="mvalue" id="ga-pv">—</div><div class="mdelta nu">30 days</div></div>
         
         <div class="mcard"><div class="mlabel">Event count</div><div class="mvalue" id="ga-events">—</div><div class="mdelta nu">30 days</div></div>
-        <div class="mcard"><div class="mlabel">Avg Session</div><div class="mvalue" id="ga-dur">—</div><div class="mdelta nu">duration</div></div>
+        <div class="mcard"><div class="mlabel" style="display:flex;align-items:center;">Avg Duration <div class="tooltip"><i class="fa-solid fa-circle-info"></i><span class="tooltip-text"><strong>Average time a person spent on the site.</strong><br><br>Elite engagement. Anything over 5 mins means they are reading every word.</span></div></div><div class="mvalue" id="ga-dur">—</div><div class="mdelta nu">duration</div></div>
         <div class="mcard hi" style="grid-column: span 2;"><div class="mlabel">Bounce rate</div><div class="mvalue" id="ga-bounce">—</div><div class="mdelta nu">average</div></div>
       </div>
       <div style="margin-bottom:14px">
@@ -104,10 +105,7 @@
       <div class="card"><div class="ctitle">Sessions per day — 30 days</div><div class="cwrap" style="height:200px"><canvas id="c-ga"></canvas></div></div>
       <div class="card">
         <div class="ctitle">Top Events (30 days)</div>
-        <div class="top-events-grid">
-          <div class="cwrap" style="height:200px"><canvas id="c-src"></canvas></div>
-          <div id="src-legend" style="display:flex;flex-direction:column;justify-content:center;gap:10px;font-size:13px"></div>
-        </div>
+        <div id="events-card-list" class="events-card-list"></div>
       </div>
         </div>
       </div>
