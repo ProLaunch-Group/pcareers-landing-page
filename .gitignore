@@ -3,4 +3,8 @@ node_modules/
 .env
 .DS_Store
 *.docx
-*.docx
+__pycache__/
+*.pyc
+.vercel/
+.vscode/
+hash_gen.py

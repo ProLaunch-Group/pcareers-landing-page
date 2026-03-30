@@ -69,10 +69,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+    // ── MODAL LOGIC (OPEN/CLOSE)
+    const modal = document.getElementById('signupModal');
+    const closeBtn = document.getElementById('closeModal');
+    const openModalBtns = document.querySelectorAll('.open-signup-btn, .nav-cta, .mobile-cta, .cta-btn, a[href="#signup"]');
+
+    function openModal() {
+        if (modal) {
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; 
+            }, 10);
+        }
+    }
+
+    function closeModal() {
+        if (modal) {
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+    }
+
+    openModalBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            if (btn.classList.contains('mobile-cta') || btn.classList.contains('nav-cta') || btn.getAttribute('href') === '#signup') {
+                e.preventDefault();
+            }
+            openModal();
+        });
+    });
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+    }
+
+
     // ── FORM SUBMISSION (ZAPIER + SUCCESS REDIRECT)
     if (form) {
-        const ZAPIER_WEBHOOK_URL = "https://hooks.zapier.com/hooks/catch/26961179/unyjjmh/";
-        const SUCCESS_PAGE_URL = "success.html";
+        const ZAPIER_WEBHOOK_URL = CONFIG.ZAPIER_WEBHOOK_URL;
+        const SUCCESS_PAGE_URL = CONFIG.SUCCESS_PAGE_URL;
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -133,9 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log('Mock submission:', payload);
                     await new Promise(resolve => setTimeout(resolve, 1000));
                 } else {
+                    console.log('Submitting to Zapier:', ZAPIER_WEBHOOK_URL, payload);
                     await fetch(ZAPIER_WEBHOOK_URL, {
                         method: 'POST',
-                        mode: 'no-cors',
+                        mode: 'no-cors', // Added back for maximum browser compatibility
                         body: JSON.stringify(payload),
                         headers: { 'Content-Type': 'application/json' }
                     });
@@ -173,4 +219,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+
+    // ── GA4 EVENT TRACKING
+    const cvAnalyzerLink = document.querySelector('a[href*="prolaunch-cv-optimizer"]');
+    if (cvAnalyzerLink) {
+        cvAnalyzerLink.addEventListener('click', function() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click_cv_analyzer', {
+                    'event_category': 'engagement',
+                    'event_label': 'Hero Section - AI Optimizer',
+                    'value': 1
+                });
+            }
+        });
+    }
+
+    document.querySelectorAll('.open-signup-btn, .nav-cta, .mobile-cta').forEach(button => {
+        button.addEventListener('click', function() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click_grooming_camp', {
+                    'event_category': 'conversion',
+                    'event_label': 'Cohort 02 Enrollment',
+                    'value': 1
+                });
+            }
+        });
+    });
 });

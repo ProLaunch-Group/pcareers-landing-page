@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>ProLaunch Monitor</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="stylesheet" href="assets/css/dashboard.css"/>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="lock-screen">
+  <div class="lock-card">
+    <div class="lock-logo">ProLaunch · Team Kode</div>
+    <div class="lock-title">Dashboard access</div>
+    <div class="lock-sub">This monitor is for internal team use only. Enter your credentials to continue.</div>
+    <input class="lock-input" type="text" id="usr-input" placeholder="Username" autocomplete="username"/>
+    <input class="lock-input" type="password" id="pwd-input" placeholder="••••••••" autocomplete="current-password" style="margin-top:8px"/>
+    <button class="lock-btn" id="lock-btn" onclick="tryLogin()">Unlock</button>
+    <div class="lock-error" id="pwd-error" style="min-height:18px"></div>
+    <div class="lock-hint">Contact Kolade Fajimi for access</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+<div class="mobile-hdr">
+  <div class="logo"><span class="logo-dot"></span>ProLaunch</div>
+  <button class="m-menu-btn" onclick="toggleMNav()">Menu</button>
+</div>
+
+<div class="mobile-nav" id="m-nav">
+  <button class="nav-item active" onclick="go('overview',this);toggleMNav()">Overview</button>
+  <button class="nav-item" onclick="go('leads',this);toggleMNav()">Leads</button>
+  <button class="nav-item" onclick="go('analytics',this);toggleMNav()">GA4 Analytics</button>
+  <button class="nav-item" onclick="doLock();toggleMNav()" style="margin-top:20px;color:var(--muted)">Lock dashboard</button>
+</div>
+
+<div class="shell">
+  <aside class="sidebar">
+    <div class="logo"><span class="logo-dot"></span>ProLaunch</div>
+    <button class="nav-item active" onclick="go('overview',this)"><span class="nav-dot"></span>Overview</button>
+    <button class="nav-item" onclick="go('leads',this)"><span class="nav-dot"></span>Leads</button>
+    <button class="nav-item" onclick="go('analytics',this)"><span class="nav-dot"></span>GA4 Analytics</button>
+    <div class="sidebar-footer">
+      <div class="conn-pill"><span class="conn-dot" id="cdot"></span><span id="ctxt">Not connected</span></div>
+      <button class="nav-item" onclick="doLock()" style="color:var(--muted)"><span class="nav-dot"></span>Lock dashboard</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="header">
+      <div class="header-left">
+        <h1 id="ptitle">Overview</h1>
+        <p>Refreshed: <span id="lrefresh">—</span></p>
+      </div>
+      <div class="hdr-btns">
+        <button class="btn sm" onclick="refreshAll()"><span id="ri">↻</span> Refresh</button>
+        <button class="btn sm accent" onclick="exportCSV()">↓ Export leads</button>
+      </div>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div id="view-overview">
+      <div class="metrics">
+        <div class="mcard hi"><div class="mlabel">Visitors today</div><div class="mvalue" id="m-vis">—</div><div class="mdelta nu" id="m-vis-d">Log in manual entry</div></div>
+        <div class="mcard"><div class="mlabel">Total leads</div><div class="mvalue" id="m-leads">—</div><div class="mdelta up" id="m-leads-d">From backend API</div></div>
+        <div class="mcard"><div class="mlabel">Conversion rate</div><div class="mvalue" id="m-cvr">—</div><div class="mdelta nu" id="m-cvr-d">visits → submissions</div></div>
+        <div class="mcard"><div class="mlabel">30-day sessions</div><div class="mvalue" id="m-sess">—</div><div class="mdelta nu">GA4 · 30 days</div></div>
+      </div>
+      <div class="row2">
+        <div class="card" style="margin-bottom:0"><div class="ctitle">Daily visits vs leads — 30 days</div><div class="cwrap" style="height:220px"><canvas id="c-main"></canvas></div></div>
+        <div class="card" style="margin-bottom:0"><div class="ctitle">Conversion funnel</div><div class="cwrap" style="height:220px"><canvas id="c-funnel"></canvas></div></div>
+      </div>
+      <div style="height:14px"></div>
+      <div class="card"><div class="ctitle">Conversion rate % — 30 days</div><div class="cwrap" style="height:110px"><canvas id="c-cvr"></canvas></div></div>
+    </div>
+
+    <!-- LEADS -->
+    <div id="view-leads" style="display:none">
+      <div class="card">
+        <div class="thdr"><div class="ctitle" style="margin:0">Form submissions · Backend API</div><span class="nu" style="font-size:12px" id="leads-count"></span></div>
+        <div id="leads-wrap"></div>
+      </div>
+    </div>
+
+    <!-- GA4 ANALYTICS -->
+    <div id="view-analytics" style="display:none">
+      <div class="metrics" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:14px">
+        <div class="mcard"><div class="mlabel">Sessions</div><div class="mvalue" id="ga-sess">—</div><div class="mdelta nu">30 days</div></div>
+        <div class="mcard"><div class="mlabel">Active users</div><div class="mvalue" id="ga-users">—</div><div class="mdelta nu">30 days</div></div>
+        <div class="mcard"><div class="mlabel">New users</div><div class="mvalue" id="ga-newu">—</div><div class="mdelta nu">30 days</div></div>
+        <div class="mcard"><div class="mlabel">Page views</div><div class="mvalue" id="ga-pv">—</div><div class="mdelta nu">30 days</div></div>
+        
+        <div class="mcard"><div class="mlabel">Event count</div><div class="mvalue" id="ga-events">—</div><div class="mdelta nu">30 days</div></div>
+        <div class="mcard"><div class="mlabel">Avg Session</div><div class="mvalue" id="ga-dur">—</div><div class="mdelta nu">duration</div></div>
+        <div class="mcard hi" style="grid-column: span 2;"><div class="mlabel">Bounce rate</div><div class="mvalue" id="ga-bounce">—</div><div class="mdelta nu">average</div></div>
+      </div>
+      <div style="margin-bottom:14px">
+        <a id="ga4-link" href="https://analytics.google.com" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border:1px solid var(--border2);border-radius:var(--radius);color:var(--accent2);font-size:13px;text-decoration:none;transition:background .15s" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background=''">Open GA4 dashboard ↗</a>
+      </div>
+      <div class="card"><div class="ctitle">Sessions per day — 30 days</div><div class="cwrap" style="height:200px"><canvas id="c-ga"></canvas></div></div>
+      <div class="card">
+        <div class="ctitle">Top Events (30 days)</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="cwrap" style="height:200px"><canvas id="c-src"></canvas></div>
+          <div id="src-legend" style="display:flex;flex-direction:column;justify-content:center;gap:10px;font-size:13px"></div>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+<div id="toast"></div>
+
+<script src="assets/js/dashboard.js"></script>
+</body>
+</html>
