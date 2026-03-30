@@ -26,18 +26,26 @@
 
 <!-- MAIN APP -->
 <div id="app">
+<div class="mobile-hdr">
+  <div class="logo"><span class="logo-dot"></span>ProLaunch</div>
+  <button class="m-menu-btn" onclick="toggleMNav()">Menu</button>
+</div>
+
+<div class="mobile-nav" id="m-nav">
+  <button class="nav-item active" onclick="go('overview',this);toggleMNav()">Overview</button>
+  <button class="nav-item" onclick="go('leads',this);toggleMNav()">Leads</button>
+  <button class="nav-item" onclick="go('analytics',this);toggleMNav()">GA4 Analytics</button>
+  <button class="nav-item" onclick="doLock();toggleMNav()" style="margin-top:20px;color:var(--muted)">Lock dashboard</button>
+</div>
+
 <div class="shell">
   <aside class="sidebar">
     <div class="logo"><span class="logo-dot"></span>ProLaunch</div>
     <button class="nav-item active" onclick="go('overview',this)"><span class="nav-dot"></span>Overview</button>
     <button class="nav-item" onclick="go('leads',this)"><span class="nav-dot"></span>Leads</button>
     <button class="nav-item" onclick="go('analytics',this)"><span class="nav-dot"></span>GA4 Analytics</button>
-    <button class="nav-item" onclick="go('clarity',this)"><span class="nav-dot"></span>Clarity heatmaps</button>
-    <button class="nav-item" onclick="go('manual',this)"><span class="nav-dot"></span>Manual entry</button>
-    <button class="nav-item" onclick="go('settings',this)"><span class="nav-dot"></span>Settings</button>
     <div class="sidebar-footer">
       <div class="conn-pill"><span class="conn-dot" id="cdot"></span><span id="ctxt">Not connected</span></div>
-      <button class="nav-item" onclick="loadDemo()"><span class="nav-dot"></span>Load demo</button>
       <button class="nav-item" onclick="doLock()" style="color:var(--muted)"><span class="nav-dot"></span>Lock dashboard</button>
     </div>
   </aside>
@@ -60,14 +68,14 @@
         <div class="mcard hi"><div class="mlabel">Visitors today</div><div class="mvalue" id="m-vis">—</div><div class="mdelta nu" id="m-vis-d">Log in manual entry</div></div>
         <div class="mcard"><div class="mlabel">Total leads</div><div class="mvalue" id="m-leads">—</div><div class="mdelta up" id="m-leads-d">From backend API</div></div>
         <div class="mcard"><div class="mlabel">Conversion rate</div><div class="mvalue" id="m-cvr">—</div><div class="mdelta nu" id="m-cvr-d">visits → submissions</div></div>
-        <div class="mcard"><div class="mlabel">7-day sessions</div><div class="mvalue" id="m-sess">—</div><div class="mdelta nu">GA4 · 7 days</div></div>
+        <div class="mcard"><div class="mlabel">30-day sessions</div><div class="mvalue" id="m-sess">—</div><div class="mdelta nu">GA4 · 30 days</div></div>
       </div>
       <div class="row2">
-        <div class="card" style="margin-bottom:0"><div class="ctitle">Daily visits vs leads — 7 days</div><div class="cwrap" style="height:220px"><canvas id="c-main"></canvas></div></div>
+        <div class="card" style="margin-bottom:0"><div class="ctitle">Daily visits vs leads — 30 days</div><div class="cwrap" style="height:220px"><canvas id="c-main"></canvas></div></div>
         <div class="card" style="margin-bottom:0"><div class="ctitle">Conversion funnel</div><div class="cwrap" style="height:220px"><canvas id="c-funnel"></canvas></div></div>
       </div>
       <div style="height:14px"></div>
-      <div class="card"><div class="ctitle">Conversion rate % — 7 days</div><div class="cwrap" style="height:110px"><canvas id="c-cvr"></canvas></div></div>
+      <div class="card"><div class="ctitle">Conversion rate % — 30 days</div><div class="cwrap" style="height:110px"><canvas id="c-cvr"></canvas></div></div>
     </div>
 
     <!-- LEADS -->
@@ -80,131 +88,30 @@
 
     <!-- GA4 ANALYTICS -->
     <div id="view-analytics" style="display:none">
-      <div class="alert ainfo"><span>ℹ</span><span>Visitor data from Google Analytics 4. Add your GA4 Property ID in Settings, then paste the GA4 script into your <strong>landing page</strong> <code>&lt;head&gt;</code> (not this dashboard). The direct link below opens your live GA4 dashboard.</span></div>
-      <div class="metrics" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:14px">
-        <div class="mcard"><div class="mlabel">Sessions (7d)</div><div class="mvalue" id="ga-sess">—</div><div class="mdelta nu" id="ga-sess-d"></div></div>
-        <div class="mcard"><div class="mlabel">Active users (7d)</div><div class="mvalue" id="ga-users">—</div><div class="mdelta nu" id="ga-users-d"></div></div>
-        <div class="mcard hi"><div class="mlabel">Bounce rate</div><div class="mvalue" id="ga-bounce">—</div><div class="mdelta nu" id="ga-bounce-d"></div></div>
+      <div class="metrics" style="grid-template-columns:repeat(4,minmax(0,1fr));margin-bottom:14px">
+        <div class="mcard"><div class="mlabel">Sessions</div><div class="mvalue" id="ga-sess">—</div><div class="mdelta nu">30 days</div></div>
+        <div class="mcard"><div class="mlabel">Active users</div><div class="mvalue" id="ga-users">—</div><div class="mdelta nu">30 days</div></div>
+        <div class="mcard"><div class="mlabel">New users</div><div class="mvalue" id="ga-newu">—</div><div class="mdelta nu">30 days</div></div>
+        <div class="mcard"><div class="mlabel">Page views</div><div class="mvalue" id="ga-pv">—</div><div class="mdelta nu">30 days</div></div>
+        
+        <div class="mcard"><div class="mlabel">Event count</div><div class="mvalue" id="ga-events">—</div><div class="mdelta nu">30 days</div></div>
+        <div class="mcard"><div class="mlabel">Avg Session</div><div class="mvalue" id="ga-dur">—</div><div class="mdelta nu">duration</div></div>
+        <div class="mcard hi" style="grid-column: span 2;"><div class="mlabel">Bounce rate</div><div class="mvalue" id="ga-bounce">—</div><div class="mdelta nu">average</div></div>
       </div>
       <div style="margin-bottom:14px">
         <a id="ga4-link" href="https://analytics.google.com" target="_blank" style="display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border:1px solid var(--border2);border-radius:var(--radius);color:var(--accent2);font-size:13px;text-decoration:none;transition:background .15s" onmouseover="this.style.background='var(--bg3)'" onmouseout="this.style.background=''">Open GA4 dashboard ↗</a>
       </div>
-      <div class="card"><div class="ctitle">Sessions per day — 7 days</div><div class="cwrap" style="height:200px"><canvas id="c-ga"></canvas></div></div>
+      <div class="card"><div class="ctitle">Sessions per day — 30 days</div><div class="cwrap" style="height:200px"><canvas id="c-ga"></canvas></div></div>
       <div class="card">
-        <div class="ctitle">Traffic sources (demo)</div>
+        <div class="ctitle">Top Events (30 days)</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
           <div class="cwrap" style="height:200px"><canvas id="c-src"></canvas></div>
           <div id="src-legend" style="display:flex;flex-direction:column;justify-content:center;gap:10px;font-size:13px"></div>
         </div>
       </div>
-      <div class="scard">
-        <h2>Add GA4 to your landing page</h2>
-        <p>Paste this in your landing page <code>&lt;head&gt;</code> — replace <code>G-XXXXXXXXXX</code> with your Measurement ID from GA4 → Admin → Data Streams.</p>
-        <div class="code-block" id="ga4-script-block">&lt;!-- Google Analytics 4 --&gt;
-&lt;script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"&gt;&lt;/script&gt;
-&lt;script&gt;
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-&lt;/script&gt;</div>
-        <button class="btn sm" style="margin-top:12px" onclick="copyGA4Script()">Copy script</button>
-      </div>
-    </div>
-
-    <!-- CLARITY -->
-    <div id="view-clarity" style="display:none">
-      <div class="alert ainfo"><span>ℹ</span><span>Microsoft Clarity gives you heatmaps, session recordings, scroll depth, and click maps — all free. Add your Project ID in Settings and paste the script into your <strong>landing page</strong> <code>&lt;head&gt;</code> (not this dashboard).</span></div>
-      <div class="card">
-        <div class="ctitle">Clarity quick stats</div>
-        <div class="cl-grid">
-          <div class="cl-tile"><div class="cl-val" id="cl-sess">—</div><div class="cl-lbl">Sessions recorded</div></div>
-          <div class="cl-tile"><div class="cl-val" id="cl-pages">—</div><div class="cl-lbl">Pages analyzed</div></div>
-          <div class="cl-tile"><div class="cl-val" id="cl-rage">—</div><div class="cl-lbl">Rage clicks</div></div>
-          <div class="cl-tile"><div class="cl-val" id="cl-dead">—</div><div class="cl-lbl">Dead clicks</div></div>
-        </div>
-        <a id="cl-link" href="https://clarity.microsoft.com" target="_blank" class="cl-link">Open Clarity dashboard ↗</a>
-      </div>
-      <div class="scard">
-        <h2>Add Clarity to your landing page</h2>
-        <p>Paste this inside your landing page <code>&lt;head&gt;</code>. Replace <code>YOUR_PROJECT_ID</code> with the ID from <a href="https://clarity.microsoft.com" target="_blank" style="color:var(--accent2)">clarity.microsoft.com</a> → your project → Settings.</p>
-        <div class="code-block" id="clarity-script-block">&lt;!-- Microsoft Clarity --&gt;
-&lt;script type="text/javascript"&gt;
-  (function(c,l,a,r,i,t,y){
-    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-  })(window,document,"clarity","script","YOUR_PROJECT_ID");
-&lt;/script&gt;</div>
-        <button class="btn sm" style="margin-top:12px" onclick="copyClarity()">Copy script</button>
-      </div>
-      <div class="scard">
-        <h2>What Clarity tracks for you</h2>
-        <p style="margin-bottom:12px">Once installed on your landing page, Clarity automatically captures:</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:13px">
-          <div style="background:var(--bg3);border-radius:var(--radius);padding:12px 14px"><div style="color:var(--accent);font-weight:500;margin-bottom:4px">Heatmaps</div><div style="color:var(--muted)">Where users click and scroll on your page</div></div>
-          <div style="background:var(--bg3);border-radius:var(--radius);padding:12px 14px"><div style="color:var(--accent);font-weight:500;margin-bottom:4px">Session recordings</div><div style="color:var(--muted)">Watch real user sessions — see exactly what they do</div></div>
-          <div style="background:var(--bg3);border-radius:var(--radius);padding:12px 14px"><div style="color:var(--accent);font-weight:500;margin-bottom:4px">Rage clicks</div><div style="color:var(--muted)">Elements users click repeatedly out of frustration</div></div>
-          <div style="background:var(--bg3);border-radius:var(--radius);padding:12px 14px"><div style="color:var(--accent);font-weight:500;margin-bottom:4px">Dead clicks</div><div style="color:var(--muted)">Clicks on non-interactive elements — UX issues</div></div>
-          <div style="background:var(--bg3);border-radius:var(--radius);padding:12px 14px"><div style="color:var(--accent);font-weight:500;margin-bottom:4px">Scroll depth</div><div style="color:var(--muted)">How far users scroll before leaving</div></div>
-          <div style="background:var(--bg3);border-radius:var(--radius);padding:12px 14px"><div style="color:var(--accent);font-weight:500;margin-bottom:4px">Device breakdown</div><div style="color:var(--muted)">Mobile vs desktop vs tablet usage split</div></div>
         </div>
       </div>
     </div>
-
-    <!-- MANUAL ENTRY -->
-    <div id="view-manual" style="display:none">
-      <div class="scard">
-        <h2>Weekly UX Audit (Clarity)</h2>
-        <p>Log your weekly Rage Clicks and Dead Clicks from Microsoft Clarity here to track user frustration over time.</p>
-        <div class="field"><label>Date</label><input type="date" id="m-date"/></div>
-        <div class="field" style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <div><label>Rage clicks</label><input type="number" id="m-rage" placeholder="0" min="0"/></div>
-          <div><label>Dead clicks</label><input type="number" id="m-dead" placeholder="0" min="0"/></div>
-        </div>
-        <button class="btn accent" onclick="saveManual()">Save entry</button>
-      </div>
-      <div class="card" style="max-width:560px">
-        <div class="ctitle">Logged entries</div>
-        <div id="manual-log"></div>
-      </div>
-    </div>
-
-    <!-- SETTINGS -->
-    <div id="view-settings" style="display:none">
-
-      <div class="sdivider">Lead data — backend connection</div>
-      <div class="alert aok">
-        <span>✓</span>
-        <span>Leads are fetched securely via the FastAPI backend at <code>/api/leads</code>. Google Sheets credentials (API key, Sheet ID, tab name) are configured as <strong>environment variables</strong> on the server — they are never exposed in the browser. To update them, go to your Vercel project → Settings → Environment Variables.</span>
-      </div>
-
-
-
-      <div class="sdivider">Microsoft Clarity</div>
-      <div class="scard">
-        <h2>Clarity project ID</h2>
-        <p>Used to generate your direct Clarity dashboard link and customize the install script.</p>
-        <div class="field"><label>Project ID</label><input id="s-clid" placeholder="abc123xyz"/><div class="hint">clarity.microsoft.com → your project → Settings → Project ID</div></div>
-        <button class="btn accent" onclick="saveClarity()">Save Clarity config</button>
-        <div class="alert ainfo" style="margin-top:14px;max-width:100%">
-          <span>ℹ</span>
-          <div><strong>Setup steps:</strong><br/>
-          1. Go to <a href="https://clarity.microsoft.com" target="_blank" style="color:var(--accent2)">clarity.microsoft.com</a> → sign in with Microsoft account → New project<br/>
-          2. Enter your site name and Vercel URL<br/>
-          3. Copy the Project ID and paste above<br/>
-          4. Copy the install script from the Clarity tab and paste into your landing page &lt;head&gt;</div>
-        </div>
-      </div>
-
-
-
-      <div class="alert awarn">
-        <span>⚠</span>
-        <span>GA4 and Clarity IDs are stored in this browser's localStorage. Lead data credentials are stored securely as server-side environment variables and never exposed to the browser.</span>
-      </div>
-    </div>
-
   </main>
 </div>
 </div>

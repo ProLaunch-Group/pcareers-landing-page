@@ -1,5 +1,6 @@
 import os
 import json
+import bcrypt
 import secrets
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Depends, HTTPException, status
@@ -12,9 +13,13 @@ from google.analytics.data_v1beta.types import (
     Metric,
     RunReportRequest,
 )
+
+
 from google.oauth2 import service_account
 
 from dotenv import load_dotenv
+
+
 load_dotenv()  # This loads the variables from your .env file
 
 app = FastAPI(title="ProLaunch Monitor API")
@@ -22,35 +27,51 @@ security = HTTPBasic()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"], # Allows any "origin" (including your local file) to talk to the API
+    allow_origins=[
+        "*"
+    ],  # Allows any "origin" (including your local file) to talk to the API
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 # ─── Auth ─────────────────────────────────────────────────
-# Hardcoded for internal team access as requested
-ADMIN_USER = "admin"
-ADMIN_PASS = "prolaunch2026"
 
 
 def verify_credentials(credentials: HTTPBasicCredentials = Depends(security)):
-    """Validate HTTP Basic Auth using timing-safe comparison."""
-    username_ok = secrets.compare_digest(
-        credentials.username.encode("utf-8"),
-        ADMIN_USER.encode("utf-8"),
-    )
-    password_ok = secrets.compare_digest(
-        credentials.password.encode("utf-8"),
-        ADMIN_PASS.encode("utf-8"),
-    )
-    if not (username_ok and password_ok):
+    """Validate Team Credentials using direct bcrypt verification."""
+    
+    # Refresh/get environment variables to ensure we match the current .env state
+    TEAM_ACCOUNTS = {
+        "root": os.getenv("HASH_ROOT"),
+        "sales": os.getenv("HASH_SALES"),
+        "operations": os.getenv("HASH_OPS")
+    }
+
+    username = credentials.username.lower()
+    stored_hash = TEAM_ACCOUNTS.get(username)
+
+    if not stored_hash:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials",
             headers={"WWW-Authenticate": "Basic"},
         )
+
+    # Convert the input password and stored hash to bytes for bcrypt
+    password_bytes = credentials.password.encode("utf-8")
+    hash_bytes = stored_hash.encode("utf-8")
+
+    # Verify: bcrypt.checkpw(password, hashed_password)
+    if not bcrypt.checkpw(password_bytes, hash_bytes):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid credentials",
+            headers={"WWW-Authenticate": "Basic"},
+        )
+
     return credentials
+
 
 @app.get("/api/verify")
 def verify_auth(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
@@ -131,62 +152,120 @@ def get_leads(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
 # ─── GA4 Analytics endpoint ────────────────────────────────
 @app.get("/api/analytics")
 def get_analytics(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
-    """
-    Fetch active users (visitors) and sessions from GA4 for the last 7 days.
-    """
     gac = os.environ.get("GA4_SERVICE_ACCOUNT_JSON", "")
     property_id = os.environ.get("GA4_PROPERTY_ID", "")
 
     if not gac or not property_id:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="GOOGLE_APPLICATION_CREDENTIALS and GA4_PROPERTY_ID environment variables are missing.",
+            detail="Environment variables missing.",
         )
 
     try:
-        # Handle stringified JSON from Vercel env var or file path
-        if gac.strip().startswith("{") and gac.strip().endswith("}"):
-            json_creds = json.loads(gac)
-            creds = service_account.Credentials.from_service_account_info(json_creds)
-            client = BetaAnalyticsDataClient(credentials=creds)
-        else:
-            # Fallback for local development if it's a file path
-            client = BetaAnalyticsDataClient()
+        json_creds = json.loads(gac)
+        creds = service_account.Credentials.from_service_account_info(json_creds)
+        client = BetaAnalyticsDataClient(credentials=creds)
 
+        # ─── 1. Updated Request with New Metrics ───
         request = RunReportRequest(
             property=f"properties/{property_id}",
             dimensions=[Dimension(name="date")],
-            metrics=[Metric(name="activeUsers"), Metric(name="sessions")],
-            date_ranges=[DateRange(start_date="6daysAgo", end_date="today")],
+            metrics=[
+                Metric(name="activeUsers"),
+                Metric(name="newUsers"),
+                Metric(name="sessions"),
+                Metric(name="eventCount"),
+                Metric(name="screenPageViews"),
+                Metric(name="averageSessionDuration"),
+                Metric(name="userEngagementDuration"),
+                Metric(name="bounceRate"),
+            ],
+            # Expanded to 30 days for better trend lines
+            date_ranges=[DateRange(start_date="2026-03-30", end_date="today")],
         )
+
         response = client.run_report(request)
-
-        # Parse data
-        from datetime import datetime
-
         daily_stats = []
 
+        # ─── 2. Updated Parsing Logic ───
+        # ─── 2. Updated Parsing Logic (Ordered Correcty) ───
         for row in response.rows:
             date_str = row.dimension_values[0].value
-            # GA4 returns date as YYYYMMDD, convert to YYYY-MM-DD
             formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
 
-            visitors = int(row.metric_values[0].value)
-            sessions = int(row.metric_values[1].value)
-
+            # Map values based on the Metric() list order above
             daily_stats.append(
-                {"date": formatted_date, "visitors": visitors, "sessions": sessions}
+                {
+                    "date": formatted_date,
+                    "visitors": int(row.metric_values[0].value),  # activeUsers
+                    "new_users": int(row.metric_values[1].value),  # newUsers
+                    "sessions": int(row.metric_values[2].value),  # sessions
+                    "event_count": int(row.metric_values[3].value),  # eventCount
+                    "page_views": int(row.metric_values[4].value),  # screenPageViews
+                    "avg_duration": round(
+                        float(row.metric_values[5].value), 2
+                    ),  # averageSessionDuration
+                    "engagement_total": float(
+                        row.metric_values[6].value
+                    ),  # userEngagementDuration
+                    "bounce_rate": round(
+                        float(row.metric_values[7].value) * 100, 1
+                    ),  # bounceRate
+                }
             )
 
-        # Sort chronologically
         daily_stats.sort(key=lambda x: x["date"])
-
         return {"status": "ok", "daily_stats": daily_stats}
 
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_502_BAD_GATEWAY,
-            detail=f"Failed to fetch from Google Analytics 4: {str(e)}",
+            detail=f"GA4 Error: {str(e)}",
+        )
+
+
+# ─── GA4 Events endpoint ──────────────────────────────────
+@app.get("/api/events")
+def get_events(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
+    gac = os.environ.get("GA4_SERVICE_ACCOUNT_JSON", "")
+    property_id = os.environ.get("GA4_PROPERTY_ID", "")
+
+    if not gac or not property_id:
+        return {"status": "ok", "events": []}
+
+    try:
+        json_creds = json.loads(gac)
+        creds = service_account.Credentials.from_service_account_info(json_creds)
+        client = BetaAnalyticsDataClient(credentials=creds)
+
+        request = RunReportRequest(
+            property=f"properties/{property_id}",
+            dimensions=[Dimension(name="eventName")],
+            metrics=[Metric(name="eventCount")],
+            date_ranges=[DateRange(start_date="2026-03-30", end_date="today")],
+        )
+        response = client.run_report(request)
+
+        events_dict = {}
+        for row in response.rows:
+            name = row.dimension_values[0].value
+            count = int(row.metric_values[0].value)
+            # Filter internal noise if desired (e.g. session_start, first_visit)
+            if name not in ["session_start", "first_visit"]:
+                events_dict[name] = count
+
+        # Sort desc
+        sorted_ev = sorted(events_dict.items(), key=lambda x: x[1], reverse=True)
+        top_events = [
+            {"name": k.replace("_", " ").title(), "count": v} for k, v in sorted_ev[:6]
+        ]
+
+        return {"status": "ok", "events": top_events}
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail=f"GA4 Events Error: {str(e)}",
         )
 
 

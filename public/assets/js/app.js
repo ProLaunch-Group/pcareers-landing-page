@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── FORM SUBMISSION (ZAPIER + SUCCESS REDIRECT)
     if (form) {
-        const IER_WEBHOOK_URL = CONFIG.IER_WEBHOOK_URL;
+        const ZAPIER_WEBHOOK_URL = CONFIG.ZAPIER_WEBHOOK_URL;
         const SUCCESS_PAGE_URL = CONFIG.SUCCESS_PAGE_URL;
 
         form.addEventListener('submit', async (e) => {
@@ -178,9 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.log('Mock submission:', payload);
                     await new Promise(resolve => setTimeout(resolve, 1000));
                 } else {
+                    console.log('Submitting to Zapier:', ZAPIER_WEBHOOK_URL, payload);
                     await fetch(ZAPIER_WEBHOOK_URL, {
                         method: 'POST',
-                        mode: 'no-cors',
+                        mode: 'no-cors', // Added back for maximum browser compatibility
                         body: JSON.stringify(payload),
                         headers: { 'Content-Type': 'application/json' }
                     });
@@ -218,4 +219,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
+
+    // ── GA4 EVENT TRACKING
+    const cvAnalyzerLink = document.querySelector('a[href*="prolaunch-cv-optimizer"]');
+    if (cvAnalyzerLink) {
+        cvAnalyzerLink.addEventListener('click', function() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click_cv_analyzer', {
+                    'event_category': 'engagement',
+                    'event_label': 'Hero Section - AI Optimizer',
+                    'value': 1
+                });
+            }
+        });
+    }
+
+    document.querySelectorAll('.open-signup-btn, .nav-cta, .mobile-cta').forEach(button => {
+        button.addEventListener('click', function() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click_grooming_camp', {
+                    'event_category': 'conversion',
+                    'event_label': 'Cohort 02 Enrollment',
+                    'value': 1
+                });
+            }
+        });
+    });
 });

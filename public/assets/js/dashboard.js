@@ -3,17 +3,28 @@ const getAuthHeader = () => 'Basic ' + btoa((sessionStorage.getItem('lpm-usr')||
 
 // ─── STATE ───────────────────────────────────────────────
 const S = {
-  leads:[], manualLog:[], visits:[0,0,0,0,0,0,0],
-  labels:[], ga4Sessions:[], ga4Sources:[], cfg:{}
+  leads:[], visits:[], labels:[], rawDates:[], ga4Sessions:[], ga4Bounce:[], ga4Sources:[],
+  ga4NewU:[], ga4PV:[], ga4Events:[], ga4Dur:[]
 };
 let CH = {};
 
 // ─── UTILS ───────────────────────────────────────────────
 const $  = id => document.getElementById(id);
-const td = () => new Date().toISOString().split('T')[0];
+const td = () => new Date().toLocaleDateString('en-CA'); 
 const l7 = () => Array.from({length:7},(_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(6-i)); return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'}); });
-const d7 = () => Array.from({length:7},(_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(6-i)); return d.toISOString().split('T')[0]; });
-const ago= n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().split('T')[0]; };
+const d7 = () => Array.from({length:7},(_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(6-i)); return d.toLocaleDateString('en-CA'); });
+const ago= n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toLocaleDateString('en-CA'); };
+
+const isSameDay = (ts, dStr) => {
+  if(!ts || typeof ts !== 'string') return false;
+  if(ts.startsWith(dStr)) return true;
+  const [y,m,d] = dStr.split('-');
+  const m1 = parseInt(m, 10), d1 = parseInt(d, 10), m2 = m1.toString().padStart(2,'0'), d2 = d1.toString().padStart(2,'0');
+  const fmts = [`${d1}/${m1}/${y}`, `${m1}/${d1}/${y}`, `${d2}/${m2}/${y}`, `${m2}/${d2}/${y}`];
+  if(fmts.some(f => ts.includes(f))) return true;
+  const pd = new Date(ts);
+  return !isNaN(pd) && pd.getFullYear()===parseInt(y, 10) && (pd.getMonth()+1)===m1 && pd.getDate()===d1;
+};
 
 function toast(msg,dur=2800){
   const t=$('toast'); t.textContent=msg; t.className='show';
@@ -38,7 +49,7 @@ async function tryLogin(){
   btn.innerHTML = '<span class="spinner" style="border-width:2px;width:14px;height:14px;border-top-color:#fff"></span>';
   
   try {
-    const r = await fetch('http://127.0.0.1:8000/api/verify', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('/api/verify', { headers: { 'Authorization': getAuthHeader() } });
     if (r.ok) {
       sessionStorage.setItem('lpm-ok','1');
       $('lock-screen').style.display='none';
@@ -72,51 +83,21 @@ function doLock(){
 
 // ─── NAV ─────────────────────────────────────────────────
 function go(v,el){
-  ['overview','leads','analytics','clarity','manual','settings'].forEach(x=>{
+  ['overview','leads','analytics'].forEach(x=>{
     $('view-'+x).style.display=x===v?'block':'none';
   });
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
-  const T={overview:'Overview',leads:'Leads',analytics:'GA4 Analytics',clarity:'Clarity heatmaps',manual:'Manual entry',settings:'Settings'};
+  const T={overview:'Overview',leads:'Leads',analytics:'GA4 Analytics'};
   $('ptitle').textContent=T[v];
   if(v==='analytics') setTimeout(buildGA4Charts,60);
-}
-
-// ─── CONFIG ──────────────────────────────────────────────
-function loadCfg(){
-  S.cfg = JSON.parse(localStorage.getItem('lpm-cfg')||'{}');
-  if(S.cfg.clid) $('s-clid').value = S.cfg.clid;
-  applyClarityID();
-  S.manualLog = JSON.parse(localStorage.getItem('lpm-manual')||'[]');
-  applyManualLog();
-}
-function saveCfg(){ localStorage.setItem('lpm-cfg',JSON.stringify(S.cfg)); }
-
-function saveClarity(){
-  const clid=$('s-clid').value.trim();
-  if(!clid){toast('Enter Clarity Project ID');return;}
-  S.cfg.clid=clid; saveCfg(); applyClarityID();
-  toast('Clarity config saved');
-}
-
-function applyClarityID(){
-  const id=S.cfg.clid||'YOUR_PROJECT_ID';
-  $('clarity-script-block').textContent=`<!-- Microsoft Clarity -->
-<script type="text/javascript">
-  (function(c,l,a,r,i,t,y){
-    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-  })(window,document,"clarity","script","${id}");
-<\/script>`;
-  if(S.cfg.clid) $('cl-link').href='https://clarity.microsoft.com/projects/view/'+S.cfg.clid;
 }
 
 // ─── FETCH DATA (FastAPI Backend) ────────────────────────
 async function fetchLeads(){
   setConn('loading');
   try{
-    const r = await fetch('http://127.0.0.1:8000/api/leads', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('/api/leads', { headers: { 'Authorization': getAuthHeader() } });
     if(r.status === 401){ toast('API auth failed — check backend credentials'); setConn('error'); return; }
     if(!r.ok){ const e = await r.json().catch(()=>({})); toast('API error: '+(e.detail||r.status)); setConn('error'); return; }
     const data = await r.json();
@@ -130,8 +111,8 @@ async function fetchLeads(){
 
 async function fetchAnalytics(){
   try{
-    const r = await fetch('http://127.0.0.1:8000/api/analytics', { headers: { 'Authorization': getAuthHeader() } });
-    if(!r.ok) return;
+    const r = await fetch('/api/analytics', { headers: { 'Authorization': getAuthHeader() } });
+    if(!r.ok) throw new Error('Analytics API error status');
     const data = await r.json();
     const stats = data.daily_stats || [];
     if(stats.length > 0){
@@ -139,68 +120,83 @@ async function fetchAnalytics(){
         const d = new Date(s.date);
         return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'});
       });
+      S.rawDates = stats.map(s => s.date);
       S.visits = stats.map(s => s.visitors);
       S.ga4Sessions = stats.map(s => s.sessions);
+      S.ga4Bounce = stats.map(s => s.bounce_rate);
+      S.ga4NewU = stats.map(s => s.new_users);
+      S.ga4PV = stats.map(s => s.page_views);
+      S.ga4Events = stats.map(s => s.event_count);
+      S.ga4Dur = stats.map(s => s.avg_duration);
       
       const totSess = S.ga4Sessions.reduce((a,b)=>a+b,0);
-      $('ga-sess').textContent = totSess || '—';
-      $('ga-users').textContent = S.visits.reduce((a,b)=>a+b,0) || '—';
+      $('ga-sess').textContent = totSess || '0';
+      $('ga-users').textContent = S.visits.reduce((a,b)=>a+b,0) || '0';
+      $('ga-newu').textContent = S.ga4NewU.reduce((a,b)=>a+b,0) || '0';
+      $('ga-pv').textContent = S.ga4PV.reduce((a,b)=>a+b,0) || '0';
+      $('ga-events').textContent = S.ga4Events.reduce((a,b)=>a+b,0) || '0';
+      
+      const avgDur = S.ga4Dur.length ? Math.round(S.ga4Dur.reduce((a,b)=>a+b,0)/S.ga4Dur.length) : 0;
+      $('ga-dur').textContent = avgDur > 0 ? avgDur+'s' : '0s';
+      
+      const avgBounce = S.ga4Bounce.length ? (S.ga4Bounce.reduce((a,b)=>a+b,0)/S.ga4Bounce.length).toFixed(1) : 0;
+      $('ga-bounce').textContent = avgBounce > 0 ? avgBounce+'%' : '0%';
+    } else {
+      throw new Error('Empty stats array returned');
     }
   }catch(e){
-    console.error('GA4 fetch error:', e);
+    console.warn('GA4 fetch fallback:', e);
+    S.labels = []; S.rawDates = []; S.visits = []; S.ga4Sessions = []; S.ga4Bounce = [];
+    S.ga4NewU = []; S.ga4PV = []; S.ga4Events = []; S.ga4Dur = [];
+    $('ga-sess').textContent = '0';
+    $('ga-users').textContent = '0';
+    $('ga-bounce').textContent = '0%';
+    $('ga-newu').textContent = '0';
+    $('ga-pv').textContent = '0';
+    $('ga-events').textContent = '0';
+    $('ga-dur').textContent = '0s';
   }
 }
 
-// ─── MANUAL UX LOG (Clarity) ─────────────────────────────
-function applyManualLog(){
-  const latest = S.manualLog[0];
-  if(latest){
-    $('cl-rage').textContent = latest.rage || '0';
-    $('cl-dead').textContent = latest.dead || '0';
-  } else {
-    $('cl-rage').textContent = '—';
-    $('cl-dead').textContent = '—';
+async function fetchEvents(){
+  try{
+    const r = await fetch('/api/events', { headers: { 'Authorization': getAuthHeader() } });
+    if(!r.ok) return;
+    const data = await r.json();
+    const evs = data.events || [];
+    const colors = ['#7bb640','#19a08c','#f0b860','#8a9e89','#5c8680','#c9d8a3'];
+    S.ga4Sources = evs.map((e,i) => ({
+      label: e.name,
+      val: e.count,
+      color: colors[i%colors.length]
+    }));
+  }catch(e){
+    console.warn('Events fetch fallback:', e);
+    S.ga4Sources = [];
   }
 }
-function saveManual(){
-  const date=$('m-date').value;
-  const rage=parseInt($('m-rage').value)||0;
-  const dead=parseInt($('m-dead').value)||0;
-  if(!date){toast('Enter valid date');return;}
-  const i=S.manualLog.findIndex(e=>e.date===date);
-  if(i>=0){ S.manualLog[i].rage=rage; S.manualLog[i].dead=dead; }
-  else S.manualLog.unshift({date,rage,dead});
-  S.manualLog.sort((a,b)=>b.date.localeCompare(a.date));
-  localStorage.setItem('lpm-manual',JSON.stringify(S.manualLog));
-  applyManualLog(); renderManualLog();
-  toast('UX audit entry saved');
-}
-function renderManualLog(){
-  const w=$('manual-log');
-  if(!S.manualLog.length){w.innerHTML='<div class="empty">No entries yet.</div>';return;}
-  w.innerHTML=S.manualLog.slice(0,30).map(e=>`<div class="mrow"><span>${e.date}</span><span class="mono">${e.rage} rage, ${e.dead} dead clicks</span></div>`).join('');
-}
-
 
 
 // ─── METRICS ─────────────────────────────────────────────
 function updateMetrics(){
-  const todayLeads=S.leads.filter(l=>(l.timestamp||'').startsWith(td())||(l.date||'').startsWith(td())).length;
-  const todayVis=S.visits[6]||0;
-  // Conversion Rate = (Leads from FastAPI / Visitors) × 100
-  const cvr=todayVis>0?Math.round((S.leads.length/todayVis)*1000)/10:0;
-  const sess7=S.ga4Sessions.reduce((a,b)=>a+b,0)||S.visits.reduce((a,b)=>a+b,0);
+  const todayLeads=S.leads.filter(l=>isSameDay(l.timestamp||l.date||'', td())).length;
+  const todayVis=S.visits.length ? S.visits[S.visits.length-1] : 0;
+  const totalVis=S.visits.reduce((a,b)=>a+b,0);
+  
+  // Conversion Rate = (Total Leads / Total Visitors 30 days) × 100
+  const cvr=totalVis>0 ? Math.round((S.leads.length/totalVis)*1000)/10 : 0;
+  const sess30=S.ga4Sessions.reduce((a,b)=>a+b,0);
 
-  $('m-vis').textContent=todayVis||'—';
+  $('m-vis').textContent=todayVis||'0';
   $('m-vis-d').textContent=todayVis>0?'↑ active':'Live via GA4 API';
   $('m-vis-d').className='mdelta '+(todayVis>0?'up':'nu');
   $('m-leads').textContent=S.leads.length;
   $('m-leads-d').textContent=`+${todayLeads} today`;
-  $('m-cvr').textContent=cvr>0?cvr+'%':'—';
+  $('m-cvr').textContent=cvr>0?cvr+'%':'0%';
   const cd=$('m-cvr-d');
   cd.textContent=cvr>0?(cvr>=5?'✓ above 5% target':'Below 5% — needs work'):'Need visit data';
   cd.className='mdelta '+(cvr>=5?'up':cvr>0?'dn':'nu');
-  $('m-sess').textContent=sess7||'—';
+  $('m-sess').textContent=sess30||'0';
 }
 
 // ─── LEADS TABLE ─────────────────────────────────────────
@@ -229,7 +225,7 @@ function renderLeads(){
       
       h += `<td class="${isMono?'mono':''}" style="${style}">${val}</td>`;
     });
-    const isNew = (l.timestamp||'').startsWith(td()) || (l.date||'').startsWith(td());
+    const isNew = isSameDay(l.timestamp||l.date||'', td());
     h += `<td><span class="badge ${isNew?'bnew':'bold'}">${isNew?'New':'—'}</span></td></tr>`;
   });
   w.innerHTML=h+'</tbody></table></div>';
@@ -247,18 +243,13 @@ function exportCSV(){
   toast('CSV downloaded');
 }
 
-// ─── COPY SCRIPTS ────────────────────────────────────────
-function copyClarity(){
-  navigator.clipboard.writeText($('clarity-script-block').textContent).then(()=>toast('Clarity script copied!')).catch(()=>toast('Select and copy manually'));
-}
-
 // ─── CHARTS ──────────────────────────────────────────────
 const CC={a:'#7bb640',b:'#19a08c',txt:'#6b7a6a',grid:'rgba(255,255,255,0.06)'};
 function bOpts(){
   return{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
     scales:{x:{ticks:{color:CC.txt,font:{size:11}},grid:{color:CC.grid}},y:{ticks:{color:CC.txt,font:{size:11}},grid:{color:CC.grid},beginAtZero:true}}};
 }
-function lpd(){ return d7().map(d=>S.leads.filter(l=>l.date===d||l.date.startsWith(d)).length); }
+function lpd(){ return S.rawDates.map(d=>S.leads.filter(l=>isSameDay(l.timestamp||l.date||'', d)).length); }
 
 function buildOverviewCharts(){
   const ld=lpd();
@@ -270,10 +261,10 @@ function buildOverviewCharts(){
     {label:'Leads', data:ld,     backgroundColor:'rgba(123,182,64,0.22)', borderColor:CC.a,borderWidth:1.5,borderRadius:4}
   ]},options:bOpts()});
   const tot=S.visits.reduce((a,b)=>a+b,0)||100;
-  CH.funnel=new Chart($('c-funnel'),{type:'bar',data:{labels:['Visits','Engaged','Form views','Submitted'],datasets:[{
-    data:[tot,Math.round(tot*.6),Math.round(tot*.18),S.leads.length],
-    backgroundColor:['rgba(25,160,140,0.18)','rgba(25,160,140,0.28)','rgba(123,182,64,0.18)',CC.a+'cc'],
-    borderColor:[CC.b,CC.b,CC.a,CC.a],borderWidth:1.5,borderRadius:4
+  CH.funnel=new Chart($('c-funnel'),{type:'bar',data:{labels:['Visits(30d)','Engaged','Submitted'],datasets:[{
+    data:[tot,Math.round(tot*.6),S.leads.length],
+    backgroundColor:['rgba(25,160,140,0.18)','rgba(25,160,140,0.28)',CC.a+'cc'],
+    borderColor:[CC.b,CC.b,CC.a],borderWidth:1.5,borderRadius:4
   }]},options:{...bOpts(),indexAxis:'y'}});
   const cvrData=S.visits.map((v,i)=>v>0?+((ld[i]/v)*100).toFixed(1):0);
   CH.cvr=new Chart($('c-cvr'),{type:'line',data:{labels:S.labels,datasets:[{
@@ -293,7 +284,7 @@ function buildGA4Charts(){
     labels:S.ga4Sources.map(s=>s.label),
     datasets:[{data:S.ga4Sources.map(s=>s.val),backgroundColor:S.ga4Sources.map(s=>s.color+'99'),borderColor:S.ga4Sources.map(s=>s.color),borderWidth:1.5}]
   },options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},cutout:'65%'}});
-  $('src-legend').innerHTML=S.ga4Sources.map(s=>`<div style="display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:2px;background:${s.color};flex-shrink:0"></span><span style="color:var(--muted)">${s.label}</span><span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:12px">${s.val}%</span></div>`).join('');
+  $('src-legend').innerHTML=S.ga4Sources.map(s=>`<div style="display:flex;align-items:center;gap:8px"><span style="width:10px;height:10px;border-radius:2px;background:${s.color};flex-shrink:0"></span><span style="color:var(--muted)">${s.label}</span><span style="margin-left:auto;font-family:'DM Mono',monospace;font-size:12px">${s.val}</span></div>`).join('');
 }
 
 // ─── CONN STATUS ─────────────────────────────────────────
@@ -309,22 +300,24 @@ function setConn(s){
 // ─── REFRESH ─────────────────────────────────────────────
 async function refreshAll(){
   $('ri').innerHTML='<span class="spinner"></span>';
-  await Promise.all([fetchLeads(), fetchAnalytics()]);
-  toast(`Fetched backend logs`);
-  updateAll(); $('ri').textContent='↻';
+  try {
+    await Promise.all([fetchLeads(), fetchAnalytics(), fetchEvents()]);
+    toast(`Fetched backend logs`);
+    updateAll(); 
+  } finally {
+    $('ri').textContent='↻';
+  }
 }
 function updateAll(){
-  applyManualLog(); updateMetrics(); renderLeads();
-  renderManualLog(); buildOverviewCharts(); buildGA4Charts();
+  updateMetrics(); renderLeads();
+  buildOverviewCharts(); buildGA4Charts();
   $('lrefresh').textContent=ftime();
 }
 
 // ─── INIT ────────────────────────────────────────────────
 function init(){
-  $('m-date').value=td();
-  loadCfg(); S.labels=l7();
   // Always fetch leads and analytics from the backend
-  Promise.all([fetchLeads(), fetchAnalytics()]).then(()=>{
+  Promise.all([fetchLeads(), fetchAnalytics(), fetchEvents()]).then(()=>{
     updateAll();
   });
 }
@@ -338,3 +331,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     init();
   }
 });
+
+function toggleMNav(){
+  $('m-nav').classList.toggle('active');
+}
