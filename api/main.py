@@ -256,7 +256,7 @@ def get_events(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
         # We define which events Chioma and Ann actually care about
         PRIORITY_MAP = {
             "lead_form_submitted": "Leads Generated",
-            "open_registration_modal": "Intent (Open Form)",
+            "open_registration_modal": "Intent (Opens Form)",
             "click_cv_tool": "AI CV Tool Usage",
             "scroll": "Page Reads"
         }
