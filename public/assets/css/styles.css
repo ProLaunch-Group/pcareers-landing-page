@@ -254,9 +254,24 @@ nav.scrolled {
 }
 
 .hero-stats {
-    display: flex;
-    gap: 2.5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem 2.5rem;
     margin-bottom: 2.5rem;
+    max-width: 650px;
+}
+
+@media (max-width: 640px) {
+    .hero-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem 1.5rem;
+    }
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 /* .stat-item removed empty ruleset */
@@ -1644,3 +1659,27 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+/* 1. Antigravity Floating for the Hero Card */
+#hero-cta-card {
+    animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0px); }
+}
+
+/* 2. Enhanced Reveal (Matching your JS .visible class) */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.9s cubic-bezier(0.17, 0.67, 0.83, 0.67); /* Professional smooth curve */
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
