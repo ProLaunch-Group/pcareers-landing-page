@@ -256,7 +256,7 @@ def get_events(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
         # We define which events Chioma and Ann actually care about
         PRIORITY_MAP = {
             "lead_form_submitted": "Leads Generated",
-            "open_registration_modal": "Intent (Opens Form)",
+            "open_registration_modal": "Intent (Opened Form)",
             "click_cv_tool": "AI CV Tool Usage",
             "scroll": "Page Reads"
         }
@@ -276,7 +276,7 @@ def get_events(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
         # Sort by count so the most active things are on top
         final_events.sort(key=lambda x: x["count"], reverse=True)
         
-        return {"status": "ok", "events": final_events}
+        return {"status": "ok", "events": final_events[:6]}
 
     except Exception as e:
         raise HTTPException(
