@@ -73,7 +73,7 @@ async function tryLogin(){
   btn.innerHTML = '<span class="spinner" style="border-width:2px;width:14px;height:14px;border-top-color:#fff"></span>';
   
   try {
-    const r = await fetch('http://127.0.0.1:8000/api/verify', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('/api/verify', { headers: { 'Authorization': getAuthHeader() } });
     if (r.ok) {
       sessionStorage.setItem('lpm-ok','1');
       $('lock-screen').style.display='none';
@@ -139,7 +139,7 @@ async function fetchLeads(){
   setSkeleton('m-leads');
   setSkeleton('m-cvr');
   try{
-    const r = await fetch('http://127.0.0.1:8000/api/leads', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('/api/leads', { headers: { 'Authorization': getAuthHeader() } });
     if(r.status === 401){ toast('API auth failed — check backend credentials'); setConn('error'); return; }
     if(!r.ok){ const e = await r.json().catch(()=>({})); toast('API error: '+(e.detail||r.status)); setConn('error'); return; }
     const data = await r.json();
@@ -155,7 +155,7 @@ async function fetchAnalytics(){
   ['m-vis', 'm-sess', 'ga-sess', 'ga-users', 'ga-newu', 'ga-pv', 'ga-events', 'ga-dur'].forEach(setSkeleton);
   
   try{
-    const r = await fetch('http://127.0.0.1:8000/api/analytics', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('/api/analytics', { headers: { 'Authorization': getAuthHeader() } });
     if(!r.ok) throw new Error('Analytics API error status');
     const data = await r.json();
     const stats = data.daily_stats || [];
@@ -193,7 +193,7 @@ async function fetchAnalytics(){
 
 async function fetchEvents(){
   try{
-    const r = await fetch('http://127.0.0.1:8000/api/events', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('/api/events', { headers: { 'Authorization': getAuthHeader() } });
     if(!r.ok) return;
     const data = await r.json();
     const evs = data.events || [];
