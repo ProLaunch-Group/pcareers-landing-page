@@ -47,7 +47,7 @@ def get_analytics(credentials: HTTPBasicCredentials = Depends(verify_credentials
                 Metric(name="bounceRate"),
             ],
             # Expanded to 30 days for better trend lines
-            date_ranges=[DateRange(start_date="2026-03-30", end_date="today")],
+            date_ranges=[DateRange(start_date="2026-03-31", end_date="today")],
         )
 
         response = client.run_report(request)
@@ -104,13 +104,13 @@ def get_events(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
             property=f"properties/{property_id}",
             dimensions=[Dimension(name="eventName")],
             metrics=[Metric(name="eventCount"), Metric(name="sessions")],
-            date_ranges=[DateRange(start_date="2026-03-30", end_date="today")],
+            date_ranges=[DateRange(start_date="2026-03-31", end_date="today")],
         )
         response = client.run_report(request)
 
         # ─── New: High-Intent Event Mapping ───
         PRIORITY_MAP = {
-            "lead_form_submitted": "Leads Generated",
+            "lead_form_submitted": "Form Submitted",
             "open_registration_modal": "Intent (Opened Form)",
             "click_cv_tool": "AI CV Tool Usage",
             "scroll": "Page Reads",

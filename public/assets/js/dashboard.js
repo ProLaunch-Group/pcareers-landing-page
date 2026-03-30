@@ -3,7 +3,7 @@ const getAuthHeader = () => 'Basic ' + btoa((sessionStorage.getItem('lpm-usr')||
 
 // ─── STATE ───────────────────────────────────────────────
 const S = {
-  leads:[], visits:[], labels:[], rawDates:[], ga4Sessions:[], ga4Bounce:[], ga4Sources:[],
+  leads:[], visits:[], labels:[], rawDates:[], ga4Sessions:[], ga4Sources:[],
   ga4NewU:[], ga4PV:[], ga4Events:[], ga4Dur:[]
 };
 let CH = {};
@@ -32,6 +32,30 @@ function toast(msg,dur=2800){
 }
 function ftime(){ return new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}); }
 
+function animateValue(id, start, end, duration, formatStr = '') {
+  const obj = $(id);
+  if (!obj) return;
+  obj.classList.remove('skeleton-text');
+  if (end === 0) {
+    obj.innerHTML = end + formatStr;
+    return;
+  }
+  let startTimestamp = null;
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+    const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+    let currentVal = Math.floor(easeProgress * (end - start) + start);
+    obj.innerHTML = currentVal + formatStr;
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    } else {
+      obj.innerHTML = end + formatStr;
+    }
+  };
+  window.requestAnimationFrame(step);
+}
+
 // ─── AUTH ────────────────────────────────────────────────
 async function tryLogin(){
   const u = $('usr-input').value.trim();
@@ -49,7 +73,7 @@ async function tryLogin(){
   btn.innerHTML = '<span class="spinner" style="border-width:2px;width:14px;height:14px;border-top-color:#fff"></span>';
   
   try {
-    const r = await fetch('/api/verify', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('http://127.0.0.1:8000/api/verify', { headers: { 'Authorization': getAuthHeader() } });
     if (r.ok) {
       sessionStorage.setItem('lpm-ok','1');
       $('lock-screen').style.display='none';
@@ -84,7 +108,15 @@ function doLock(){
 // ─── NAV ─────────────────────────────────────────────────
 function go(v,el){
   ['overview','leads','analytics'].forEach(x=>{
-    $('view-'+x).style.display=x===v?'block':'none';
+    const section = $('view-'+x);
+    if(x === v) {
+      section.style.display='block';
+      section.style.animation = 'none';
+      section.offsetHeight; // trigger reflow
+      section.style.animation = null; 
+    } else {
+      section.style.display='none';
+    }
   });
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   el.classList.add('active');
@@ -94,10 +126,20 @@ function go(v,el){
 }
 
 // ─── FETCH DATA (FastAPI Backend) ────────────────────────
+function setSkeleton(id) {
+  const el = $(id);
+  if(el) {
+    el.innerHTML = '0';
+    el.classList.add('skeleton-text');
+  }
+}
+
 async function fetchLeads(){
   setConn('loading');
+  setSkeleton('m-leads');
+  setSkeleton('m-cvr');
   try{
-    const r = await fetch('/api/leads', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('http://127.0.0.1:8000/api/leads', { headers: { 'Authorization': getAuthHeader() } });
     if(r.status === 401){ toast('API auth failed — check backend credentials'); setConn('error'); return; }
     if(!r.ok){ const e = await r.json().catch(()=>({})); toast('API error: '+(e.detail||r.status)); setConn('error'); return; }
     const data = await r.json();
@@ -110,66 +152,54 @@ async function fetchLeads(){
 }
 
 async function fetchAnalytics(){
+  ['m-vis', 'm-sess', 'ga-sess', 'ga-users', 'ga-newu', 'ga-pv', 'ga-events', 'ga-dur'].forEach(setSkeleton);
+  
   try{
-    const r = await fetch('/api/analytics', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('http://127.0.0.1:8000/api/analytics', { headers: { 'Authorization': getAuthHeader() } });
     if(!r.ok) throw new Error('Analytics API error status');
     const data = await r.json();
     const stats = data.daily_stats || [];
     if(stats.length > 0){
       S.labels = stats.map(s => {
-        const d = new Date(s.date);
-        return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'});
+        const d = new Date(s.date); return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'});
       });
       S.rawDates = stats.map(s => s.date);
       S.visits = stats.map(s => s.visitors);
       S.ga4Sessions = stats.map(s => s.sessions);
-      S.ga4Bounce = stats.map(s => s.bounce_rate);
       S.ga4NewU = stats.map(s => s.new_users);
       S.ga4PV = stats.map(s => s.page_views);
       S.ga4Events = stats.map(s => s.event_count);
       S.ga4Dur = stats.map(s => s.avg_duration);
       
       const totSess = S.ga4Sessions.reduce((a,b)=>a+b,0);
-      $('ga-sess').textContent = totSess || '0';
-      $('ga-users').textContent = S.visits.reduce((a,b)=>a+b,0) || '0';
-      $('ga-newu').textContent = S.ga4NewU.reduce((a,b)=>a+b,0) || '0';
-      $('ga-pv').textContent = S.ga4PV.reduce((a,b)=>a+b,0) || '0';
-      $('ga-events').textContent = S.ga4Events.reduce((a,b)=>a+b,0) || '0';
+      animateValue('ga-sess', 0, totSess, 1000);
+      animateValue('ga-users', 0, S.visits.reduce((a,b)=>a+b,0), 1000);
+      animateValue('ga-newu', 0, S.ga4NewU.reduce((a,b)=>a+b,0), 1000);
+      animateValue('ga-pv', 0, S.ga4PV.reduce((a,b)=>a+b,0), 1000);
+      animateValue('ga-events', 0, S.ga4Events.reduce((a,b)=>a+b,0), 1000);
       
       const avgDur = S.ga4Dur.length ? Math.round(S.ga4Dur.reduce((a,b)=>a+b,0)/S.ga4Dur.length) : 0;
-      $('ga-dur').textContent = avgDur > 0 ? avgDur+'s' : '0s';
+      animateValue('ga-dur', 0, avgDur, 1000, 's');
       
-      const avgBounce = S.ga4Bounce.length ? (S.ga4Bounce.reduce((a,b)=>a+b,0)/S.ga4Bounce.length).toFixed(1) : 0;
-      $('ga-bounce').textContent = avgBounce > 0 ? avgBounce+'%' : '0%';
-    } else {
-      throw new Error('Empty stats array returned');
-    }
+    } else { throw new Error('Empty stats array returned'); }
   }catch(e){
     console.warn('GA4 fetch fallback:', e);
-    S.labels = []; S.rawDates = []; S.visits = []; S.ga4Sessions = []; S.ga4Bounce = [];
+    S.labels = []; S.rawDates = []; S.visits = []; S.ga4Sessions = [];
     S.ga4NewU = []; S.ga4PV = []; S.ga4Events = []; S.ga4Dur = [];
-    $('ga-sess').textContent = '0';
-    $('ga-users').textContent = '0';
-    $('ga-bounce').textContent = '0%';
-    $('ga-newu').textContent = '0';
-    $('ga-pv').textContent = '0';
-    $('ga-events').textContent = '0';
-    $('ga-dur').textContent = '0s';
+    ['ga-sess','ga-users','ga-newu','ga-pv','ga-events'].forEach(id => { $(id).textContent='0'; $(id).classList.remove('skeleton-text'); });
+    $('ga-dur').textContent='0s'; $('ga-dur').classList.remove('skeleton-text');
   }
 }
 
 async function fetchEvents(){
   try{
-    const r = await fetch('/api/events', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('http://127.0.0.1:8000/api/events', { headers: { 'Authorization': getAuthHeader() } });
     if(!r.ok) return;
     const data = await r.json();
     const evs = data.events || [];
     const colors = ['#7bb640','#19a08c','#f0b860','#8a9e89','#5c8680','#c9d8a3'];
     S.ga4Sources = evs.map((e,i) => ({
-      label: e.name,
-      val: e.count,
-      sessions: e.sessions,
-      color: colors[i%colors.length]
+      label: e.name, val: e.count, sessions: e.sessions, color: colors[i%colors.length]
     }));
   }catch(e){
     console.warn('Events fetch fallback:', e);
@@ -177,27 +207,28 @@ async function fetchEvents(){
   }
 }
 
-
 // ─── METRICS ─────────────────────────────────────────────
 function updateMetrics(){
   const todayLeads=S.leads.filter(l=>isSameDay(l.timestamp||l.date||'', td())).length;
   const todayVis=S.visits.length ? S.visits[S.visits.length-1] : 0;
   const totalVis=S.visits.reduce((a,b)=>a+b,0);
   
-  // Conversion Rate = (Total Leads / Total Visitors 30 days) × 100
-  const cvr=totalVis>0 ? Math.round((S.leads.length/totalVis)*1000)/10 : 0;
+  const cvr=totalVis>0 ? Math.round((S.leads.length/totalVis)*100) : 0;
   const sess30=S.ga4Sessions.reduce((a,b)=>a+b,0);
 
-  $('m-vis').textContent=todayVis||'0';
+  animateValue('m-vis', 0, todayVis, 1000);
   $('m-vis-d').textContent=todayVis>0?'↑ active':'Live via GA4 API';
   $('m-vis-d').className='mdelta '+(todayVis>0?'up':'nu');
-  $('m-leads').textContent=S.leads.length;
+  
+  animateValue('m-leads', 0, S.leads.length, 1200);
   $('m-leads-d').textContent=`+${todayLeads} today`;
-  $('m-cvr').textContent=cvr>0?cvr+'%':'0%';
+  
+  animateValue('m-cvr', 0, cvr, 1200, '%');
   const cd=$('m-cvr-d');
   cd.textContent=cvr>0?(cvr>=5?'✓ above 5% target':'Below 5% — needs work'):'Need visit data';
   cd.className='mdelta '+(cvr>=5?'up':cvr>0?'dn':'nu');
-  $('m-sess').textContent=sess30||'0';
+  
+  animateValue('m-sess', 0, sess30, 1000);
 }
 
 // ─── LEADS TABLE ─────────────────────────────────────────
@@ -220,7 +251,7 @@ function renderLeads(){
       const isBold = (k === 'name');
       
       let style = '';
-      if(isBold) style += 'font-weight:500;';
+      if(isBold) style += 'font-weight:600;';
       if(isMuted) style += 'color:var(--muted);';
       if(isMono) style += 'font-size:12px;';
       
@@ -245,10 +276,24 @@ function exportCSV(){
 }
 
 // ─── CHARTS ──────────────────────────────────────────────
-const CC={a:'#7bb640',b:'#19a08c',txt:'#6b7a6a',grid:'rgba(255,255,255,0.06)'};
+const CC={a:'#7bb640',b:'#19a08c',txt:'#8a9e89',grid:'rgba(255,255,255,0.03)'};
 function bOpts(){
-  return{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-    scales:{x:{ticks:{color:CC.txt,font:{size:11}},grid:{color:CC.grid}},y:{ticks:{color:CC.txt,font:{size:11}},grid:{color:CC.grid},beginAtZero:true}}};
+  return{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{
+        backgroundColor:'rgba(20,50,48,0.95)',
+        titleColor:'#f0ede8', bodyColor:'#8a9e89',
+        borderColor:'rgba(255,255,255,0.1)', borderWidth:1,
+        padding: 12, cornerRadius: 8, displayColors: false
+      }
+    },
+    scales:{
+      x:{ticks:{color:CC.txt,font:{size:11,family:"'Plus Jakarta Sans', sans-serif"}},grid:{color:CC.grid, drawBorder:false}},
+      y:{ticks:{color:CC.txt,font:{size:11,family:"'JetBrains Mono', monospace"}},grid:{color:CC.grid, drawBorder:false},beginAtZero:true}
+    }
+  };
 }
 function lpd(){ return S.rawDates.map(d=>S.leads.filter(l=>isSameDay(l.timestamp||l.date||'', d)).length); }
 
@@ -257,66 +302,93 @@ function buildOverviewCharts(){
   if(CH.main)   CH.main.destroy();
   if(CH.funnel) CH.funnel.destroy();
   if(CH.cvr)    CH.cvr.destroy();
+  
   CH.main=new Chart($('c-main'),{type:'bar',data:{labels:S.labels,datasets:[
-    {label:'Visits',data:S.visits,backgroundColor:'rgba(25,160,140,0.18)',borderColor:CC.b,borderWidth:1.5,borderRadius:4},
-    {label:'Leads', data:ld,     backgroundColor:'rgba(123,182,64,0.22)', borderColor:CC.a,borderWidth:1.5,borderRadius:4}
+    {label:'Visits',data:S.visits,backgroundColor:'rgba(25,160,140,0.15)',borderColor:CC.b,borderWidth:1.5,borderRadius:4},
+    {label:'Leads', data:ld,     backgroundColor:'rgba(123,182,64,0.3)', borderColor:CC.a,borderWidth:1.5,borderRadius:4}
   ]},options:bOpts()});
-  const tot=S.visits.reduce((a,b)=>a+b,0)||100;
+  
+  const tot=S.visits.reduce((a,b)=>a+b,0); // Removed || 100 fallback
+  const optIntent = S.ga4Sources.find(s => s.label === "Intent (Opened Form)");
+  const engaged = optIntent ? optIntent.sessions : 0;
+  
   CH.funnel=new Chart($('c-funnel'),{type:'bar',data:{labels:['Visits(30d)','Engaged','Submitted'],datasets:[{
-    data:[tot,Math.round(tot*.6),S.leads.length],
-    backgroundColor:['rgba(25,160,140,0.18)','rgba(25,160,140,0.28)',CC.a+'cc'],
+    data:[tot, engaged, S.leads.length],
+    backgroundColor:['rgba(25,160,140,0.1)','rgba(25,160,140,0.2)','rgba(123,182,64,0.3)'],
     borderColor:[CC.b,CC.b,CC.a],borderWidth:1.5,borderRadius:4
   }]},options:{...bOpts(),indexAxis:'y'}});
+  
   const cvrData=S.visits.map((v,i)=>v>0?+((ld[i]/v)*100).toFixed(1):0);
+  
+  // Create gradient
+  const ctx = $('c-cvr').getContext('2d');
+  const gradient = ctx.createLinearGradient(0, 0, 0, 110);
+  gradient.addColorStop(0, 'rgba(123,182,64,0.25)');
+  gradient.addColorStop(1, 'rgba(123,182,64,0.01)');
+  
   CH.cvr=new Chart($('c-cvr'),{type:'line',data:{labels:S.labels,datasets:[{
-    data:cvrData,borderColor:CC.a,backgroundColor:'rgba(123,182,64,0.07)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:CC.a
+    data:cvrData,borderColor:CC.a,backgroundColor:gradient,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:CC.a, pointBorderWidth: 2, pointBorderColor: '#092624'
   }]},options:{...bOpts(),scales:{x:{ticks:{color:CC.txt,font:{size:11}},grid:{color:CC.grid}},y:{ticks:{color:CC.txt,font:{size:11},callback:v=>v+'%'},grid:{color:CC.grid},beginAtZero:true}}}});
 }
 
 function buildGA4Charts(){
   const sess=S.ga4Sessions.length?S.ga4Sessions:S.visits;
   if(CH.ga) CH.ga.destroy();
+  
+  const ctx = $('c-ga').getContext('2d');
+  const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+  gradient.addColorStop(0, 'rgba(25,160,140,0.25)');
+  gradient.addColorStop(1, 'rgba(25,160,140,0.01)');
+  
   CH.ga=new Chart($('c-ga'),{type:'line',data:{labels:S.labels,datasets:[{
-    data:sess,borderColor:CC.b,backgroundColor:'rgba(25,160,140,0.08)',fill:true,tension:.4,pointRadius:3,pointBackgroundColor:CC.b
+    data:sess,borderColor:CC.b,backgroundColor:gradient,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:CC.b, pointBorderWidth: 2, pointBorderColor: '#092624'
   }]},options:bOpts()});
+  
   if(!S.ga4Sources.length) return;
   
   const tMap = {
     "Form Started": { def: "Someone clicked into a text box in the registration form.", insight: "High intent! They started the process but might have gotten stuck." },
     "Intent (Opened Form)": { def: "Someone clicked a \"Join\" button to see the form.", insight: "They liked the pitch enough to see what the next step was." },
-    "Leads Generated": { def: "Successful form submissions sent to our database.", insight: "The Goal. These are the people Chioma needs to call today." },
-    "AI CV Tool Usage": { def: "Number of times someone tested the AI Optimizer.", insight: "Our \"Lead Magnet.\" Shows if the tech is drawing people in." },
+    "Form Submitted": { def: "Successful form submissions sent to our Google Sheets.", insight: "The Goal. Needs follow up." },
+    "AI CV Tool Usage": { def: "Number of times someone clicked the AI Optimizer.", insight: "Our \"Lead Magnet.\" Shows if the tech is drawing people in." },
     "Page Reads": { def: "Number of people who scrolled to the bottom (90%).", insight: "Tells us if our \"Success Stories\" are actually being read." }
   };
 
   const container = $('events-card-list');
   if(container) {
-    container.innerHTML = S.ga4Sources.map(s => `
-      <div class="event-card">
-        <div class="ec-header" style="border-left: 4px solid ${s.color};">
-          <div class="ec-title metric-title" style="display:flex;align-items:center;">
-            ${s.label}
-            ${tMap[s.label] ? `
-            <div class="tooltip">
-                <i class="fa-solid fa-circle-info"></i>
-                <span class="tooltip-text">
-                    <strong>${tMap[s.label].def}</strong><br><br>${tMap[s.label].insight}
-                </span>
-            </div>` : ''}
+    const maxVal = Math.max(...S.ga4Sources.map(s => s.val)) || 1;
+    container.innerHTML = S.ga4Sources.map(s => {
+      let pct = (s.val / maxVal) * 100;
+      return `
+        <div class="event-card">
+          <div class="ec-header" style="border-left: 4px solid ${s.color};">
+            <div class="ec-title metric-title" style="display:flex;align-items:center;">
+              ${s.label}
+              ${tMap[s.label] ? `
+              <div class="tooltip">
+                  <i class="fa-solid fa-circle-info"></i>
+                  <span class="tooltip-text">
+                      <strong>${tMap[s.label].def}</strong><br><br>${tMap[s.label].insight}
+                  </span>
+              </div>` : ''}
+            </div>
+          </div>
+          <div class="ec-body">
+            <div class="ec-stat">
+              <span class="ec-val">${s.val}</span>
+              <span class="ec-lbl">Total Interactions</span>
+            </div>
+            <div class="ec-stat" style="text-align: right;">
+              <span class="ec-val sm">${s.sessions}</span>
+              <span class="ec-lbl">Unique Visitors</span>
+            </div>
+          </div>
+          <div class="ec-progress-bg">
+            <div class="ec-progress-fill" style="background: ${s.color}; width: ${pct}%"></div>
           </div>
         </div>
-        <div class="ec-body">
-          <div class="ec-stat">
-            <span class="ec-val">${s.val}</span>
-            <span class="ec-lbl">Total Interactions</span>
-          </div>
-          <div class="ec-stat" style="text-align: right;">
-            <span class="ec-val sm">${s.sessions}</span>
-            <span class="ec-lbl">Unique Visitors</span>
-          </div>
-        </div>
-      </div>
-    `).join('');
+      `;
+    }).join('');
   }
 }
 
@@ -349,7 +421,6 @@ function updateAll(){
 
 // ─── INIT ────────────────────────────────────────────────
 function init(){
-  // Always fetch leads and analytics from the backend
   Promise.all([fetchLeads(), fetchAnalytics(), fetchEvents()]).then(()=>{
     updateAll();
   });
