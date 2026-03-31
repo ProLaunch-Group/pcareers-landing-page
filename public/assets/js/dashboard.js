@@ -365,7 +365,7 @@ function buildGA4Charts(){
             <div class="ec-title metric-title" style="display:flex;align-items:center;">
               ${s.label}
               ${tMap[s.label] ? `
-              <div class="tooltip" tabindex="0" onclick="this.classList.toggle('active')">
+              <div class="tooltip" tabindex="0">
                   <i class="fa-solid fa-circle-info"></i>
                   <span class="tooltip-text">
                       <strong>${tMap[s.label].def}</strong><br><br>${tMap[s.label].insight}
@@ -434,6 +434,15 @@ window.addEventListener('DOMContentLoaded',()=>{
     $('app').style.display='block';
     init();
   }
+  
+  // Global tooltip toggle & dismiss for touch screens
+  document.addEventListener('click', e => {
+    const clickedTooltip = e.target.closest('.tooltip');
+    document.querySelectorAll('.tooltip').forEach(t => {
+      if(t !== clickedTooltip) t.classList.remove('active');
+    });
+    if(clickedTooltip) clickedTooltip.classList.toggle('active');
+  });
 });
 
 function toggleMNav(){
