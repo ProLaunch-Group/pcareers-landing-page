@@ -73,7 +73,7 @@ async function tryLogin(){
   btn.innerHTML = '<span class="spinner" style="border-width:2px;width:14px;height:14px;border-top-color:#fff"></span>';
   
   try {
-    const r = await fetch('/api/verify', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('http://127.0.0.1:8000/api/verify', { headers: { 'Authorization': getAuthHeader() } });
     if (r.ok) {
       sessionStorage.setItem('lpm-ok','1');
       $('lock-screen').style.display='none';
@@ -139,7 +139,7 @@ async function fetchLeads(){
   setSkeleton('m-leads');
   setSkeleton('m-cvr');
   try{
-    const r = await fetch('/api/leads', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('http://127.0.0.1:8000/api/leads', { headers: { 'Authorization': getAuthHeader() } });
     if(r.status === 401){ toast('API auth failed — check backend credentials'); setConn('error'); return; }
     if(!r.ok){ const e = await r.json().catch(()=>({})); toast('API error: '+(e.detail||r.status)); setConn('error'); return; }
     const data = await r.json();
@@ -155,7 +155,7 @@ async function fetchAnalytics(){
   ['m-vis', 'm-sess', 'ga-sess', 'ga-users', 'ga-newu', 'ga-pv', 'ga-events', 'ga-dur'].forEach(setSkeleton);
   
   try{
-    const r = await fetch('/api/analytics', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('http://127.0.0.1:8000/api/analytics', { headers: { 'Authorization': getAuthHeader() } });
     if(!r.ok) throw new Error('Analytics API error status');
     const data = await r.json();
     const stats = data.daily_stats || [];
@@ -193,7 +193,7 @@ async function fetchAnalytics(){
 
 async function fetchEvents(){
   try{
-    const r = await fetch('/api/events', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch('http://127.0.0.1:8000/api/events', { headers: { 'Authorization': getAuthHeader() } });
     if(!r.ok) return;
     const data = await r.json();
     const evs = data.events || [];
@@ -233,25 +233,46 @@ function updateMetrics(){
 
 // ─── LEADS TABLE ─────────────────────────────────────────
 function renderLeads(){
-  const w=$('leads-wrap'),lbl=$('leads-count');
-  if(!S.leads.length){w.innerHTML='<div class="empty">No leads yet. Ensure the backend is configured with your Google Sheet.</div>';lbl.textContent='';return;}
-  lbl.textContent=S.leads.length+' total';
+  _renderTable('leads-wrap', 50);
+  _renderTable('overview-leads-wrap', 5, true); 
+}
+
+function _renderTable(id, limit, todayOnly = false) {
+  const w=$(id);
+  if(!w) return;
   
-  const keys = Object.keys(S.leads[0]);
+  let leadsToRender = todayOnly 
+    ? S.leads.filter(l => isSameDay(l.timestamp||l.date||'', td()))
+    : S.leads;
+
+  if(id === 'leads-wrap') {
+    const lbl=$('leads-count');
+    if(!leadsToRender.length){w.innerHTML='<div class="empty">No leads yet. Ensure the backend is configured with your Google Sheet.</div>';if(lbl)lbl.textContent='';return;}
+    if(lbl)lbl.textContent=leadsToRender.length+' total';
+  } else {
+    if(!leadsToRender.length){w.innerHTML='<div class="empty">No new leads today.</div>';return;}
+  }
+  
+  const keys = Object.keys(leadsToRender[0] || {});
+  if(!keys.length) return;
+
   let h='<div style="overflow-x:auto;"><table><thead><tr>';
   keys.forEach(k => { h += `<th>${k.charAt(0).toUpperCase() + k.slice(1)}</th>`; });
   h+='<th></th></tr></thead><tbody>';
   
-  S.leads.slice(0,50).forEach((l,i)=>{
+  leadsToRender.slice(0,limit).forEach((l,i)=>{
     h+='<tr>';
     keys.forEach(k => {
-      const val = l[k] || '—';
-      const isMuted = ['email','phone','timestamp','source','niche','interest'].includes(k);
-      const isMono = ['timestamp'].includes(k);
-      const isBold = (k === 'name');
+      let val = l[k] || '—';
+      const isMuted = ['email','phone','timestamp','source','niche','interest'].includes(k.toLowerCase());
+      const isMono = ['timestamp'].includes(k.toLowerCase());
+      const isName = (k.toLowerCase() === 'name' || k.toLowerCase() === 'firstname' || k.toLowerCase() === 'first_name');
       
       let style = '';
-      if(isBold) style += 'font-weight:600;';
+      if(isName) {
+        style += 'font-weight:600; font-family:var(--font-heading);';
+        val = `<div style="display:flex;align-items:center;"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);border:1px solid rgba(13,59,56,0.1);margin-right:10px;box-shadow:0 2px 6px rgba(13,59,56,0.04);flex-shrink:0;"><i class="fa-solid fa-user" style="color:var(--muted);font-size:11px;"></i></span>${val}</div>`;
+      }
       if(isMuted) style += 'color:var(--muted);';
       if(isMono) style += 'font-size:12px;';
       
@@ -276,16 +297,16 @@ function exportCSV(){
 }
 
 // ─── CHARTS ──────────────────────────────────────────────
-const CC={a:'#7bb640',b:'#19a08c',txt:'#8a9e89',grid:'rgba(255,255,255,0.03)'};
+const CC={a:'#7bb640',b:'#19a08c',txt:'#6b7a6a',grid:'rgba(13,59,56,0.06)'};
 function bOpts(){
   return{
     responsive:true,maintainAspectRatio:false,
     plugins:{
       legend:{display:false},
       tooltip:{
-        backgroundColor:'rgba(20,50,48,0.95)',
-        titleColor:'#f0ede8', bodyColor:'#8a9e89',
-        borderColor:'rgba(255,255,255,0.1)', borderWidth:1,
+        backgroundColor:'#0d3b38',
+        titleColor:'#ffffff', bodyColor:'#e8f5d6',
+        borderColor:'#124745', borderWidth:1,
         padding: 12, cornerRadius: 8, displayColors: false
       }
     },
@@ -323,11 +344,11 @@ function buildOverviewCharts(){
   // Create gradient
   const ctx = $('c-cvr').getContext('2d');
   const gradient = ctx.createLinearGradient(0, 0, 0, 110);
-  gradient.addColorStop(0, 'rgba(123,182,64,0.25)');
+  gradient.addColorStop(0, 'rgba(123,182,64,0.15)');
   gradient.addColorStop(1, 'rgba(123,182,64,0.01)');
   
   CH.cvr=new Chart($('c-cvr'),{type:'line',data:{labels:S.labels,datasets:[{
-    data:cvrData,borderColor:CC.a,backgroundColor:gradient,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:CC.a, pointBorderWidth: 2, pointBorderColor: '#092624'
+    data:cvrData,borderColor:CC.a,backgroundColor:gradient,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:CC.a, pointBorderWidth: 2, pointBorderColor: '#ffffff'
   }]},options:{...bOpts(),scales:{x:{ticks:{color:CC.txt,font:{size:11}},grid:{color:CC.grid}},y:{ticks:{color:CC.txt,font:{size:11},callback:v=>v+'%'},grid:{color:CC.grid},beginAtZero:true}}}});
 }
 
@@ -337,11 +358,11 @@ function buildGA4Charts(){
   
   const ctx = $('c-ga').getContext('2d');
   const gradient = ctx.createLinearGradient(0, 0, 0, 200);
-  gradient.addColorStop(0, 'rgba(25,160,140,0.25)');
+  gradient.addColorStop(0, 'rgba(25,160,140,0.15)');
   gradient.addColorStop(1, 'rgba(25,160,140,0.01)');
   
   CH.ga=new Chart($('c-ga'),{type:'line',data:{labels:S.labels,datasets:[{
-    data:sess,borderColor:CC.b,backgroundColor:gradient,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:CC.b, pointBorderWidth: 2, pointBorderColor: '#092624'
+    data:sess,borderColor:CC.b,backgroundColor:gradient,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:CC.b, pointBorderWidth: 2, pointBorderColor: '#ffffff'
   }]},options:bOpts()});
   
   if(!S.ga4Sources.length) return;
