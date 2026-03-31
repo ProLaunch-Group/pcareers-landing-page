@@ -256,7 +256,7 @@ tr:hover td{background:rgba(255,255,255,.05)}
     cursor: help;
     transition: color 0.2s;
 }
-.tooltip:hover { color: #fff; }
+.tooltip:hover, .tooltip.active { color: #fff; }
 .tooltip .tooltip-text {
     visibility: hidden;
     width: 240px;
@@ -290,7 +290,7 @@ tr:hover td{background:rgba(255,255,255,.05)}
     border-style: solid;
     border-color: rgba(20, 50, 48, 0.95) transparent transparent transparent;
 }
-.tooltip:hover .tooltip-text {
+.tooltip:hover .tooltip-text, .tooltip.active .tooltip-text {
     visibility: visible;
     opacity: 1;
     transform: translateY(-8px);
