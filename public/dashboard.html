@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>ProLaunch Monitor</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 <link rel="stylesheet" href="assets/css/dashboard.css"/>
@@ -81,6 +81,10 @@
       </div>
       <div style="height:14px"></div>
       <div class="card glass-card"><div class="ctitle">Conversion rate % — 30 days</div><div class="cwrap" style="height:110px"><canvas id="c-cvr"></canvas></div></div>
+      <div class="card glass-card" style="margin-top: 16px;">
+        <div class="thdr"><div class="ctitle" style="margin:0">New Leads (Today)</div></div>
+        <div id="overview-leads-wrap"></div>
+      </div>
     </div>
 
     <!-- LEADS -->
