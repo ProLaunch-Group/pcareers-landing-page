@@ -365,7 +365,7 @@ function buildGA4Charts(){
             <div class="ec-title metric-title" style="display:flex;align-items:center;">
               ${s.label}
               ${tMap[s.label] ? `
-              <div class="tooltip">
+              <div class="tooltip" tabindex="0" onclick="this.classList.toggle('active')">
                   <i class="fa-solid fa-circle-info"></i>
                   <span class="tooltip-text">
                       <strong>${tMap[s.label].def}</strong><br><br>${tMap[s.label].insight}
