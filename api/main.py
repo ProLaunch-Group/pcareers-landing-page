@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from api.routers import auth, leads, analytics
 from api.schemas import HealthResponse
 
-load_dotenv()  # This loads the variables from your .env file
+load_dotenv()  # This loads the variables from .env file
 
 app = FastAPI(title="ProLaunch Monitor API")
 
