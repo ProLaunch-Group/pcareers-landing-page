@@ -14,6 +14,87 @@
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+    :root {
+        --green: #7bb640;
+        --green-dark: #5e9428;
+        --green-light: #e8f5d6;
+        --forest: #0d3b38;
+        --forest-mid: #124745;
+        --teal: #19a08c;
+        --cream: #f8faf3;
+        --warm-white: #ffffff;
+        --text-muted: #6b7a6a;
+        --border: rgba(18,71,69,0.1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+        font-family: 'Lato', sans-serif;
+        color: var(--forest);
+        background: var(--cream);
+        overflow-x: hidden;
+        line-height: 1.6;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Playfair Display', serif;
+        font-weight: 700;
+        line-height: 1.15;
+    }
+    nav {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        padding: 1.25rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(248,250,243,0.85);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--border);
+    }
+    .hero {
+        min-height: 100vh;
+        padding: 8rem 2rem 5rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        align-items: center;
+        position: relative;
+    }
+    .hero h1 {
+        font-size: clamp(3rem, 5vw, 5rem);
+        font-weight: 700;
+        color: var(--forest);
+        margin-bottom: 1.5rem;
+    }
+    .hero-sub {
+        font-size: 1.1rem;
+        color: var(--text-muted);
+        margin-bottom: 2.5rem;
+        max-width: 460px;
+        line-height: 1.75;
+    }
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--green-light);
+        color: var(--green-dark);
+        padding: 0.4rem 1rem;
+        border-radius: 100px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+    }
+    .reveal { opacity: 0; transform: translateY(30px); }
+    </style>
     <link rel="stylesheet" href="assets/css/styles.css">
     
     <!-- Vercel Web Analytics -->
@@ -24,22 +105,29 @@
 
     <!-- clarity -->
     <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "w3i7hxq890");
+    setTimeout(() => {
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "w3i7hxq890");
+    }, 3000);
     </script>
 
 
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PW9N74P1Z9"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+    setTimeout(() => {
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtag/js?id=G-PW9N74P1Z9";
+        document.head.appendChild(script);
 
-    gtag('config', 'G-PW9N74P1Z9');
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-PW9N74P1Z9');
+    }, 3200);
     </script>
 
 </head>
@@ -186,7 +274,7 @@
     <div class="ceo-inner">
         <div class="ceo-visual reveal">
             <div class="ceo-img-container">
-                <img src="assets/images/ceo.webp" fetchpriority="high" width="372" height="567" alt="Mary-Queen Uchechukwu - CEO ProLaunch Careers" class="ceo-image">
+                <img src="assets/images/ceo-1.webp" fetchpriority="high" width="372" height="567" alt="Mary-Queen Uchechukwu - CEO ProLaunch Careers" class="ceo-image">
                 <div class="ceo-name-tag">
                     <h4>Mary-Queen Uchechukwu</h4>
                     <span>CEO & Founder</span>
