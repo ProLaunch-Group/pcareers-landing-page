@@ -148,6 +148,13 @@ body {
 .btn.accent:hover{background:#5e9428; box-shadow: 0 4px 12px rgba(123,182,64,0.3);}
 .btn.sm{padding:8px 14px;font-size:13px}
 
+.range-btn.active{
+  background: var(--green) !important;
+  color: white !important;
+  border-color: var(--green) !important;
+  box-shadow: 0 4px 12px rgba(123,182,64,0.25);
+}
+
 /* METRICS */
 .metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:28px}
 .mcard{border-radius:var(--radius-lg);padding:22px 24px; transition: transform 0.2s, box-shadow 0.2s; position:relative;}
