@@ -1,5 +1,7 @@
 import os
 import json
+from datetime import datetime, timedelta
+from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import HTTPBasicCredentials
 from google.analytics.data_v1beta import BetaAnalyticsDataClient
@@ -16,8 +18,16 @@ from api.schemas import AnalyticsResponse, EventsResponse
 
 router = APIRouter(prefix="/api", tags=["Analytics"])
 
+def _get_ga4_range(period: str):
+    if period == "today":
+        return DateRange(start_date="today", end_date="today")
+    if period == "yesterday":
+        return DateRange(start_date="yesterday", end_date="yesterday")
+    # Default: since official launch Mar 31
+    return DateRange(start_date="2026-03-31", end_date="today")
+
 @router.get("/analytics", response_model=AnalyticsResponse)
-def get_analytics(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
+def get_analytics(period: str = "cumulative", credentials: HTTPBasicCredentials = Depends(verify_credentials)):
     gac = os.environ.get("GA4_SERVICE_ACCOUNT_JSON", "")
     property_id = os.environ.get("GA4_PROPERTY_ID", "")
 
@@ -46,8 +56,8 @@ def get_analytics(credentials: HTTPBasicCredentials = Depends(verify_credentials
                 Metric(name="userEngagementDuration"),
                 Metric(name="bounceRate"),
             ],
-            # Expanded to 30 days for better trend lines
-            date_ranges=[DateRange(start_date="2026-03-31", end_date="today")],
+            # Dynamic date range based on period query param
+            date_ranges=[_get_ga4_range(period)],
         )
 
         response = client.run_report(request)
@@ -88,7 +98,7 @@ def get_analytics(credentials: HTTPBasicCredentials = Depends(verify_credentials
 
 
 @router.get("/events", response_model=EventsResponse)
-def get_events(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
+def get_events(period: str = "cumulative", credentials: HTTPBasicCredentials = Depends(verify_credentials)):
     gac = os.environ.get("GA4_SERVICE_ACCOUNT_JSON", "")
     property_id = os.environ.get("GA4_PROPERTY_ID", "")
 
@@ -104,13 +114,16 @@ def get_events(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
             property=f"properties/{property_id}",
             dimensions=[Dimension(name="eventName")],
             metrics=[Metric(name="eventCount"), Metric(name="sessions")],
-            date_ranges=[DateRange(start_date="2026-03-31", end_date="today")],
+            date_ranges=[_get_ga4_range(period)],
         )
         response = client.run_report(request)
 
-        # ─── New: High-Intent Event Mapping ───
+        # ─── New: High-Intent Event Mapping with Normalization ───
         PRIORITY_MAP = {
             "lead_form_submitted": "Form Submitted",
+            "form_submitted": "Form Submitted",
+            "form_submit": "Form Submitted",
+            "Form Submit": "Form Submitted",
             "open_registration_modal": "Intent (Opened Form)",
             "click_cv_tool": "AI CV Tool Usage",
             "scroll": "Page Reads",
@@ -118,7 +131,7 @@ def get_events(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
         }
 
         # 1. Initialize our Priority Events with 0
-        events_dict = {v: {"count": 0, "sessions": 0} for v in PRIORITY_MAP.values()}
+        events_dict = {v: {"count": 0, "sessions": 0} for v in set(PRIORITY_MAP.values())}
 
         # 2. Fill in the actual counts from GA4
         for row in response.rows:
@@ -127,10 +140,16 @@ def get_events(credentials: HTTPBasicCredentials = Depends(verify_credentials)):
             sessions = int(row.metric_values[1].value)
 
             if name in PRIORITY_MAP:
-                events_dict[PRIORITY_MAP[name]] = {"count": count, "sessions": sessions}
+                clean_name = PRIORITY_MAP[name]
+                # Increment to allow consolidation of similar events
+                events_dict[clean_name]["count"] += count
+                events_dict[clean_name]["sessions"] += sessions
             elif name not in ["session_start", "first_visit", "user_engagement"]:
                 clean_name = name.replace("_", " ").title()
-                events_dict[clean_name] = {"count": count, "sessions": sessions}
+                if clean_name not in events_dict:
+                    events_dict[clean_name] = {"count": 0, "sessions": 0}
+                events_dict[clean_name]["count"] += count
+                events_dict[clean_name]["sessions"] += sessions
 
         # 3. Convert to list and ensure Priority Events are ALWAYS at the top
         final_events = [{"name": k, "count": v["count"], "sessions": v["sessions"]} for k, v in events_dict.items()]

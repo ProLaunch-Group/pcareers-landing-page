@@ -1,5 +1,5 @@
-// ─── DEFAULTS ────────────────────────────────────────────
 const getAuthHeader = () => 'Basic ' + btoa((sessionStorage.getItem('lpm-usr')||'') + ':' + (sessionStorage.getItem('lpm-pwd')||''));
+const API_BASE = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') ? 'http://127.0.0.1:8000' : '';
 
 // ─── STATE ───────────────────────────────────────────────
 const S = {
@@ -14,6 +14,23 @@ const td = () => new Date().toLocaleDateString('en-CA');
 const l7 = () => Array.from({length:7},(_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(6-i)); return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'}); });
 const d7 = () => Array.from({length:7},(_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(6-i)); return d.toLocaleDateString('en-CA'); });
 const ago= n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toLocaleDateString('en-CA'); };
+
+function getRelativeBadge(ts) {
+  if(!ts || ts === '—') return { text: '—', class: 'bold' };
+  const d = new Date(ts);
+  if(isNaN(d)) return { text: '—', class: 'bold' };
+  
+  const now = new Date();
+  const diffTime = now - d;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  if (isSameDay(ts, td())) return { text: 'New', class: 'bnew' };
+  if (diffDays === 1) return { text: 'Yesterday', class: 'bold' };
+  if (diffDays < 7) return { text: 'Last Week', class: 'bold' };
+  if (diffDays < 30) return { text: 'Last Month', class: 'bold' };
+  
+  return { text: d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }), class: 'bold' };
+}
 
 const isSameDay = (ts, dStr) => {
   if(!ts || typeof ts !== 'string') return false;
@@ -73,7 +90,7 @@ async function tryLogin(){
   btn.innerHTML = '<span class="spinner" style="border-width:2px;width:14px;height:14px;border-top-color:#fff"></span>';
   
   try {
-    const r = await fetch('/api/verify', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch(`${API_BASE}/api/verify`, { headers: { 'Authorization': getAuthHeader() } });
     if (r.ok) {
       sessionStorage.setItem('lpm-ok','1');
       $('lock-screen').style.display='none';
@@ -139,7 +156,7 @@ async function fetchLeads(){
   setSkeleton('m-leads');
   setSkeleton('m-cvr');
   try{
-    const r = await fetch('/api/leads', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch(`${API_BASE}/api/leads`, { headers: { 'Authorization': getAuthHeader() } });
     if(r.status === 401){ toast('API auth failed — check backend credentials'); setConn('error'); return; }
     if(!r.ok){ const e = await r.json().catch(()=>({})); toast('API error: '+(e.detail||r.status)); setConn('error'); return; }
     const data = await r.json();
@@ -151,11 +168,11 @@ async function fetchLeads(){
   }
 }
 
-async function fetchAnalytics(){
+async function fetchAnalytics(period = 'cumulative'){
   ['m-vis', 'm-sess', 'ga-sess', 'ga-users', 'ga-newu', 'ga-pv', 'ga-events', 'ga-dur'].forEach(setSkeleton);
   
   try{
-    const r = await fetch('/api/analytics', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch(`${API_BASE}/api/analytics?period=${period}`, { headers: { 'Authorization': getAuthHeader() } });
     if(!r.ok) throw new Error('Analytics API error status');
     const data = await r.json();
     const stats = data.daily_stats || [];
@@ -180,6 +197,11 @@ async function fetchAnalytics(){
       
       const avgDur = S.ga4Dur.length ? Math.round(S.ga4Dur.reduce((a,b)=>a+b,0)/S.ga4Dur.length) : 0;
       animateValue('ga-dur', 0, avgDur, 1000, 's');
+
+      // Update range labels
+      document.querySelectorAll('.ga4-range-text').forEach(el => {
+        el.textContent = (period === 'cumulative') ? 'Since Mar 31' : (period.charAt(0).toUpperCase() + period.slice(1));
+      });
       
     } else { throw new Error('Empty stats array returned'); }
   }catch(e){
@@ -191,9 +213,9 @@ async function fetchAnalytics(){
   }
 }
 
-async function fetchEvents(){
+async function fetchEvents(period = 'cumulative'){
   try{
-    const r = await fetch('/api/events', { headers: { 'Authorization': getAuthHeader() } });
+    const r = await fetch(`${API_BASE}/api/events?period=${period}`, { headers: { 'Authorization': getAuthHeader() } });
     if(!r.ok) return;
     const data = await r.json();
     const evs = data.events || [];
@@ -278,8 +300,8 @@ function _renderTable(id, limit, todayOnly = false) {
       
       h += `<td class="${isMono?'mono':''}" style="${style}">${val}</td>`;
     });
-    const isNew = isSameDay(l.timestamp||l.date||'', td());
-    h += `<td><span class="badge ${isNew?'bnew':'bold'}">${isNew?'New':'—'}</span></td></tr>`;
+    const badge = getRelativeBadge(l.timestamp || l.date);
+    h += `<td><span class="badge ${badge.class}">${badge.text}</span></td></tr>`;
   });
   w.innerHTML=h+'</tbody></table></div>';
 }
@@ -426,8 +448,11 @@ function setConn(s){
 // ─── REFRESH ─────────────────────────────────────────────
 async function refreshAll(){
   $('ri').innerHTML='<span class="spinner"></span>';
+  // Check active range button in Analytics view, fallback to cumulative
+  const activeBtn = document.querySelector('.range-btn.active');
+  const period = activeBtn ? activeBtn.dataset.period : 'cumulative';
   try {
-    await Promise.all([fetchLeads(), fetchAnalytics(), fetchEvents()]);
+    await Promise.all([fetchLeads(), fetchAnalytics(period), fetchEvents(period)]);
     toast(`Fetched backend logs`);
     updateAll(); 
   } finally {
@@ -463,6 +488,26 @@ window.addEventListener('DOMContentLoaded',()=>{
       if(t !== clickedTooltip) t.classList.remove('active');
     });
     if(clickedTooltip) clickedTooltip.classList.toggle('active');
+  });
+
+  // Range Switcher Listeners
+  document.querySelectorAll('.range-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      document.querySelectorAll('.range-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const period = btn.dataset.period;
+      
+      // Visual feedback
+      const originalText = btn.textContent;
+      btn.innerHTML = '<span class="spinner" style="width:12px;height:12px;border-width:2px;"></span>';
+      try {
+        await Promise.all([fetchAnalytics(period), fetchEvents(period)]);
+        updateAll();
+        toast(`Range updated: ${originalText}`);
+      } finally {
+        btn.innerHTML = originalText;
+      }
+    });
   });
 });
 
