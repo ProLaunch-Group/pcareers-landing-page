@@ -6,5 +6,5 @@ node_modules/
 __pycache__/
 *.pyc
 .vercel/
-.vscode/
-hash_gen.py
+service-account.json
+tmp/
