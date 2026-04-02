@@ -1,6 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // ── 0. STEALTH REVEAL (FOUC FIX)
-    document.body.classList.add('ready');
 
 
     // ── 1. FAST DOM CACHE (Minimized lookups)
@@ -73,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (el.hasAttribute('data-animated')) return;
                 
                 el.setAttribute('data-animated', 'true');
-                const targetText = el.getAttribute('data-target') || el.innerText.trim();
+                const targetText = el.getAttribute('data-target') || el.textContent.trim();
                 const num = parseFloat(targetText.replace(/,/g, ''));
                 const suffix = targetText.replace(/[0-9.,]/g, '');
                 
@@ -84,18 +82,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 const animate = (currentTime) => {
                     if (!startTime) startTime = currentTime;
                     const progress = Math.min((currentTime - startTime) / duration, 1);
-                    
                     const currentNum = Math.floor(progress * num);
                     const nextText = currentNum.toLocaleString() + suffix;
                     
-                    if (el.innerText !== nextText) {
-                        el.innerText = nextText;
+                    if (el.textContent !== nextText) {
+                        el.textContent = nextText;
                     }
 
                     if (progress < 1) {
                         window.requestAnimationFrame(animate);
                     } else {
-                        el.innerText = targetText; 
+                        el.textContent = targetText; 
                     }
                 };
                 window.requestAnimationFrame(animate);
@@ -104,13 +101,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.12 });
 
     document.querySelectorAll('.stat-num').forEach(el => {
-        const text = el.innerText.trim();
+        const text = el.textContent.trim();
         const num = parseFloat(text.replace(/,/g, ''));
         if (isNaN(num) || num < 2) return;
         
         const suffix = text.replace(/[0-9.,]/g, '');
         el.setAttribute('data-target', text);
-        el.innerText = '0' + suffix;
+        el.textContent = '0' + suffix;
         statObserver.observe(el);
     });
 
