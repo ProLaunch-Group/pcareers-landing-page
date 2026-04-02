@@ -30,18 +30,27 @@
         --border: rgba(18,71,69,0.1);
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; padding: 0; margin: 0; }
+    img { max-width: 100%; height: auto; display: block; }
+    
     html { scroll-behavior: smooth; }
     body {
-        font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        font-family: 'Lato', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         color: var(--forest);
         background: var(--cream);
         overflow-x: hidden;
         line-height: 1.6;
+        opacity: 0;
+        transition: opacity 0.3s ease-in;
     }
+    body.ready { opacity: 1; }
     h1, h2, h3, h4, h5, h6 {
-        font-family: 'Playfair Display', "Georgia", "Times New Roman", serif;
+        font-family: 'Playfair Display', Georgia, serif;
         font-weight: 700;
-        line-height: 1.15;
+        line-height: 1.25;
+        opacity: 1 !important;
+        visibility: visible !important;
     }
     nav {
         position: fixed;
@@ -57,14 +66,13 @@
         border-bottom: 1px solid var(--border);
     }
     .hero {
-        min-height: 100vh;
+        min-height: 80vh;
         padding: 8rem 2rem 5rem;
         max-width: 1200px;
         margin: 0 auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 4rem;
-        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         position: relative;
     }
     .hero h1 {
@@ -78,7 +86,9 @@
         color: var(--text-muted);
         margin-bottom: 2.5rem;
         max-width: 460px;
-        line-height: 1.75;
+        line-height: 1.6;
+        opacity: 1 !important;
+        visibility: visible !important;
     }
     .hero-badge {
         display: inline-flex;
@@ -94,8 +104,8 @@
         text-transform: uppercase;
         margin-bottom: 1.5rem;
     }
-    .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem 2.5rem; margin-bottom: 2.5rem; max-width: 650px; }
-    .stat-item { display: flex; flex-direction: column; }
+    .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem 2.5rem; margin-bottom: 2.5rem; max-width: 650px; min-height: 140px; }
+    .stat-item { display: flex; flex-direction: column; min-height: 80px; }
     .stat-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 800; color: var(--forest); line-height: 1; }
     .stat-label { font-size: 0.78rem; color: var(--text-muted); font-weight: 500; margin-top: 2px; }
     .hero-trust { display: flex; align-items: center; gap: 12px; }
