@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // ── 0. STEALTH REVEAL (FOUC FIX)
+    document.body.classList.add('ready');
+
 
     // ── 1. FAST DOM CACHE (Minimized lookups)
     const navbar = document.getElementById('navbar');
