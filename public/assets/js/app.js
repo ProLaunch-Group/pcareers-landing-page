@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 el.setAttribute('data-animated', 'true');
                 const targetText = el.getAttribute('data-target') || el.textContent.trim();
                 const num = parseFloat(targetText.replace(/,/g, ''));
-                const suffix = targetText.replace(/[0-9.,]/g, '');
+                const suffix = targetText.replace(/[0-9.,]/g, ''); 
                 
                 let start = 0;
                 const duration = 1500; 
@@ -100,25 +100,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, { threshold: 0.12 });
 
-    document.querySelectorAll('.stat-num').forEach(el => {
-        const text = el.textContent.trim();
-        const num = parseFloat(text.replace(/,/g, ''));
-        if (isNaN(num) || num < 2) return;
-        
-        const suffix = text.replace(/[0-9.,]/g, '');
-        el.setAttribute('data-target', text);
-        el.textContent = '0' + suffix;
-        statObserver.observe(el);
-    });
-
-    // Execute immediately to catch top-level elements (Fix 2)
-    initReveal(); 
-
-    // Secondary tasks can wait
-    if ('requestIdleCallback' in window) {
-        requestIdleCallback(() => {
-            console.log("Secondary background tasks initialized.");
+    const initStatCounters = () => {
+        document.querySelectorAll('.stat-num').forEach(el => {
+            const text = el.textContent.trim();
+            const num = parseFloat(text.replace(/,/g, ''));
+            if (isNaN(num) || num < 2) return;
+            
+            const suffix = text.replace(/[0-9.,]/g, '');
+            el.setAttribute('data-target', text);
+            el.textContent = '0' + suffix;
+            statObserver.observe(el);
         });
+    };
+
+    // ── DEFERRED INITIALIZATION
+    const startLife = () => {
+        initReveal();
+        initStatCounters();
+    };
+
+    if ('requestIdleCallback' in window) {
+        requestIdleCallback(startLife);
+    } else {
+        setTimeout(startLife, 200);
     }
 
     // ── 4. INSTANT UI MODAL (INP FIX)
