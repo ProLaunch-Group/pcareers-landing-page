@@ -125,31 +125,46 @@
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
 
-    <!-- clarity -->
-    <script type="text/javascript">
-    setTimeout(() => {
-        (function(c,l,a,r,i,t,y){
-            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-        })(window, document, "clarity", "script", "w3i7hxq890");
-    }, 3000);
-    </script>
-
-
-    <!-- Google tag (gtag.js) -->
+    <!-- STEALTH ANALYTICS ENGINE (Interaction-Based) -->
     <script>
-    setTimeout(() => {
-        const script = document.createElement('script');
-        script.async = true;
-        script.src = "https://www.googletagmanager.com/gtag/js?id=G-PW9N74P1Z9";
-        document.head.appendChild(script);
+    (function() {
+        let scriptsLoaded = false;
+        const loadTracking = () => {
+            if (scriptsLoaded) return;
+            scriptsLoaded = true;
 
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-PW9N74P1Z9');
-    }, 3200);
+            // 1. CLARITY
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "w3i7hxq890");
+
+            // 2. GTM / GTAG
+            const gtmScript = document.createElement('script');
+            gtmScript.async = true;
+            gtmScript.src = "https://www.googletagmanager.com/gtag/js?id=G-PW9N74P1Z9";
+            document.head.appendChild(gtmScript);
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-PW9N74P1Z9', { 'transport_type': 'beacon' });
+
+            // CLEANUP
+            window.removeEventListener('scroll', loadTracking);
+            window.removeEventListener('mousemove', loadTracking);
+            window.removeEventListener('touchstart', loadTracking);
+        };
+
+        // TRIGGERS
+        window.addEventListener('scroll', loadTracking, { passive: true });
+        window.addEventListener('mousemove', loadTracking, { passive: true });
+        window.addEventListener('touchstart', loadTracking, { passive: true });
+
+        // BACKUP (If no interaction)
+        setTimeout(loadTracking, 6000);
+    })();
     </script>
 
 </head>
