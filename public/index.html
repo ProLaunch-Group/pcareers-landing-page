@@ -789,7 +789,7 @@
         <!-- Column 1: Brand -->
         <div class="footer-col">
             <div class="footer-brand">
-                <img src="assets/images/logo2.webp" width="38" height="38" alt="ProLaunch Logo" class="footer-logo-img">
+                <img src="assets/images/logo2.webp" width="40" height="40" alt="ProLaunch Logo" class="footer-logo-img">
                 <h3 class="footer-logo-text">ProLaunch Careers</h3>
             </div>
             <p>Equipping Africa's next generation of remote professionals with the skills and tools to land global roles.</p>
@@ -829,6 +829,7 @@
         </div>
     </div>
 </footer>
+<style>.footer-logo-img { width: 40px; height: 40px !important; }</style>
 
 
 <!-- SIGNUP MODAL -->
@@ -881,11 +882,11 @@
     </div>
 </div>
 
-    <!-- DEFERRED ASSETS -->
-    <style>.hero-sub { opacity: 1 !important; transform: none !important; }</style>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- DEFERRED ASSETS (Non-blocking) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
-    <script src="assets/js/config.js"></script>
+    <script>
+        const CONFIG = { ZAPIER_WEBHOOK_URL: 'https://hooks.zapier.com/hooks/catch/26961179/unyjjmh/', SUCCESS_PAGE_URL: 'success.html' };
+    </script>
     <script src="assets/js/app.js" defer></script>
 </body>
 </html>
