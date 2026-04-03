@@ -169,22 +169,70 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ── 5. FORM INPUT HELPERS (Cleanup as they type)
+    const whatsappInput = document.getElementById('whatsapp');
+    if (whatsappInput) {
+        whatsappInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/\s/g, '');
+        });
+    }
+
     // ── FORM SUBMISSION (ZAPIER + SUCCESS REDIRECT)
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // INSTANT FEEDBACK
+            // 1. DATA COLLECTION
+            const first_name = document.getElementById('fname').value.trim();
+            const last_name = document.getElementById('lname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('whatsapp').value.trim().replace(/\s/g, '');
+            const niche = document.getElementById('niche').value.trim();
+            const interest = document.getElementById('interest').value;
+
+            // 2. VALIDATION LAYER (Fixes empty submissions and junk data)
+            let errors = [];
+            
+            if (!first_name || !last_name) errors.push("Please enter your full name.");
+            
+            // Email Regex (Simple but effective)
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email || !emailRegex.test(email)) errors.push("Please enter a valid email address.");
+
+            // Phone Regex (Numbers, dashes and optional +) - Spaces already removed above
+            const phoneRegex = /^\+?[0-9-]{7,20}$/;
+            if (!phone || !phoneRegex.test(phone)) errors.push("Please enter a valid phone number.");
+
+            // Niche/Role Validation (Protects against "enquiry" confusion)
+            const junkNiches = ['ry', 'enqiry', 'nil', 'none', 'unknown', 'enq'];
+            if (!niche || niche.length < 3) {
+                errors.push("Please specify your professional role/field.");
+            } else if (junkNiches.includes(niche.toLowerCase())) {
+                errors.push("Please enter your career field (e.g. Virtual Assistant).");
+            }
+
+            if (!interest) errors.push("Please select what you are interested in.");
+
+            // 3. SHOW ERRORS & STOP
+            if (errors.length > 0) {
+                if (formResponse) {
+                    formResponse.innerHTML = `<p class="error-msg">${errors[0]}</p>`; // Show first error
+                    // Scroll into view if needed
+                }
+                return;
+            }
+
+            // 4. PROCEED WITH SUBMISSION
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<span>Processing...</span>';
 
             const payloadBase = {
-                first_name: document.getElementById('fname').value.trim(),
-                last_name: document.getElementById('lname').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                phone: document.getElementById('whatsapp').value.trim(),
-                niche: document.getElementById('niche').value.trim(),
-                interest: document.getElementById('interest').value,
+                first_name,
+                last_name,
+                email,
+                phone,
+                niche,
+                interest,
                 timestamp: new Date().toLocaleString(),
                 source: window.location.hostname
             };
