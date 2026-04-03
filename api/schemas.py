@@ -3,12 +3,21 @@ from typing import List
 
 class EventItem(BaseModel):
     name: str
-    count: int
-    sessions: int
+    interactions: int  # eventCount
+    unique_users: int  # totalUsers
 
 class EventsResponse(BaseModel):
     status: str
     events: List[EventItem]
+
+class AnalyticsTotals(BaseModel):
+    active_users: int
+    total_users: int
+    sessions: int
+    new_users: int
+    page_views: int
+    event_count: int
+    avg_engagement_time: float
 
 class LeadItem(BaseModel):
     name: str
@@ -25,19 +34,19 @@ class LeadsResponse(BaseModel):
 
 class DailyStatItem(BaseModel):
     date: str
-    visitors: int
+    active_users: int
+    total_users: int
     new_users: int
     sessions: int
     event_count: int
     page_views: int
     avg_duration: float
     engagement_total: float
-    # bounce_rate: float
 
 class AnalyticsResponse(BaseModel):
     status: str
     daily_stats: List[DailyStatItem]
-    total_sessions: int
+    totals: AnalyticsTotals
 
 class HealthResponse(BaseModel):
     status: str

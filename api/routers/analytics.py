@@ -42,53 +42,84 @@ def get_analytics(period: str = "cumulative", credentials: HTTPBasicCredentials 
         creds = service_account.Credentials.from_service_account_info(json_creds)
         client = BetaAnalyticsDataClient(credentials=creds)
 
-        # ─── 1. Updated Request with New Metrics ───
-        request = RunReportRequest(
+        date_range = _get_ga4_range(period)
+        
+        # ─── New: Shared Metrics List ───
+        metrics = [
+            Metric(name="activeUsers"),
+            Metric(name="totalUsers"),
+            Metric(name="newUsers"),
+            Metric(name="sessions"),
+            Metric(name="eventCount"),
+            Metric(name="screenPageViews"),
+            Metric(name="userEngagementDuration"),
+        ]
+
+        # ─── Query 1: Daily Stats (with dimensions) ───
+        daily_request = RunReportRequest(
             property=f"properties/{property_id}",
             dimensions=[Dimension(name="date")],
-            metrics=[
-                Metric(name="activeUsers"),
-                Metric(name="newUsers"),
-                Metric(name="sessions"),
-                Metric(name="eventCount"),
-                Metric(name="screenPageViews"),
-                Metric(name="averageSessionDuration"),
-                Metric(name="userEngagementDuration"),
-                Metric(name="bounceRate"),
-            ],
-            # Dynamic date range based on period query param
-            date_ranges=[_get_ga4_range(period)],
+            metrics=metrics,
+            date_ranges=[date_range],
         )
 
-        response = client.run_report(request)
-        daily_stats = []
+        # ─── Query 2: Totals (NO dimensions = accurate deduplication) ───
+        total_request = RunReportRequest(
+            property=f"properties/{property_id}",
+            metrics=metrics,
+            date_ranges=[date_range],
+        )
 
-        # ─── 2. Updated Parsing Logic ───
-        for row in response.rows:
+        daily_response = client.run_report(daily_request)
+        total_response = client.run_report(total_request)
+
+        daily_stats = []
+        for row in daily_response.rows:
             date_str = row.dimension_values[0].value
             formatted_date = f"{date_str[:4]}-{date_str[4:6]}-{date_str[6:8]}"
-
-            # Map values based on the Metric() list order above
+            
+            # Map metrics: activeUsers(0), totalUsers(1), newUsers(2), sessions(3), eventCount(4), screenPageViews(5), userEngagementDuration(6)
+            active_users = int(row.metric_values[0].value)
+            engagement_time = float(row.metric_values[6].value)
+            
             daily_stats.append(
                 {
                     "date": formatted_date,
-                    "visitors": int(row.metric_values[0].value),  # activeUsers
-                    "new_users": int(row.metric_values[1].value),  # newUsers
-                    "sessions": int(row.metric_values[2].value),  # sessions
-                    "event_count": int(row.metric_values[3].value),  # eventCount
-                    "page_views": int(row.metric_values[4].value),  # screenPageViews
-                    "avg_duration": round(float(row.metric_values[5].value), 2),  # averageSessionDuration
-                    "engagement_total": float(row.metric_values[6].value),  # userEngagementDuration
-                    "bounce_rate": round(float(row.metric_values[7].value) * 100, 1),  # bounceRate
+                    "active_users": active_users,
+                    "total_users": int(row.metric_values[1].value),
+                    "new_users": int(row.metric_values[2].value),
+                    "sessions": int(row.metric_values[3].value),
+                    "event_count": int(row.metric_values[4].value),
+                    "page_views": int(row.metric_values[5].value),
+                    "avg_duration": round(engagement_time / active_users, 2) if active_users > 0 else 0,
+                    "engagement_total": engagement_time,
                 }
             )
 
         daily_stats.sort(key=lambda x: x["date"])
 
-        # Calculate simple Conversion Rate for the "Week 2" summary
-        total_sessions = sum(d["sessions"] for d in daily_stats)
+        # ─── Parse Totals ───
+        t_row = total_response.rows[0] if total_response.rows else None
+        if t_row:
+            t_active = int(t_row.metric_values[0].value)
+            t_engagement = float(t_row.metric_values[6].value)
+            
+            totals = {
+                "active_users": t_active,
+                "total_users": int(t_row.metric_values[1].value),
+                "new_users": int(t_row.metric_values[2].value),
+                "sessions": int(t_row.metric_values[3].value),
+                "event_count": int(t_row.metric_values[4].value),
+                "page_views": int(t_row.metric_values[5].value),
+                "avg_engagement_time": round(t_engagement / t_active, 2) if t_active > 0 else 0,
+            }
+        else:
+            totals = {
+                "active_users": 0, "total_users": 0, "new_users": 0, "sessions": 0, 
+                "event_count": 0, "page_views": 0, "avg_engagement_time": 0
+            }
 
-        return {"status": "ok", "daily_stats": daily_stats, "total_sessions": total_sessions}
+        return {"status": "ok", "daily_stats": daily_stats, "totals": totals}
 
     except Exception as e:
         raise HTTPException(
@@ -113,7 +144,7 @@ def get_events(period: str = "cumulative", credentials: HTTPBasicCredentials = D
         request = RunReportRequest(
             property=f"properties/{property_id}",
             dimensions=[Dimension(name="eventName")],
-            metrics=[Metric(name="eventCount"), Metric(name="sessions")],
+            metrics=[Metric(name="eventCount"), Metric(name="totalUsers")],
             date_ranges=[_get_ga4_range(period)],
         )
         response = client.run_report(request)
@@ -131,31 +162,34 @@ def get_events(period: str = "cumulative", credentials: HTTPBasicCredentials = D
         }
 
         # 1. Initialize our Priority Events with 0
-        events_dict = {v: {"count": 0, "sessions": 0} for v in set(PRIORITY_MAP.values())}
+        events_dict = {v: {"interactions": 0, "unique_users": 0} for v in set(PRIORITY_MAP.values())}
 
         # 2. Fill in the actual counts from GA4
         for row in response.rows:
             name = row.dimension_values[0].value
-            count = int(row.metric_values[0].value)
-            sessions = int(row.metric_values[1].value)
+            interactions = int(row.metric_values[0].value)
+            unique_users = int(row.metric_values[1].value)
 
             if name in PRIORITY_MAP:
                 clean_name = PRIORITY_MAP[name]
                 # Increment to allow consolidation of similar events
-                events_dict[clean_name]["count"] += count
-                events_dict[clean_name]["sessions"] += sessions
+                events_dict[clean_name]["interactions"] += interactions
+                events_dict[clean_name]["unique_users"] += unique_users
             elif name not in ["session_start", "first_visit", "user_engagement"]:
                 clean_name = name.replace("_", " ").title()
                 if clean_name not in events_dict:
-                    events_dict[clean_name] = {"count": 0, "sessions": 0}
-                events_dict[clean_name]["count"] += count
-                events_dict[clean_name]["sessions"] += sessions
+                    events_dict[clean_name] = {"interactions": 0, "unique_users": 0}
+                events_dict[clean_name]["interactions"] += interactions
+                events_dict[clean_name]["unique_users"] += unique_users
 
         # 3. Convert to list and ensure Priority Events are ALWAYS at the top
-        final_events = [{"name": k, "count": v["count"], "sessions": v["sessions"]} for k, v in events_dict.items()]
+        final_events = [
+            {"name": k, "interactions": v["interactions"], "unique_users": v["unique_users"]} 
+            for k, v in events_dict.items()
+        ]
         
-        # Sort so highest counts are first, but Priority Events exist
-        final_events.sort(key=lambda x: x["count"], reverse=True)
+        # Sort so highest counts are first
+        final_events.sort(key=lambda x: x["interactions"], reverse=True)
         
         return {"status": "ok", "events": final_events[:10]}
 

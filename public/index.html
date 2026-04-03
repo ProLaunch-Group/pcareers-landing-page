@@ -308,10 +308,8 @@
             gtmScript.src = "https://www.googletagmanager.com/gtag/js?id=G-PW9N74P1Z9";
             document.head.appendChild(gtmScript);
 
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-PW9N74P1Z9', { 'transport_type': 'beacon' });
+            window.gtag('js', new Date());
+            window.gtag('config', 'G-PW9N74P1Z9', { 'transport_type': 'beacon' });
 
             // CLEANUP
             window.removeEventListener('scroll', loadTracking);

@@ -3,8 +3,8 @@ const API_BASE = (window.location.hostname === '127.0.0.1' || window.location.ho
 
 // ─── STATE ───────────────────────────────────────────────
 const S = {
-  leads:[], visits:[], labels:[], rawDates:[], ga4Sessions:[], ga4Sources:[],
-  ga4NewU:[], ga4PV:[], ga4Events:[], ga4Dur:[]
+  leads:[], active_users:[], total_users:[], labels:[], rawDates:[], ga4Sessions:[], ga4Sources:[],
+  ga4NewU:[], ga4PV:[], ga4Events:[], ga4Dur:[], totals:{}, daily_stats:[], lastPeriod:'cumulative'
 };
 let CH = {};
 
@@ -14,9 +14,17 @@ const td = () => new Date().toLocaleDateString('en-CA');
 const l7 = () => Array.from({length:7},(_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(6-i)); return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'}); });
 const d7 = () => Array.from({length:7},(_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(6-i)); return d.toLocaleDateString('en-CA'); });
 const ago= n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toLocaleDateString('en-CA'); };
+const getDR = p => {
+  if(p==='today') return {s:td(),e:td()};
+  if(p==='yesterday') return {s:ago(1),e:ago(1)};
+  return {s:'2026-03-31',e:td()};
+};
 
 function getRelativeBadge(ts) {
   if(!ts || ts === '—') return { text: '—', class: 'bold' };
+  if (isSameDay(ts, td())) return { text: 'Today', class: 'bnew' };
+  if (isSameDay(ts, ago(1))) return { text: 'Yesterday', class: 'bold' };
+
   const d = new Date(ts);
   if(isNaN(d)) return { text: '—', class: 'bold' };
   
@@ -24,10 +32,10 @@ function getRelativeBadge(ts) {
   const diffTime = now - d;
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-  if (isSameDay(ts, td())) return { text: 'New', class: 'bnew' };
-  if (diffDays === 1) return { text: 'Yesterday', class: 'bold' };
-  if (diffDays < 7) return { text: 'Last Week', class: 'bold' };
-  if (diffDays < 30) return { text: 'Last Month', class: 'bold' };
+  if (diffDays < 7) {
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    return { text: days[d.getDay()], class: 'bold' };
+  }
   
   return { text: d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }), class: 'bold' };
 }
@@ -176,27 +184,31 @@ async function fetchAnalytics(period = 'cumulative'){
     if(!r.ok) throw new Error('Analytics API error status');
     const data = await r.json();
     const stats = data.daily_stats || [];
+    const totals = data.totals || {};
+    
     if(stats.length > 0){
       S.labels = stats.map(s => {
         const d = new Date(s.date); return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'});
       });
       S.rawDates = stats.map(s => s.date);
-      S.visits = stats.map(s => s.visitors);
+      S.active_users = stats.map(s => s.active_users);
+      S.total_users = stats.map(s => s.total_users);
       S.ga4Sessions = stats.map(s => s.sessions);
       S.ga4NewU = stats.map(s => s.new_users);
       S.ga4PV = stats.map(s => s.page_views);
       S.ga4Events = stats.map(s => s.event_count);
       S.ga4Dur = stats.map(s => s.avg_duration);
+      S.totals = totals;
+      S.daily_stats = stats;
+      S.lastPeriod = period;
       
-      const totSess = S.ga4Sessions.reduce((a,b)=>a+b,0);
-      animateValue('ga-sess', 0, totSess, 1000);
-      animateValue('ga-users', 0, S.visits.reduce((a,b)=>a+b,0), 1000);
-      animateValue('ga-newu', 0, S.ga4NewU.reduce((a,b)=>a+b,0), 1000);
-      animateValue('ga-pv', 0, S.ga4PV.reduce((a,b)=>a+b,0), 1000);
-      animateValue('ga-events', 0, S.ga4Events.reduce((a,b)=>a+b,0), 1000);
-      
-      const avgDur = S.ga4Dur.length ? Math.round(S.ga4Dur.reduce((a,b)=>a+b,0)/S.ga4Dur.length) : 0;
-      animateValue('ga-dur', 0, avgDur, 1000, 's');
+      // ─── Populating Big Numbers from the Deduplicated API Totals ───
+      animateValue('ga-sess', 0, totals.sessions || 0, 1000);
+      animateValue('ga-users', 0, totals.active_users || 0, 1000);
+      animateValue('ga-newu', 0, totals.new_users || 0, 1000);
+      animateValue('ga-pv', 0, totals.page_views || 0, 1000);
+      animateValue('ga-events', 0, totals.event_count || 0, 1000);
+      animateValue('ga-dur', 0, Math.round(totals.avg_engagement_time || 0), 1000, 's');
 
       // Update range labels
       document.querySelectorAll('.ga4-range-text').forEach(el => {
@@ -221,7 +233,7 @@ async function fetchEvents(period = 'cumulative'){
     const evs = data.events || [];
     const colors = ['#7bb640','#19a08c','#f0b860','#8a9e89','#5c8680','#c9d8a3'];
     S.ga4Sources = evs.map((e,i) => ({
-      label: e.name, val: e.count, sessions: e.sessions, color: colors[i%colors.length]
+      label: e.name, val: e.interactions, sessions: e.unique_users, color: colors[i%colors.length]
     }));
   }catch(e){
     console.warn('Events fetch fallback:', e);
@@ -231,23 +243,32 @@ async function fetchEvents(period = 'cumulative'){
 
 // ─── METRICS ─────────────────────────────────────────────
 function updateMetrics(){
-  const todayLeads=S.leads.filter(l=>isSameDay(l.timestamp||l.date||'', td())).length;
-  const todayVis=S.visits.length ? S.visits[S.visits.length-1] : 0;
-  const totalVis=S.visits.reduce((a,b)=>a+b,0);
+  const dr = getDR(S.lastPeriod);
+  const leadsInPeriod = S.leads.filter(l => {
+    const ld = (l.timestamp || l.date || '').split('T')[0];
+    return ld >= dr.s && ld <= dr.e;
+  });
   
-  const cvr=totalVis>0 ? Math.round((S.leads.length/totalVis)*100) : 0;
-  const sess30=S.ga4Sessions.reduce((a,b)=>a+b,0);
+  const todayLeads = S.leads.filter(l=>isSameDay(l.timestamp||l.date||'', td())).length;
+  
+  // Find EXACT today stats (prevent fallback to yesterday)
+  const todayEntry = S.daily_stats.find(s => s.date === td());
+  const todayActive = todayEntry ? todayEntry.active_users : 0;
+  
+  const totalActive = S.totals.active_users || 0;
+  const cvr = totalActive > 0 ? Math.round((leadsInPeriod.length / totalActive) * 100) : 0;
+  const sess30 = S.ga4Sessions.reduce((a,b)=>a+b,0);
 
-  animateValue('m-vis', 0, todayVis, 1000);
-  $('m-vis-d').textContent=todayVis>0?'↑ active':'Live via GA4 API';
-  $('m-vis-d').className='mdelta '+(todayVis>0?'up':'nu');
+  animateValue('m-vis', 0, todayActive, 1000);
+  $('m-vis-d').textContent=todayActive>0?'↑ active':'Live via GA4 API';
+  $('m-vis-d').className='mdelta '+(todayActive>0?'up':'nu');
   
   animateValue('m-leads', 0, S.leads.length, 1200);
   $('m-leads-d').textContent=`+${todayLeads} today`;
   
   animateValue('m-cvr', 0, cvr, 1200, '%');
   const cd=$('m-cvr-d');
-  cd.textContent=cvr>0?(cvr>=5?'✓ above 5% target':'Below 5% — needs work'):'Need visit data';
+  cd.textContent=cvr>0?(totalActive>0 && cvr>=5?'✓ above 5% target':'Below 5% — needs work'):'Need visit data';
   cd.className='mdelta '+(cvr>=5?'up':cvr>0?'dn':'nu');
   
   animateValue('m-sess', 0, sess30, 1000);
@@ -347,13 +368,17 @@ function buildOverviewCharts(){
   if(CH.cvr)    CH.cvr.destroy();
   
   CH.main=new Chart($('c-main'),{type:'bar',data:{labels:S.labels,datasets:[
-    {label:'Visits',data:S.visits,backgroundColor:'rgba(25,160,140,0.15)',borderColor:CC.b,borderWidth:1.5,borderRadius:4},
+    {label:'Visits',data:S.active_users,backgroundColor:'rgba(25,160,140,0.15)',borderColor:CC.b,borderWidth:1.5,borderRadius:4},
     {label:'Leads', data:ld,     backgroundColor:'rgba(123,182,64,0.3)', borderColor:CC.a,borderWidth:1.5,borderRadius:4}
   ]},options:bOpts()});
   
-  const tot=S.visits.reduce((a,b)=>a+b,0); // Removed || 100 fallback
+  const tot = S.active_users.reduce((a,b)=>a+b,0);
   const optIntent = S.ga4Sources.find(s => s.label === "Intent (Opened Form)");
-  const engaged = optIntent ? optIntent.sessions : 0;
+  const optStarted = S.ga4Sources.find(s => s.label === "Form Started");
+  const engaged = Math.max(
+    optIntent ? optIntent.sessions : 0,
+    optStarted ? optStarted.sessions : 0
+  );
   
   CH.funnel=new Chart($('c-funnel'),{type:'bar',data:{labels:['Visits(30d)','Engaged','Submitted'],datasets:[{
     data:[tot, engaged, S.leads.length],
@@ -361,7 +386,7 @@ function buildOverviewCharts(){
     borderColor:[CC.b,CC.b,CC.a],borderWidth:1.5,borderRadius:4
   }]},options:{...bOpts(),indexAxis:'y'}});
   
-  const cvrData=S.visits.map((v,i)=>v>0?+((ld[i]/v)*100).toFixed(1):0);
+  const cvrData=S.active_users.map((v,i)=>v>0?+((ld[i]/v)*100).toFixed(1):0);
   
   // Create gradient
   const ctx = $('c-cvr').getContext('2d');
@@ -375,7 +400,7 @@ function buildOverviewCharts(){
 }
 
 function buildGA4Charts(){
-  const sess=S.ga4Sessions.length?S.ga4Sessions:S.visits;
+  const sess=S.ga4Sessions.length?S.ga4Sessions:S.active_users;
   if(CH.ga) CH.ga.destroy();
   
   const ctx = $('c-ga').getContext('2d');
