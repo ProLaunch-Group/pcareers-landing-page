@@ -10,6 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.getElementById('closeModal');
     const submitBtn = document.getElementById('submitBtn');
     const formResponse = document.getElementById('formResponse');
+    
+    // ── GA4 Global Queue (Ensures events aren't lost)
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
 
     // ── 2. PASSIVE SCROLL (INP FIX)
     let lastScrollY = 0;
@@ -214,8 +218,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── GA4 EVENT TRACKING
     const trackEvent = (name, label) => {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', name, {
+        if (typeof window.gtag === 'function') {
+            window.gtag('event', name, {
                 'event_label': label,
                 'transport_type': 'beacon'
             });
