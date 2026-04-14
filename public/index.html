@@ -258,7 +258,7 @@
     @media (max-width: 768px) { .modal-overlay { padding: 1rem; } .modal-content { max-height: 90vh; overflow-y: auto; } }
     .events-section { padding: 6rem 2rem; background: white; border-top: 1px solid var(--border); }
     .events-inner { max-width: 1100px; margin: 0 auto; }
-    .events-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 800px; margin: 0 auto; }
+    .events-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1100px; margin: 0 auto; }
     .event-card { background: white; border-radius: 20px; overflow: hidden; border: 1px solid #edf2e8; transition: transform 0.3s ease, box-shadow 0.3s ease; display: flex; flex-direction: column; }
     .event-card:hover { transform: translateY(-5px); box-shadow: 0 15px 45px rgba(13, 59, 56, 0.1); }
     .event-header { height: 280px; position: relative; overflow: hidden; }
@@ -266,16 +266,39 @@
     .event-card:hover .event-img { transform: scale(1.05); }
     .event-badge { position: absolute; top: 1rem; left: 1rem; padding: 0.4rem 0.8rem; border-radius: 100px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; z-index: 2; }
     .event-badge.past { background: rgba(13, 59, 56, 0.85); color: white; }
-    .event-badge.upcoming { background: var(--green); color: white; animation: pulse-green 2s infinite; }
-    @keyframes pulse-green { 0% { box-shadow: 0 0 0 0 rgba(123, 182, 64, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(123, 182, 64, 0); } 100% { box-shadow: 0 0 0 0 rgba(123, 182, 64, 0); } }
+    .event-badge.upcoming { background: rgba(13, 59, 56, 0.85); color: white; animation: pulse-badge 2s ease infinite; }
+    @keyframes pulse-badge { 0% { box-shadow: 0 0 0 0 rgba(13, 59, 56, 0.6); opacity: 1; } 50% { box-shadow: 0 0 12px 4px rgba(13, 59, 56, 0.3); opacity: 0.88; } 100% { box-shadow: 0 0 0 0 rgba(13, 59, 56, 0.6); opacity: 1; } }
     .event-body { padding: 1.75rem; flex-grow: 1; display: flex; flex-direction: column; }
     .event-date { font-size: 0.8rem; color: var(--green-dark); font-weight: 700; margin-bottom: 0.5rem; }
     .event-card h4 { font-size: 1.25rem; color: var(--forest); margin-bottom: 0.75rem; }
     .event-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1.5rem; }
     .event-cta { margin-top: auto; font-weight: 700; text-decoration: none; color: var(--forest); display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
     .event-cta:hover { color: var(--green-dark); }
-    @media (max-width: 992px) { .events-grid { max-width: 100%; } }
+    @media (max-width: 992px) { .events-grid { grid-template-columns: repeat(2, 1fr); max-width: 100%; } }
     @media (max-width: 768px) { .events-grid { grid-template-columns: 1fr; } }
+    /* ── WEBINAR MODAL ── */
+    .webinar-modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(13, 59, 56, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 2500; display: none; justify-content: center; align-items: center; padding: 2rem; opacity: 0; transition: opacity 0.35s ease; }
+    .webinar-modal-overlay.active { display: flex; opacity: 1; }
+    .webinar-modal { background: white; width: 100%; max-width: 640px; border-radius: 28px; position: relative; transform: translateY(24px) scale(0.97); transition: transform 0.45s cubic-bezier(0.165, 0.84, 0.44, 1); box-shadow: 0 40px 120px rgba(0, 0, 0, 0.35); overflow: hidden; }
+    .webinar-modal-overlay.active .webinar-modal { transform: translateY(0) scale(1); }
+    .webinar-modal-close { position: absolute; top: 1.25rem; right: 1.25rem; width: 40px; height: 40px; background: rgba(248,250,243,0.9); border: none; border-radius: 50%; color: var(--forest); font-size: 1.3rem; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; transition: background 0.2s, transform 0.2s; }
+    .webinar-modal-close:hover { background: var(--green-light); transform: rotate(90deg); }
+    .webinar-modal-header { background: linear-gradient(135deg, var(--forest) 0%, #124745 100%); padding: 2rem 2.25rem 1.5rem; position: relative; overflow: hidden; }
+    .webinar-modal-header::before { content: ''; position: absolute; top: -40px; right: -40px; width: 180px; height: 180px; border-radius: 50%; background: rgba(123,182,64,0.1); }
+    .webinar-modal-header::after { content: ''; position: absolute; bottom: -30px; left: -20px; width: 120px; height: 120px; border-radius: 50%; background: rgba(25,160,140,0.08); }
+    .webinar-modal-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(123,182,64,0.2); color: var(--green); padding: 0.35rem 0.85rem; border-radius: 100px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; position: relative; z-index: 1; }
+    .webinar-modal-badge .badge-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 1.5s ease infinite; }
+    .webinar-modal-header h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: white; margin-bottom: 0.5rem; position: relative; z-index: 1; }
+    .webinar-modal-meta { display: flex; flex-wrap: wrap; gap: 1rem; position: relative; z-index: 1; }
+    .webinar-modal-meta span { font-size: 0.8rem; color: rgba(255,255,255,0.7); display: flex; align-items: center; gap: 5px; }
+    .webinar-modal-meta strong { color: rgba(255,255,255,0.95); }
+    .webinar-modal-form { padding: 0; }
+    .webinar-modal-form iframe { width: 100%; height: 480px; border: none; display: block; }
+    @media (max-width: 768px) { .webinar-modal-overlay { padding: 1rem; } .webinar-modal { max-height: 92vh; overflow-y: auto; } .webinar-modal-form iframe { height: 520px; } .webinar-modal-header { padding: 1.5rem 1.5rem 1.25rem; } .webinar-modal-header h3 { font-size: 1.25rem; } }
+    .event-cta-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: auto; padding: 0.7rem 1.4rem; background: var(--green); color: white; border: none; border-radius: 10px; font-family: 'Lato', sans-serif; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.2s, box-shadow 0.2s; text-decoration: none; }
+    .event-cta-btn:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(123,182,64,0.35); }
+    .event-card.upcoming-highlight { border-color: var(--green); border-width: 2px; position: relative; }
+    .event-card.upcoming-highlight::after { content: ''; position: absolute; inset: -2px; border-radius: 20px; background: linear-gradient(135deg, rgba(123,182,64,0.15), rgba(25,160,140,0.08)); z-index: -1; pointer-events: none; }
     #hero-cta-card { animation: float 5s ease-in-out infinite; }
     @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0px); } }
     .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -648,6 +671,23 @@
                 </div>
             </div>
 
+            <!-- Event 3 (Upcoming Webinar) -->
+            <div class="event-card upcoming-highlight reveal reveal-delay-3">
+                <div class="event-header">
+                    <span class="event-badge upcoming">Upcoming Webinar</span>
+                    <img src="assets/images/event-3.webp" loading="lazy" alt="Mastering the Remote Interview Webinar" class="event-img">
+                </div>
+                <div class="event-body">
+                    <div class="event-date">April 25, 2026 · 7:00 PM · Online (Google Meet)</div>
+                    <h4>Mastering the Remote Interview</h4>
+                    <p>A free live webinar to help you confidently pass remote interview stages — learn to answer screening questions, present your experience, and communicate your value.</p>
+                    <button class="event-cta-btn" id="openWebinarModal">
+                        Register to Attend Free
+                        <svg class="icon"><use href="#icon-arrow"></use></svg>
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
@@ -911,6 +951,25 @@
 
             <p class="form-note">No spam. We'll only send you relevant program updates. <span>Free to join.</span></p>
             <div id="formResponse"></div>
+        </div>
+    </div>
+</div>
+
+<!-- WEBINAR REGISTRATION MODAL -->
+<div class="webinar-modal-overlay" id="webinarModal">
+    <div class="webinar-modal">
+        <button class="webinar-modal-close" id="closeWebinarModal">&times;</button>
+        <div class="webinar-modal-header">
+            <span class="webinar-modal-badge"><span class="badge-dot"></span> Free Live Webinar</span>
+            <h3>Mastering the Remote Interview</h3>
+            <div class="webinar-modal-meta">
+                <span>📅 <strong>April 25, 2026</strong></span>
+                <span>🕖 <strong>7:00 PM</strong></span>
+                <span>📍 <strong>Online (Google Meet)</strong></span>
+            </div>
+        </div>
+        <div class="webinar-modal-form">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSeNbT3hkjv_KPpYf4qh5kZDGNCGS5HUVpHsMa8w0obieik-iA/viewform?embedded=true" title="Webinar Registration Form" loading="lazy">Loading…</iframe>
         </div>
     </div>
 </div>
