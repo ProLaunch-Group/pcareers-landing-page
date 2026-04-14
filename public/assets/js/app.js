@@ -278,4 +278,42 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href*="cv-optimizer"]').forEach(link => {
         link.addEventListener('click', () => trackEvent('click_cv_tool', 'Outbound to Analyzer'));
     });
+
+    // ── WEBINAR MODAL
+    const webinarModal = document.getElementById('webinarModal');
+    const openWebinarBtn = document.getElementById('openWebinarModal');
+    const closeWebinarBtn = document.getElementById('closeWebinarModal');
+
+    const openWebinarModal = () => {
+        if (!webinarModal) return;
+        webinarModal.style.display = 'flex';
+        window.requestAnimationFrame(() => {
+            webinarModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        trackEvent('open_webinar_modal', 'Mastering the Remote Interview');
+    };
+
+    const closeWebinarModal = () => {
+        if (!webinarModal) return;
+        webinarModal.classList.remove('active');
+        setTimeout(() => {
+            webinarModal.style.display = 'none';
+            document.body.style.overflow = '';
+        }, 350);
+    };
+
+    if (openWebinarBtn) {
+        openWebinarBtn.addEventListener('click', openWebinarModal);
+    }
+
+    if (closeWebinarBtn) {
+        closeWebinarBtn.addEventListener('click', closeWebinarModal);
+    }
+
+    if (webinarModal) {
+        webinarModal.addEventListener('click', (e) => {
+            if (e.target === webinarModal) closeWebinarModal();
+        });
+    }
 });
