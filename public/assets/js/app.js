@@ -316,4 +316,32 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target === webinarModal) closeWebinarModal();
         });
     }
+
+    // ── FLOATING WEBINAR BANNER
+    const webinarFloat = document.getElementById('webinarFloat');
+    const dismissFloatBtn = document.getElementById('dismissWebinarFloat');
+
+    if (webinarFloat && !sessionStorage.getItem('webinar_float_dismissed')) {
+        setTimeout(() => {
+            webinarFloat.classList.add('visible');
+        }, 2000);
+
+        // Click banner body → open modal
+        webinarFloat.addEventListener('click', (e) => {
+            if (e.target.closest('#dismissWebinarFloat')) return;
+            openWebinarModal();
+            webinarFloat.classList.remove('visible');
+            webinarFloat.classList.add('dismissed');
+        });
+
+        // Dismiss button
+        if (dismissFloatBtn) {
+            dismissFloatBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                webinarFloat.classList.remove('visible');
+                webinarFloat.classList.add('dismissed');
+                sessionStorage.setItem('webinar_float_dismissed', '1');
+            });
+        }
+    }
 });
