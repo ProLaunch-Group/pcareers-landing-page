@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
             webinarModal.classList.add('active');
             document.body.style.overflow = 'hidden';
         });
-        trackEvent('open_webinar_modal', 'Mastering the Remote Interview');
+        trackEvent('open_webinar_modal', 'The Volunteer Edge');
     };
 
     const closeWebinarModal = () => {
