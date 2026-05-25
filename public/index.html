@@ -804,78 +804,115 @@
 
         .testimonials-section {
             background: var(--cream);
-            padding: 6rem 2rem;
-            border-top: 1px solid var(--border);
+            padding: 3.5rem 1.5rem;
+            border-top: 1px solid var(--border)
         }
 
         .testimonials-inner {
             max-width: 1100px;
-            margin: 0 auto;
+            margin: 0 auto
         }
 
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+        .section-header {
+            text-align: center;
+            margin-bottom: 2.5rem
+        }
+
+        .section-tag {
+            display: inline-block;
+            background: var(--green-light);
+            color: var(--green-dark);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 0.75rem
+        }
+
+        .section-header h2 {
+            font-size: clamp(1.4rem, 3vw, 2rem);
+            color: var(--forest);
+            font-weight: 700;
+            margin-bottom: 0.75rem
+        }
+
+        .section-header p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            max-width: 540px;
+            margin: 0 auto;
+            line-height: 1.7
+        }
+
+        .carousel {
+            position: relative
+        }
+
+        .carousel-viewport {
+            overflow: hidden;
+            border-radius: 16px
+        }
+
+        .slides {
+            display: flex;
+            justify-content: space-around;
             gap: 1.5rem;
+            transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: transform
         }
 
         .testimonial-card {
             background: white;
             border-radius: 20px;
-            padding: 2rem;
+            padding: 1.75rem;
+            width: 30.33%;
+            flex-shrink: 0;
             border: 1px solid #edf2e8;
             transition: box-shadow 0.3s, transform 0.3s;
             display: flex;
-            flex-direction: column;
+            flex-direction: column
         }
 
         .testimonial-card:hover {
             box-shadow: 0 12px 40px rgba(13, 59, 56, 0.08);
-            transform: translateY(-3px);
-        }
-
-        .testimonial-card.highlight {
-            background: white;
-            border-color: #edf2e8;
+            transform: translateY(-3px)
         }
 
         .quote-mark {
-            font-family: 'Playfair Display', serif;
-            font-size: 4rem;
             color: var(--green);
-            line-height: 0.8;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             display: block;
+            line-height: 1
         }
 
-        .testimonial-card.highlight .quote-mark {
-            color: var(--green);
-        }
-
-        .testimonial-text {
-            font-size: 0.9rem;
-            line-height: 1.8;
-            color: var(--text-muted);
-            flex: 1;
-            margin-bottom: 1.5rem;
-        }
-
-        .testimonial-card.highlight .testimonial-text {
-            color: var(--text-muted);
+        .quote-mark svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--green)
         }
 
         .testimonial-stars {
             color: #f5a623;
             font-size: 0.8rem;
             letter-spacing: 2px;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.5rem
+        }
+
+        .testimonial-text {
+            font-size: 0.875rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            flex: 1;
+            margin-bottom: 1.25rem
         }
 
         .testimonial-author {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-top: auto;
+            margin-top: auto
         }
 
         .author-avatar {
@@ -886,28 +923,111 @@
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: white;
-            flex-shrink: 0;
+            flex-shrink: 0
         }
 
         .author-name {
             font-size: 0.87rem;
             font-weight: 700;
-            color: var(--forest);
-        }
-
-        .testimonial-card.highlight .author-name {
-            color: var(--forest);
+            color: var(--forest)
         }
 
         .author-role {
             font-size: 0.75rem;
-            color: var(--text-muted);
+            color: var(--text-muted)
         }
 
-        .testimonial-card.highlight .author-role {
-            color: var(--text-muted);
+        .carousel-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem
+        }
+
+        .nav-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(18, 71, 69, 0.2);
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.22s ease;
+            color: var(--forest);
+            flex-shrink: 0;
+            outline: none
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--forest);
+            border-color: var(--forest);
+            color: white;
+            transform: scale(1.08)
+        }
+
+        .nav-btn:active:not(:disabled) {
+            transform: scale(0.96)
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none
+        }
+
+        .nav-btn svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 2.2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+
+        .dots {
+            display: flex;
+            align-items: center;
+            gap: 7px
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(13, 59, 56, 0.15);
+            cursor: pointer;
+            transition: all 0.22s ease;
+            border: none;
+            padding: 0;
+            outline: none
+        }
+
+        .dot.active {
+            background: var(--green);
+            width: 22px;
+            border-radius: 4px
+        }
+
+        .dot:hover:not(.active) {
+            background: rgba(13, 59, 56, 0.35)
+        }
+
+        @media(max-width:700px) {
+            .testimonial-card {
+                min-width: calc(100% - 0rem)
+            }
+        }
+
+        @media(min-width:701px) and (max-width:960px) {
+            .testimonial-card {
+                min-width: calc(50% - 0.75rem)
+            }
         }
 
         .cv-tool-section {
@@ -1376,9 +1496,9 @@
                 grid-template-columns: repeat(2, 1fr);
             }
 
-            .testimonials-grid {
+            /* .testimonials-grid {
                 grid-template-columns: repeat(2, 1fr);
-            }
+            } */
 
             .cv-tool-inner {
                 grid-template-columns: 1fr;
@@ -1733,6 +1853,10 @@
             .modal-content {
                 max-height: 90vh;
                 overflow-y: auto;
+            }
+
+            .testimonial-card {
+                min-width: 100%;
             }
         }
 
@@ -2424,7 +2548,7 @@
     <!-- FLOATING WEBINAR BANNER -->
     <div class="webinar-float" id="webinarFloat" role="complementary" aria-label="Upcoming webinar notification">
         <div class="webinar-float-accent"></div>
-        <button class="webinar-float-dismiss" id="dismissWebinarFloat"
+        <button class="webinar-float-dismiss" data-close-modal aria-label="Close modal" id="dismissWebinarFloat"
             aria-label="Dismiss notification">&times;</button>
         <div class="webinar-float-body">
             <div class="webinar-float-icon">🎙️</div>
@@ -2802,8 +2926,9 @@
                     <h4>1-on-1 Career Coaching</h4>
                     <p>Personalized sessions tailored for job seekers and career changers targeting remote and
                         international roles.</p>
-                    <a href="#signup"
-                        style="display: inline-block; margin-top: 1rem; color: var(--forest); font-weight: 700; text-decoration: none;">Book
+                    <a href="https://coachli.co/prolaunch_careers/SV-g9WEX"
+                        style="display: inline-block; margin-top: 1rem; color: var(--forest); font-weight: 700; text-decoration: none;"
+                        target="_blank">Book
                         a Session →</a>
                 </div>
                 <div class="service-card reveal reveal-delay-3">
@@ -2877,7 +3002,7 @@
                             <p>A free webinar to help you accelerate your career growth through strategic service and
                                 learn how to position your volunteer experience as job-ready value employers will notice
                             </p>
-                            <button class="event-cta-btn" id="openWebinarModal">
+                            <button class="event-cta-btn" data-modal="webinarModal">
                                 Register to Attend Free
                                 <svg class="icon">
                                     <use href="#icon-arrow"></use>
@@ -2898,10 +3023,11 @@
                             <h4>Mastering the Remote Interview</h4>
                             <p>A free live webinar to help you confidently pass remote interview stages — learn to
                                 answer screening questions, present your experience, and communicate your value.</p>
-                            <a href="https://drive.google.com/file/d/1NT2Qi07vq0UvUiW2PWGMkkPN4tjG364R/view?usp=drivesdk"
-                                target="_blank" rel="noopener" class="event-cta"
-                                aria-label="Access ATS CV Masterclass Replay">Access Replay <i
-                                    class="fa-solid fa-arrow-right"></i></a>
+                            <!-- Past Webinar 1 -->
+                            <button class="event-cta" data-modal="pastWebinarModal-1"
+                                aria-label="Access Remote Interview Replay">
+                                Access Replay <i class="fa-solid fa-arrow-right"></i>
+                            </button>
                         </div>
                     </div>
 
@@ -2931,15 +3057,17 @@
                             <h4>How To Draft ATS Friendly CVs + Personal Branding & Packaging</h4>
                             <p>A deep dive into crafting CVs that beat the bots and branding yourself for premium global
                                 roles.</p>
-                            <a href="https://drive.google.com/file/d/1NT2Qi07vq0UvUiW2PWGMkkPN4tjG364R/view?usp=drivesdk"
-                                target="_blank" rel="noopener" class="event-cta"
-                                aria-label="Access ATS CV Masterclass Replay">Access Replay <i
-                                    class="fa-solid fa-arrow-right"></i></a>
+                            <!-- Past Webinar 2 (ATS CV) -->
+                            <button class="event-cta" data-modal="pastWebinarModal-3"
+                                aria-label="Access ATS CV Masterclass Replay">
+                                Access Replay <i class="fa-solid fa-arrow-right"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
                 <div class="older-webinars">
-                    <a href="#">
+                    <a data-modal="pastWebinarModal-4"
+                                aria-label="Access ATS CV Masterclass Replay">
                         Access Older Webinars
                         <span class="arrow">→</span>
                     </a>
@@ -2948,127 +3076,163 @@
         </section>
 
         <!-- TESTIMONIALS -->
-        <section class="testimonials-section" id="testimonials">
+        <section class="testimonials-section" id="testimonials" aria-label="Testimonials carousel">
             <div class="testimonials-inner">
-                <div class="section-header reveal">
+                <div class="section-header">
                     <span class="section-tag">Success Stories</span>
-                    <h2> What Our Community Is Saying</h2>
-                    <p>Real stories from professionals who transformed their careers using ProLaunch’s programs, tools,
+                    <h2>What Our Community Is Saying</h2>
+                    <p>Real stories from professionals who transformed their careers using ProLaunch's programs, tools,
                         and expert services.</p>
                 </div>
+                <div class="carousel">
+                    <div class="carousel-viewport">
+                        <div class="slides" id="slides">
 
-                <div class="testimonials-grid">
-                    <div class="testimonial-card highlight reveal reveal-delay-1">
-                        <span class="quote-mark"><svg class="icon">
-                                <use href="#icon-quote"></use>
-                            </svg></span>
-                        <div class="testimonial-stars">★★★★★</div>
-                        <p class="testimonial-text">Before joining ProLaunch Career Grooming Camp, I thought being a
-                            generalist was the real deal. But through Coach MQ's structured lessons, I saw clearly how
-                            the corporate world actually works. I realised I had no clear professional identity and
-                            couldn't communicate or position myself Strategically. Now I have a clear porfessional
-                            identity and I'm intentional and strategic in my approach. The Career Grooming Cap didn't
-                            just teach me, it reset my entire career perspective. I'm truely grateful to be part of
-                            ProLaunch Career Grooming Camp.</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar" style="background:#7bb640">ME</div>
-                            <div>
-                                <div class="author-name">Michael Ekanem</div>
-                                <div class="author-role">Now: Executive Virtual Assistant · Cohort 01</div>
+                            <div class="testimonial-card highlight">
+                                <span class="quote-mark"><svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                                        <path
+                                            d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                                    </svg></span>
+                                <div class="testimonial-stars">★★★★★</div>
+                                <p class="testimonial-text">Before joining ProLaunch Career Grooming Camp, I thought
+                                    being a generalist was the real deal. But through Coach MQ's structured lessons, I
+                                    saw clearly how the corporate world actually works. I realised I had no clear
+                                    professional identity and couldn't communicate or position myself strategically. Now
+                                    I have a clear professional identity and I'm intentional and strategic in my
+                                    approach.</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar" style="background:#7bb640">ME</div>
+                                    <div>
+                                        <div class="author-name">Michael Ekanem</div>
+                                        <div class="author-role">Now: Executive Virtual Assistant · Cohort 01</div>
+                                    </div>
+                                </div>
                             </div>
+
+                            <div class="testimonial-card">
+                                <span class="quote-mark"><svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                                        <path
+                                            d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                                    </svg></span>
+                                <div class="testimonial-stars">★★★★★</div>
+                                <p class="testimonial-text">I had no idea my LinkedIn profile was holding me back. After
+                                    the optimization session, my profile views increased dramatically and I started
+                                    getting recruiter messages every week.</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar" style="background:#124745">AN</div>
+                                    <div>
+                                        <div class="author-name">Adaeze Nwosu</div>
+                                        <div class="author-role">Now: Remote Project Coordinator · LinkedIn Optimization
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="testimonial-card">
+                                <span class="quote-mark"><svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                                        <path
+                                            d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                                    </svg></span>
+                                <div class="testimonial-stars">★★★★★</div>
+                                <p class="testimonial-text">The Career Grooming Camp is unlike anything I've
+                                    experienced. Practical, structured, and genuinely focused on getting you results. I
+                                    landed my first remote role one month after completing the program.</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar" style="background:#19a08c">CO</div>
+                                    <div>
+                                        <div class="author-name">Chidi Okoro</div>
+                                        <div class="author-role">Now: Remote Virtual Assistant · Cohort 01</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="testimonial-card">
+                                <span class="quote-mark"><svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                                        <path
+                                            d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                                    </svg></span>
+                                <div class="testimonial-stars">★★★★★</div>
+                                <p class="testimonial-text">The 1-on-1 coaching sessions were incredibly valuable. My
+                                    coach helped me identify exactly what was missing in my job search strategy and gave
+                                    me a clear actionable plan that worked.</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar" style="background:#c0792a">OA</div>
+                                    <div>
+                                        <div class="author-name">Olumide Adebayo</div>
+                                        <div class="author-role">Now: Remote Data Analyst · 1-on-1 Coaching</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="testimonial-card">
+                                <span class="quote-mark"><svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                                        <path
+                                            d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                                    </svg></span>
+                                <div class="testimonial-stars">★★★★★</div>
+                                <p class="testimonial-text">Before ProLaunch I was applying to hundreds of jobs with
+                                    zero response. The ATS-optimized CV they created for me transformed my results — I
+                                    started getting responses immediately.</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar" style="background:#7bb640">IU</div>
+                                    <div>
+                                        <div class="author-name">Ifeoma Uzor</div>
+                                        <div class="author-role">Now: Remote Content Manager · Expert Professional
+                                            Rewrite</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="testimonial-card">
+                                <span class="quote-mark"><svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                                        <path
+                                            d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                                    </svg></span>
+                                <div class="testimonial-stars">★★★★★</div>
+                                <p class="testimonial-text">The portfolio building support was a game changer for me as
+                                    a non-technical professional. I now have a portfolio I'm genuinely proud to send to
+                                    employers.</p>
+                                <div class="testimonial-author">
+                                    <div class="author-avatar" style="background:#124745">BW</div>
+                                    <div>
+                                        <div class="author-name">Babatunde Williams</div>
+                                        <div class="author-role">Now: Remote Operations Analyst · Portfolio Building
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
-                    <div class="testimonial-card reveal reveal-delay-2">
-                        <span class="quote-mark"><svg class="icon">
-                                <use href="#icon-quote"></use>
-                            </svg></span>
-                        <div class="testimonial-stars">★★★★★</div>
-                        <p class="testimonial-text">I had no idea my LinkedIn profile was holding me back. After the
-                            optimization session, my profile views increased dramatically and I started getting
-                            recruiter messages every week.</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar" style="background:#124745">AN</div>
-                            <div>
-                                <div class="author-name">Adaeze Nwosu</div>
-                                <div class="author-role">Now: Remote Project Coordinator · LinkedIn Optimization</div>
-                            </div>
-                        </div>
+                    <div class="carousel-controls">
+                        <button class="nav-btn" id="prev" aria-label="Previous slide" disabled>
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="15 18 9 12 15 6" />
+                            </svg>
+                        </button>
+                        <div class="dots" id="dots" role="tablist" aria-label="Slide indicators"></div>
+                        <button class="nav-btn" id="next" aria-label="Next slide">
+                            <svg viewBox="0 0 24 24">
+                                <polyline points="9 18 15 12 9 6" />
+                            </svg>
+                        </button>
                     </div>
-
-                    <div class="testimonial-card reveal reveal-delay-3">
-                        <span class="quote-mark"><svg class="icon">
-                                <use href="#icon-quote"></use>
-                            </svg></span>
-                        <div class="testimonial-stars">★★★★★</div>
-                        <p class="testimonial-text">The Career Grooming Camp is unlike anything I've experienced.
-                            Practical, structured, and genuinely focused on getting you results. I landed my first
-                            remote role one month after completing the program.</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar" style="background:#19a08c">CO</div>
-                            <div>
-                                <div class="author-name">Chidi Okoro</div>
-                                <div class="author-role">Now: Remote Virtual Assistant · Cohort 01</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="testimonial-card reveal reveal-delay-4">
-                        <span class="quote-mark"><svg class="icon">
-                                <use href="#icon-quote"></use>
-                            </svg></span>
-                        <div class="testimonial-stars">★★★★★</div>
-                        <p class="testimonial-text">The 1-on-1 coaching sessions were incredibly valuable. My coach
-                            helped me identify exactly what was missing in my job search strategy and gave me a clear
-                            actionable plan that worked.</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar" style="background:#c0792a">OA</div>
-                            <div>
-                                <div class="author-name">Olumide Adebayo</div>
-                                <div class="author-role">Now: Remote Data Analyst · 1-on-1 Coaching</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="testimonial-card reveal reveal-delay-5">
-                        <span class="quote-mark"><svg class="icon">
-                                <use href="#icon-quote"></use>
-                            </svg></span>
-                        <div class="testimonial-stars">★★★★★</div>
-                        <p class="testimonial-text">Before ProLaunch I was applying to hundreds of jobs with zero
-                            response. The ATS-optimized CV they created for me transformed my results — I started
-                            getting responses immediately.</p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar" style="background:#7bb640">IU</div>
-                            <div>
-                                <div class="author-name">Ifeoma Uzor</div>
-                                <div class="author-role">Now: Remote Content Manager · Expert Professional Rewrite</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="testimonial-card reveal reveal-delay-1">
-                        <span class="quote-mark"><svg class="icon">
-                                <use href="#icon-quote"></use>
-                            </svg></span>
-                        <div class="testimonial-stars">★★★★★</div>
-                        <p class="testimonial-text">The portfolio building support was a game changer for me as a
-                            non-technical professional. I now have a portfolio I'm genuinely proud to send to employers.
-                        </p>
-                        <div class="testimonial-author">
-                            <div class="author-avatar" style="background:#124745">BW</div>
-                            <div>
-                                <div class="author-name">Babatunde Williams</div>
-                                <div class="author-role">Now: Remote Operations Analyst · Portfolio Building</div>
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
             </div>
         </section>
-
         <!-- CV TOOL -->
         <section class="cv-tool-section" id="cv-tool">
             <div class="cv-tool-inner">
@@ -3297,7 +3461,7 @@
     <!-- WEBINAR REGISTRATION MODAL -->
     <div class="webinar-modal-overlay" id="webinarModal">
         <div class="webinar-modal">
-            <button class="webinar-modal-close" id="closeWebinarModal">&times;</button>
+            <button class="webinar-modal-close" data-close-modal aria-label="Close modal">&times;</button>
             <div class="webinar-modal-header">
                 <span class="webinar-modal-badge"><span class="badge-dot"></span> Free Live Webinar</span>
                 <h3>The Volunteer Edge</h3>
@@ -3309,7 +3473,81 @@
             </div>
             <div class="webinar-modal-form">
                 <iframe
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSeNbT3hkjv_KPpYf4qh5kZDGNCGS5HUVpHsMa8w0obieik-iA/viewform?embedded=true"
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSd1X4_mfAjZggT13yQ0CeSPhCEXcRJu1jflYX1d6NeKRdx4rA/viewform"
+                    title="Webinar Registration Form" loading="lazy">Loading…</iframe>
+            </div>
+        </div>
+    </div>
+
+    <!--PAST WEBINAR REGISTRATION MODAL -->
+    <div class="webinar-modal-overlay" id="pastWebinarModal-1">
+        <div class="webinar-modal">
+            <button class="webinar-modal-close" data-close-modal aria-label="Close modal">&times;</button>
+            <div class="webinar-modal-header">
+                <span class="webinar-modal-badge"><span class="badge-dot"></span>Past Webinar</span>
+                <h3>Mastering the Remote Interview </h3>
+                <div class="webinar-modal-meta">
+                    <span>📍 <strong>Online (Google Meet)</strong></span>
+                </div>
+            </div>
+            <div class="webinar-modal-form">
+                <iframe
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSdZIdk1M8vn6hEULfjALkyQHPKP7bd1VpSrVDyAkhmEaGPuEA/viewform"
+                    title="Webinar Registration Form" loading="lazy">Loading…</iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="webinar-modal-overlay" id="pastWebinarModal-2">
+        <div class="webinar-modal">
+            <button class="webinar-modal-close" data-close-modal aria-label="Close modal">&times;</button>
+            <div class="webinar-modal-header">
+                <span class="webinar-modal-badge"><span class="badge-dot"></span>Past Webinar</span>
+                <h3>How To Draft ATS Friendly CVs + Personal & Packaging</h3>
+                <div class="webinar-modal-meta">
+
+                    <span>📍 <strong>Online (Google Meet)</strong></span>
+                </div>
+            </div>
+            <div class="webinar-modal-form">
+                <iframe
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSdvrioK9KzQ-tbh4LlaGBDiYfGzAvmp0nvZsXJUM0YQIggmIQ/viewform"
+                    title="Past Webinar Registration Form" loading="lazy">Loading…</iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="webinar-modal-overlay" id="pastWebinarModal-3">
+        <div class="webinar-modal">
+            <button class="webinar-modal-close" data-close-modal aria-label="Close modal">&times;</button>
+            <div class="webinar-modal-header">
+                <span class="webinar-modal-badge"><span class="badge-dot"></span>Past Webinar</span>
+                <h3>How To Draft ATS Friendly CVs + Personal & Packaging </h3>
+                <div class="webinar-modal-meta">
+                    <span>📍 <strong>Online (Google Meet)</strong></span>
+                </div>
+            </div>
+            <div class="webinar-modal-form">
+                <iframe
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSdvrioK9KzQ-tbh4LlaGBDiYfGzAvmp0nvZsXJUM0YQIggmIQ/viewform"
+                    title="Webinar Registration Form" loading="lazy">Loading…</iframe>
+            </div>
+        </div>
+    </div>
+
+    <div class="webinar-modal-overlay" id="pastWebinarModal-4">
+        <div class="webinar-modal">
+            <button class="webinar-modal-close" data-close-modal aria-label="Close modal">&times;</button>
+            <div class="webinar-modal-header">
+                <span class="webinar-modal-badge"><span class="badge-dot"></span>Past Webinar</span>
+                <h3>How your LinkedIn is Costing you Opportunities</h3>
+                <div class="webinar-modal-meta">
+                    <span>📍 <strong>Online (Google Meet)</strong></span>
+                </div>
+            </div>
+            <div class="webinar-modal-form">
+                <iframe
+                    src="https://docs.google.com/forms/d/e/1FAIpQLScfinuIn-J4Fp7aPmHxice5A-c6eblwb9hY9CXUrOFqtH-X0A/viewform"
                     title="Webinar Registration Form" loading="lazy">Loading…</iframe>
             </div>
         </div>
