@@ -10,10 +10,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.getElementById('closeModal');
     const submitBtn = document.getElementById('submitBtn');
     const formResponse = document.getElementById('formResponse');
-    
+
     // ── GA4 Global Queue (Ensures events aren't lost)
     window.dataLayer = window.dataLayer || [];
-    window.gtag = window.gtag || function(){ window.dataLayer.push(arguments); };
+    window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
 
     // ── 2. PASSIVE SCROLL (INP FIX)
     let lastScrollY = 0;
@@ -73,14 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entry.isIntersecting) {
                 const el = entry.target;
                 if (el.hasAttribute('data-animated')) return;
-                
+
                 el.setAttribute('data-animated', 'true');
                 const targetText = el.getAttribute('data-target') || el.textContent.trim();
                 const num = parseFloat(targetText.replace(/,/g, ''));
-                const suffix = targetText.replace(/[0-9.,]/g, ''); 
-                
+                const suffix = targetText.replace(/[0-9.,]/g, '');
+
                 let start = 0;
-                const duration = 1500; 
+                const duration = 1500;
                 let startTime = null;
 
                 const animate = (currentTime) => {
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const progress = Math.min((currentTime - startTime) / duration, 1);
                     const currentNum = Math.floor(progress * num);
                     const nextText = currentNum.toLocaleString() + suffix;
-                    
+
                     if (el.textContent !== nextText) {
                         el.textContent = nextText;
                     }
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (progress < 1) {
                         window.requestAnimationFrame(animate);
                     } else {
-                        el.textContent = targetText; 
+                        el.textContent = targetText;
                     }
                 };
                 window.requestAnimationFrame(animate);
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const text = el.textContent.trim();
             const num = parseFloat(text.replace(/,/g, ''));
             if (isNaN(num) || num < 2) return;
-            
+
             const suffix = text.replace(/[0-9.,]/g, '');
             el.setAttribute('data-target', text);
             el.textContent = '0' + suffix;
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.style.display = 'flex';
         window.requestAnimationFrame(() => {
             modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden';
         });
     };
 
@@ -192,9 +192,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 2. VALIDATION LAYER (Fixes empty submissions and junk data)
             let errors = [];
-            
+
             if (!first_name || !last_name) errors.push("Please enter your full name.");
-            
+
             // Email Regex (Simple but effective)
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!email || !emailRegex.test(email)) errors.push("Please enter a valid email address.");
@@ -247,9 +247,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
 
-                trackEvent('lead_form_submitted', payloadBase.interest); 
+                trackEvent('lead_form_submitted', payloadBase.interest);
                 localStorage.setItem('registered_email', payloadBase.email);
-                
+
                 setTimeout(() => {
                     if (typeof CONFIG !== 'undefined' && CONFIG.SUCCESS_PAGE_URL) {
                         window.location.href = CONFIG.SUCCESS_PAGE_URL;
@@ -278,70 +278,164 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href*="cv-optimizer"]').forEach(link => {
         link.addEventListener('click', () => trackEvent('click_cv_tool', 'Outbound to Analyzer'));
     });
+    
 
-    // ── WEBINAR MODAL
-    const webinarModal = document.getElementById('webinarModal');
-    const openWebinarBtn = document.getElementById('openWebinarModal');
-    const closeWebinarBtn = document.getElementById('closeWebinarModal');
-
-    const openWebinarModal = () => {
-        if (!webinarModal) return;
-        webinarModal.style.display = 'flex';
-        window.requestAnimationFrame(() => {
-            webinarModal.classList.add('active');
+    // ── WEBINAR MODAL HELPERS
+     const openWebinarModal = (modalId) => {
+        const modal = document.getElementById(modalId);
+        if (!modal) return;
+        modal.style.display = 'flex';
+        requestAnimationFrame(() => {
+            modal.classList.add('active');
             document.body.style.overflow = 'hidden';
         });
-        trackEvent('open_webinar_modal', 'Mastering the Remote Interview');
+        trackEvent('open_modal', modalId);
     };
 
-    const closeWebinarModal = () => {
-        if (!webinarModal) return;
-        webinarModal.classList.remove('active');
+    const closeWebinarModal = (modal) => {
+        if (!modal) return;
+        modal.classList.remove('active');
         setTimeout(() => {
-            webinarModal.style.display = 'none';
+            modal.style.display = 'none';
             document.body.style.overflow = '';
         }, 350);
     };
 
-    if (openWebinarBtn) {
-        openWebinarBtn.addEventListener('click', openWebinarModal);
-    }
+    // ── OPEN: any button with [data-modal] attribute
+    document.addEventListener('click', (e) => {
+        const trigger = e.target.closest('[data-modal]');
+        if (trigger) openWebinarModal(trigger.dataset.modal);
+    });
 
-    if (closeWebinarBtn) {
-        closeWebinarBtn.addEventListener('click', closeWebinarModal);
-    }
+    
+    document.addEventListener('click', (e) => {
+        // Close button inside modal
+        if (e.target.closest('[data-close-modal]')) {
+            closeWebinarModal(e.target.closest('.webinar-modal-overlay')); 
+            return;
+        }
+        // Backdrop click (click directly on the modal overlay)
+        if (e.target.classList.contains('webinar-modal-overlay')) {   
+            closeWebinarModal(e.target);
+        }
+    });
 
-    if (webinarModal) {
-        webinarModal.addEventListener('click', (e) => {
-            if (e.target === webinarModal) closeWebinarModal();
-        });
-    }
-
-    // ── FLOATING WEBINAR BANNER
+    // ── FLOATING WEBINAR BANNER ────────────────────────────────────────
     const webinarFloat = document.getElementById('webinarFloat');
     const dismissFloatBtn = document.getElementById('dismissWebinarFloat');
 
     if (webinarFloat && !sessionStorage.getItem('webinar_float_dismissed')) {
-        setTimeout(() => {
-            webinarFloat.classList.add('visible');
-        }, 2000);
+        setTimeout(() => webinarFloat.classList.add('visible'), 2000);
 
-        // Click banner body → open modal
         webinarFloat.addEventListener('click', (e) => {
             if (e.target.closest('#dismissWebinarFloat')) return;
-            openWebinarModal();
-            webinarFloat.classList.remove('visible');
-            webinarFloat.classList.add('dismissed');
+            openWebinarModal('webinarModal');
+            webinarFloat.classList.replace('visible', 'dismissed');
         });
 
-        // Dismiss button
-        if (dismissFloatBtn) {
-            dismissFloatBtn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                webinarFloat.classList.remove('visible');
-                webinarFloat.classList.add('dismissed');
-                sessionStorage.setItem('webinar_float_dismissed', '1');
-            });
+        dismissFloatBtn?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            webinarFloat.classList.replace('visible', 'dismissed');
+            sessionStorage.setItem('webinar_float_dismissed', '1');
+        });
+    }
+
+});
+
+// Carousel logic
+
+(function () {
+    const slidesEl = document.getElementById('slides');
+    const prevBtn = document.getElementById('prev');
+    const nextBtn = document.getElementById('next');
+    const dotsEl = document.getElementById('dots');
+    const cards = Array.from(slidesEl.querySelectorAll('.testimonial-card'));
+
+    let current = 0;
+    let perView = 1;
+    let autoTimer = null;
+
+    function getPerView() {
+        const w = slidesEl.parentElement.offsetWidth;
+        if (w <= 700) return 1;
+        if (w <= 960) return 2;
+        return 3;
+    }
+
+    function maxIndex() {
+        return Math.max(0, cards.length - perView);
+    }
+
+    function buildDots() {
+        dotsEl.innerHTML = '';
+        const count = maxIndex() + 1;
+        for (let i = 0; i < count; i++) {
+            const d = document.createElement('button');
+            d.className = 'dot' + (i === current ? ' active' : '');
+            d.setAttribute('role', 'tab');
+            d.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+            d.addEventListener('click', () => goTo(i));
+            dotsEl.appendChild(d);
         }
     }
-});
+
+    function updateDots() {
+        const ds = dotsEl.querySelectorAll('.dot');
+        ds.forEach((d, i) => d.classList.toggle('active', i === current));
+    }
+
+    function getOffset() {
+        const card = cards[0];
+        const gap = 24;
+        return current * (card.offsetWidth + gap);
+    }
+
+    function goTo(idx) {
+        perView = getPerView();
+        current = Math.max(0, Math.min(idx, maxIndex()));
+        slidesEl.style.transform = `translateX(-${getOffset()}px)`;
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current >= maxIndex();
+        updateDots();
+    }
+
+    function next() { goTo(current + 1); }
+    function prev() { goTo(current - 1); }
+
+    prevBtn.addEventListener('click', () => { prev(); resetAuto(); });
+    nextBtn.addEventListener('click', () => { next(); resetAuto(); });
+
+    function startAuto() {
+        autoTimer = setInterval(() => {
+            goTo(current >= maxIndex() ? 0 : current + 1);
+        }, 4500);
+    }
+
+    function resetAuto() {
+        clearInterval(autoTimer);
+        startAuto();
+    }
+
+    let touchStartX = 0;
+    slidesEl.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    slidesEl.addEventListener('touchend', e => {
+        const dx = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(dx) > 40) { dx > 0 ? next() : prev(); resetAuto(); }
+    }, { passive: true });
+
+    function init() {
+        perView = getPerView();
+        current = 0;
+        buildDots();
+        goTo(0);
+        startAuto();
+    }
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => { init(); }, 120);
+    });
+
+    init();
+})();
