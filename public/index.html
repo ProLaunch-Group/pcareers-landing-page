@@ -1984,15 +1984,24 @@
             margin-top: auto;
             font-weight: 700;
             text-decoration: none;
+            background: var(--green-light);
             color: var(--forest);
-            display: flex;
+            border-radius: 10px;
+            border: none;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
-            transition: color 0.2s;
+            margin-top: auto;
+            padding: 0.7rem 1.4rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            text-decoration: none;
         }
 
         .event-cta:hover {
-            color: var(--green-dark);
+            transform: translateY(-2px);
+            background: var(--green);
+            color: white;
         }
 
         @media (max-width: 992px) {
@@ -2399,12 +2408,13 @@
             display: inline-flex;
             align-items: center;
             gap: .5rem;
-            padding: .9rem 1.4rem;
-            border-radius: 999px;
+            padding: 0.7rem 1.4rem;
+            border-radius: 10px;
             background: var(--green-light);
             color: var(--forest);
             text-decoration: none;
             font-weight: 700;
+            cursor: pointer;
             transition: all .25s ease;
         }
 
@@ -3026,7 +3036,9 @@
                             <!-- Past Webinar 1 -->
                             <button class="event-cta" data-modal="pastWebinarModal-1"
                                 aria-label="Access Remote Interview Replay">
-                                Access Replay <i class="fa-solid fa-arrow-right"></i>
+                                Access Replay <svg class="icon">
+                                    <use href="#icon-arrow"></use>
+                                </svg></i>
                             </button>
                         </div>
                     </div>
@@ -3060,14 +3072,15 @@
                             <!-- Past Webinar 2 (ATS CV) -->
                             <button class="event-cta" data-modal="pastWebinarModal-3"
                                 aria-label="Access ATS CV Masterclass Replay">
-                                Access Replay <i class="fa-solid fa-arrow-right"></i>
+                                Access Replay <svg class="icon">
+                                    <use href="#icon-arrow"></use>
+                                </svg>
                             </button>
                         </div>
                     </div>
                 </div>
                 <div class="older-webinars">
-                    <a data-modal="pastWebinarModal-4"
-                                aria-label="Access ATS CV Masterclass Replay">
+                    <a data-modal="pastWebinarModal-4" aria-label="Access ATS CV Masterclass Replay">
                         Access Older Webinars
                         <span class="arrow">→</span>
                     </a>
@@ -3214,6 +3227,84 @@
                                 </div>
                             </div>
 
+                            <div class="testimonial-card">
+                                <span class="quote-mark"><svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                                        <path
+                                            d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                                    </svg></span>
+                                <div class="testimonial-stars">★★★★★</div>
+                                <p class="testimonial-text">ProLaunch Career Grooming Camp was a turning point for me.
+                                    As someone who has been working onsite all through my career period and trying to
+                                    navigate my way into the remote space without clarity, I must say thisnis a total
+                                    turn around for me. From CV refinement to personal branding, every session was
+                                    practical and impactful. I now step into the remote space with clarity, confidence,
+                                    and a sharper professional identity. Highly recommend this to any professional ready
+                                    to take their career to the next level.</p>
+                                <div class="testimonial-author">
+                                    <div><img src="./assets/images/ijeoma.jpeg" alt="Ijeoma Elizabeth Ejimofor"
+                                            class="author-avatar" style="background:#124745" /></div>
+                                    <div>
+                                        <div class="author-name">Ijeoma Elizabeth Ejimofor</div>
+                                        <div class="author-role">Now: Administrative/Procurement Officer
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="testimonial-card">
+                                <span class="quote-mark"><svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                                        <path
+                                            d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                                    </svg></span>
+                                <div class="testimonial-stars">★★★★★</div>
+                                <p class="testimonial-text">Prolaunch Careers grooming camp helped me to optimise how
+                                    interviewers and people see me by helping me improve my cv, LinkedIn and provide
+                                    clarity on my career path as well as steps to take. This has helped me greatly in
+                                    knowing what jobs to apply for and what to do to ace interviews.</p>
+                                <div class="testimonial-author">
+                                    <div><img src="./assets/images/nana.jpeg" alt="Ijeoma Elizabeth Ejimofor"
+                                            class="author-avatar" style="background:#124745" /></div>
+                                    <div>
+                                        <div class="author-name">Nana Yaa Akyiaa Asamoah</div>
+                                        <div class="author-role">Now: Reconciliation Analyst
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="testimonial-card">
+                                <span class="quote-mark"><svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                                        <path
+                                            d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                                    </svg></span>
+                                <div class="testimonial-stars">★★★★★</div>
+                                <p class="testimonial-text">
+
+                                    Joining Prolaunch Career Grooming Camp has been one of the best decision I've made
+                                    because it has been a transformative experience. It has helped me build confidence,
+                                    it has given me clarity on the actual path I want to walk, and also understanding
+                                    what it means to grow in this competitive world. Through the session, assignments
+                                    and mentorship, I've learnt how to present myself better and approach opportunities
+                                    with the mindset of growth. I am grateful for the opportunity to learn and grow
+                                    along side other great minds. Thank you Coach MQ for creating such impactful
+                                    platform. To the Prolaunch Career Grooming Camp team, you guys are amazing I look
+                                    forward to applying what I've learnt as I continue to build my career</p>
+                                <div class="testimonial-author">
+                                    <div><img src="./assets/images/helen.jpeg" alt="Helen Okon"
+                                            class="author-avatar" style="background:#124745" /></div>
+                                    <div>
+                                        <div class="author-name">Helen Okon</div>
+                                        <div class="author-role">Now: Customer Support
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
