@@ -2563,13 +2563,13 @@
         <div class="webinar-float-body">
             <div class="webinar-float-icon">🎙️</div>
             <div class="webinar-float-text">
-                <div class="webinar-float-label"><span class="dot"></span> Free Live Webinar</div>
+                <div class="webinar-float-label"><span class="dot"></span> Free Live Webinar Recording</div>
                 <div class="webinar-float-title">The Volunteer Edge</div>
                 <div class="webinar-float-meta">May 30, 2026 · 7:00 PM · Online</div>
             </div>
         </div>
-        <div class="webinar-float-cta">
-            <span>Register to Attend Free</span>
+        <div class="webinar-float-cta" data-modal="pastWebinarModal-5">
+            <span>Access Replay</span>
             <svg class="icon">
                 <use href="#icon-arrow"></use>
             </svg>
@@ -3000,20 +3000,22 @@
 
                 <div class="events-grid">
                     <!-- Event 4 (Upcoming Webinar) -->
-                    <div class="event-card upcoming-highlight reveal reveal-delay-1">
+                     <!-- style to add upcoming-highlight -->
+                    <div class="event-card reveal reveal-delay-1">
                         <div class="event-header">
-                            <span class="event-badge upcoming">Upcoming Webinar</span>
+                            <span class="event-badge upcoming">Past Webinar</span>
                             <img src="assets/images/event-4.webp" loading="lazy" alt="The Volunteer Edge"
                                 class="event-img">
                         </div>
                         <div class="event-body">
-                            <div class="event-date">May 30, 2026 · 7:00 PM · Online (Google Meet)</div>
+                            <div class="event-date">Live Masterclass Replay</div>
                             <h4>The Volunteer Edge</h4>
                             <p>A free webinar to help you accelerate your career growth through strategic service and
                                 learn how to position your volunteer experience as job-ready value employers will notice
                             </p>
-                            <button class="event-cta-btn" data-modal="webinarModal">
-                                Register to Attend Free
+                            <button class="event-cta" data-modal="pastWebinarModal-5"
+                                aria-label="Access Remote Interview Replay">
+                                Access Replay
                                 <svg class="icon">
                                     <use href="#icon-arrow"></use>
                                 </svg>
@@ -3550,21 +3552,21 @@
     </div>
 
     <!-- WEBINAR REGISTRATION MODAL -->
-    <div class="webinar-modal-overlay" id="webinarModal">
+    <div class="webinar-modal-overlay" id="pastWebinarModal-5">
         <div class="webinar-modal">
             <button class="webinar-modal-close" data-close-modal aria-label="Close modal">&times;</button>
             <div class="webinar-modal-header">
-                <span class="webinar-modal-badge"><span class="badge-dot"></span> Free Live Webinar</span>
+                <span class="webinar-modal-badge"><span class="badge-dot"></span> Past Webinar</span>
                 <h3>The Volunteer Edge</h3>
                 <div class="webinar-modal-meta">
-                    <span>📅 <strong>May 30, 2026</strong></span>
-                    <span>🕖 <strong>7:00 PM</strong></span>
+                    <!-- <span>📅 <strong>May 30, 2026</strong></span>
+                    <span>🕖 <strong>7:00 PM</strong></span> -->
                     <span>📍 <strong>Online (Google Meet)</strong></span>
                 </div>
             </div>
             <div class="webinar-modal-form">
                 <iframe
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSd1X4_mfAjZggT13yQ0CeSPhCEXcRJu1jflYX1d6NeKRdx4rA/viewform"
+                    src="https://docs.google.com/forms/d/e/1FAIpQLSfizpQrQN4YucHd-eQkoMPcfjcb7p2t04IzpiX6r-6_5V2LwA/viewform"
                     title="Webinar Registration Form" loading="lazy">Loading…</iframe>
             </div>
         </div>
