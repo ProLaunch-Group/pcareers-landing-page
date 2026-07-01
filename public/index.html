@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <meta name="google-site-verification" content="UaFg0TI-7eX0_lvpdnHT7ABjBfPykqzC5xrVGzBddEc" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProLaunch Careers | Land Your Remote Career</title>
@@ -870,9 +871,18 @@
             width: 30.33%;
             flex-shrink: 0;
             border: 1px solid #edf2e8;
-            transition: box-shadow 0.3s, transform 0.3s;
+            transition: box-shadow 0.3s, transform 0.3s, height 0.3s;
             display: flex;
-            flex-direction: column
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .testimonial-card.collapsed {
+            height: 400px;
+        }
+
+        .testimonial-card.expanded {
+            height: auto;
         }
 
         .testimonial-card:hover {
@@ -937,6 +947,29 @@
         .author-role {
             font-size: 0.75rem;
             color: var(--text-muted)
+        }
+
+        .testimonial-read-more {
+            margin-top: 1rem;
+            font-weight: 700;
+            text-decoration: none;
+            background: var(--green-light);
+            color: var(--forest);
+            border-radius: 10px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.7rem 1.4rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .testimonial-read-more:hover {
+            transform: translateY(-2px);
+            background: var(--green);
+            color: white;
         }
 
         .carousel-controls {
@@ -3000,7 +3033,7 @@
 
                 <div class="events-grid">
                     <!-- Event 4 (Upcoming Webinar) -->
-                     <!-- style to add upcoming-highlight -->
+                    <!-- style to add upcoming-highlight -->
                     <div class="event-card reveal reveal-delay-1">
                         <div class="event-header">
                             <span class="event-badge upcoming">Past Webinar</span>
@@ -3111,7 +3144,7 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text">Before joining ProLaunch Career Grooming Camp, I thought
+                                <p class="testimonial-text" data-full-text="Before joining ProLaunch Career Grooming Camp, I thought being a generalist was the real deal. But through Coach MQ's structured lessons, I saw clearly how the corporate world actually works. I realised I had no clear professional identity and couldn't communicate or position myself strategically. Now I have a clear professional identity and I'm intentional and strategic in my approach.">Before joining ProLaunch Career Grooming Camp, I thought
                                     being a generalist was the real deal. But through Coach MQ's structured lessons, I
                                     saw clearly how the corporate world actually works. I realised I had no clear
                                     professional identity and couldn't communicate or position myself strategically. Now
@@ -3124,6 +3157,7 @@
                                         <div class="author-role">Now: Executive Virtual Assistant · Cohort 01</div>
                                     </div>
                                 </div>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3134,7 +3168,7 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text">I had no idea my LinkedIn profile was holding me back. After
+                                <p class="testimonial-text" data-full-text="I had no idea my LinkedIn profile was holding me back. After the optimization session, my profile views increased dramatically and I started getting recruiter messages every week.">I had no idea my LinkedIn profile was holding me back. After
                                     the optimization session, my profile views increased dramatically and I started
                                     getting recruiter messages every week.</p>
                                 <div class="testimonial-author">
@@ -3145,6 +3179,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3155,7 +3190,7 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text">The Career Grooming Camp is unlike anything I've
+                                <p class="testimonial-text" data-full-text="The Career Grooming Camp is unlike anything I've experienced. Practical, structured, and genuinely focused on getting you results. I landed my first remote role one month after completing the program.">The Career Grooming Camp is unlike anything I've
                                     experienced. Practical, structured, and genuinely focused on getting you results. I
                                     landed my first remote role one month after completing the program.</p>
                                 <div class="testimonial-author">
@@ -3165,6 +3200,7 @@
                                         <div class="author-role">Now: Remote Virtual Assistant · Cohort 01</div>
                                     </div>
                                 </div>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3175,7 +3211,7 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text">The 1-on-1 coaching sessions were incredibly valuable. My
+                                <p class="testimonial-text" data-full-text="The 1-on-1 coaching sessions were incredibly valuable. My coach helped me identify exactly what was missing in my job search strategy and gave me a clear actionable plan that worked.">The 1-on-1 coaching sessions were incredibly valuable. My
                                     coach helped me identify exactly what was missing in my job search strategy and gave
                                     me a clear actionable plan that worked.</p>
                                 <div class="testimonial-author">
@@ -3185,6 +3221,7 @@
                                         <div class="author-role">Now: Remote Data Analyst · 1-on-1 Coaching</div>
                                     </div>
                                 </div>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3195,7 +3232,7 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text">Before ProLaunch I was applying to hundreds of jobs with
+                                <p class="testimonial-text" data-full-text="Before ProLaunch I was applying to hundreds of jobs with zero response. The ATS-optimized CV they created for me transformed my results — I started getting responses immediately.">Before ProLaunch I was applying to hundreds of jobs with
                                     zero response. The ATS-optimized CV they created for me transformed my results — I
                                     started getting responses immediately.</p>
                                 <div class="testimonial-author">
@@ -3206,6 +3243,7 @@
                                             Rewrite</div>
                                     </div>
                                 </div>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3216,7 +3254,7 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text">The portfolio building support was a game changer for me as
+                                <p class="testimonial-text" data-full-text="The portfolio building support was a game changer for me as a non-technical professional. I now have a portfolio I'm genuinely proud to send to employers.">The portfolio building support was a game changer for me as
                                     a non-technical professional. I now have a portfolio I'm genuinely proud to send to
                                     employers.</p>
                                 <div class="testimonial-author">
@@ -3227,6 +3265,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3237,7 +3276,7 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text">ProLaunch Career Grooming Camp was a turning point for me.
+                                <p class="testimonial-text" data-full-text="ProLaunch Career Grooming Camp was a turning point for me. As someone who has been working onsite all through my career period and trying to navigate my way into the remote space without clarity, I must say thisnis a total turn around for me. From CV refinement to personal branding, every session was practical and impactful. I now step into the remote space with clarity, confidence, and a sharper professional identity. Highly recommend this to any professional ready to take their career to the next level.">ProLaunch Career Grooming Camp was a turning point for me.
                                     As someone who has been working onsite all through my career period and trying to
                                     navigate my way into the remote space without clarity, I must say thisnis a total
                                     turn around for me. From CV refinement to personal branding, every session was
@@ -3245,7 +3284,7 @@
                                     and a sharper professional identity. Highly recommend this to any professional ready
                                     to take their career to the next level.</p>
                                 <div class="testimonial-author">
-                                    <div><img src="./assets/images/ijeoma.jpeg" alt="Ijeoma Elizabeth Ejimofor"
+                                    <div><img src="./assets/images/ijeoma.webp" alt="Ijeoma Elizabeth Ejimofor"
                                             class="author-avatar" style="background:#124745" /></div>
                                     <div>
                                         <div class="author-name">Ijeoma Elizabeth Ejimofor</div>
@@ -3253,6 +3292,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3263,12 +3303,12 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text">Prolaunch Careers grooming camp helped me to optimise how
+                                <p class="testimonial-text" data-full-text="Prolaunch Careers grooming camp helped me to optimise how interviewers and people see me by helping me improve my cv, LinkedIn and provide clarity on my career path as well as steps to take. This has helped me greatly in knowing what jobs to apply for and what to do to ace interviews.">Prolaunch Careers grooming camp helped me to optimise how
                                     interviewers and people see me by helping me improve my cv, LinkedIn and provide
                                     clarity on my career path as well as steps to take. This has helped me greatly in
                                     knowing what jobs to apply for and what to do to ace interviews.</p>
                                 <div class="testimonial-author">
-                                    <div><img src="./assets/images/nana.jpeg" alt="Ijeoma Elizabeth Ejimofor"
+                                    <div><img src="./assets/images/nana.webp" alt="Ijeoma Elizabeth Ejimofor"
                                             class="author-avatar" style="background:#124745" /></div>
                                     <div>
                                         <div class="author-name">Nana Yaa Akyiaa Asamoah</div>
@@ -3276,6 +3316,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3286,8 +3327,7 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text">
-
+                                <p class="testimonial-text" data-full-text="Joining Prolaunch Career Grooming Camp has been one of the best decision I've made because it has been a transformative experience. It has helped me build confidence, it has given me clarity on the actual path I want to walk, and also understanding what it means to grow in this competitive world. Through the session, assignments and mentorship, I've learnt how to present myself better and approach opportunities with the mindset of growth. I am grateful for the opportunity to learn and grow along side other great minds. Thank you Coach MQ for creating such impactful platform. To the Prolaunch Career Grooming Camp team, you guys are amazing I look forward to applying what I've learnt as I continue to build my career">
                                     Joining Prolaunch Career Grooming Camp has been one of the best decision I've made
                                     because it has been a transformative experience. It has helped me build confidence,
                                     it has given me clarity on the actual path I want to walk, and also understanding
@@ -3298,15 +3338,82 @@
                                     platform. To the Prolaunch Career Grooming Camp team, you guys are amazing I look
                                     forward to applying what I've learnt as I continue to build my career</p>
                                 <div class="testimonial-author">
-                                    <div><img src="./assets/images/helen.jpeg" alt="Helen Okon"
-                                            class="author-avatar" style="background:#124745" /></div>
+                                    <div><img src="./assets/images/helen.webp" alt="Helen Okon" class="author-avatar"
+                                            style="background:#124745" /></div>
                                     <div>
                                         <div class="author-name">Helen Okon</div>
                                         <div class="author-role">Now: Customer Support
                                         </div>
                                     </div>
                                 </div>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
                             </div>
+
+                            <div class="testimonial-card">
+                                <span class="quote-mark"><svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                                        <path
+                                            d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                                    </svg></span>
+                                <div class="testimonial-stars">★★★★★</div>
+                                <p class="testimonial-text" data-full-text="My experience with the ProLaunch Career Grooming Camp has been amazing and truly eye opening. Before joining, I had the desire to grow professionally, but I lacked structure and a clear strategy. Throughout the program, I learned how to approach my job search intentionally, improve my CV and LinkedIn profile, build my personal brand, and position myself for opportunities. What stood out most for me was my amazing and very supportive coach and the practical lessons that I could apply immediately. Overall, the experience has boosted my confidence and given me a clearer direction for my career. I'm grateful I took the step to join.">My experience with the ProLaunch Career Grooming Camp has
+                                    been amazing and truly eye opening. Before joining, I had the desire to grow
+                                    professionally, but I lacked structure and a clear strategy. Throughout the program,
+                                    I learned how to approach my job search intentionally, improve my CV and LinkedIn
+                                    profile, build my personal brand, and position myself for opportunities. What stood
+                                    out most for me was my amazing and very supportive coach and the practical lessons
+                                    that I could apply immediately. Overall, the experience has boosted my confidence
+                                    and given me a clearer direction for my career. I'm grateful I took the step to
+                                    join.</p>
+                                <div class="testimonial-author">
+                                    <div><img src="./assets/images/rebecca.webp" alt="Rebecca Ogbonna"
+                                            class="author-avatar" style="background:#124745" /></div>
+                                    <div>
+                                        <div class="author-name">Rebecca Ogbonna</div>
+                                        <!-- <div class="author-role">Now: Reconciliation Analyst
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                            </div>
+
+                            <div class="testimonial-card">
+                                <span class="quote-mark"><svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+                                        <path
+                                            d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
+                                    </svg></span>
+                                <div class="testimonial-stars">★★★★★</div>
+                                <p class="testimonial-text" data-full-text="Before joining ProLaunch Career Grooming Camp, I had the skills and experience, but I was not confident about how to present them effectively. The program helped me gain clarity, improve my communication, and understand how to position myself for opportunities. One of the biggest benefits for me was learning how to answer interview questions confidently using the STAR practical framework. It also helped me identify my strengths and communicate my value more effectively. In the course of the program, I applied for a job role; the next day I received mail for an interview. I did the interview, and successfully I've been passed to the second phase of the interview. Today, I feel more prepared, confident, and intentional about my career growth. ProLaunch has helped me develop a mindset of continuous growth and professional excellence. I would highly recommend it to anyone looking to advance their career and increase their confidence in the job market.">Before joining ProLaunch Career Grooming Camp, I had the
+                                    skills and experience, but I was not confident about how to present them
+                                    effectively. The program helped me gain clarity, improve my communication, and
+                                    understand how to position myself for opportunities.
+
+                                    One of the biggest benefits for me was learning how to answer interview questions
+                                    confidently using the STAR practical framework. It also helped me identify my
+                                    strengths and communicate my value more effectively. In the course of the program, I
+                                    applied for a job role; the next day I received mail for an interview. I did the
+                                    interview, and successfully I've been passed to the second phase of the interview.
+
+                                    Today, I feel more prepared, confident, and intentional about my career growth.
+                                    ProLaunch has helped me develop a mindset of continuous growth and professional
+                                    excellence. I would highly recommend it to anyone looking to advance their career
+                                    and increase their confidence in the job market.</p>
+                                <div class="testimonial-author">
+                                    <div><img src="./assets/images/okon.webp" alt="Idaraobong Okon"
+                                            class="author-avatar" style="background:#124745" /></div>
+                                    <div>
+                                        <div class="author-name">Idaraobong Okon</div>
+                                        <!-- <div class="author-role">Now: Reconciliation Analyst
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                            </div>
+
+
                         </div>
                     </div>
 
