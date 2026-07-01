@@ -278,10 +278,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href*="cv-optimizer"]').forEach(link => {
         link.addEventListener('click', () => trackEvent('click_cv_tool', 'Outbound to Analyzer'));
     });
-    
+
 
     // ── WEBINAR MODAL HELPERS
-     const openWebinarModal = (modalId) => {
+    const openWebinarModal = (modalId) => {
         const modal = document.getElementById(modalId);
         if (!modal) return;
         modal.style.display = 'flex';
@@ -307,15 +307,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (trigger) openWebinarModal(trigger.dataset.modal);
     });
 
-    
+
     document.addEventListener('click', (e) => {
         // Close button inside modal
         if (e.target.closest('[data-close-modal]')) {
-            closeWebinarModal(e.target.closest('.webinar-modal-overlay')); 
+            closeWebinarModal(e.target.closest('.webinar-modal-overlay'));
             return;
         }
         // Backdrop click (click directly on the modal overlay)
-        if (e.target.classList.contains('webinar-modal-overlay')) {   
+        if (e.target.classList.contains('webinar-modal-overlay')) {
             closeWebinarModal(e.target);
         }
     });
@@ -439,3 +439,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     init();
 })();
+
+ // Testimonial Read More Toggle Function
+    const TESTIMONIAL_PREVIEW_LENGTH = 100;
+
+    function setTestimonialState(testimonialCard, isOpen) {
+        const textElement = testimonialCard.querySelector('.testimonial-text');
+        const button = testimonialCard.querySelector('.testimonial-read-more');
+        const fullText = textElement?.getAttribute('data-full-text');
+
+        if (!textElement || !button || !fullText) return;
+
+        if (isOpen) {
+            textElement.textContent = fullText;
+            button.textContent = 'Read Less';
+            button.setAttribute('data-open', 'true');
+            testimonialCard.classList.add('expanded');
+            testimonialCard.classList.remove('collapsed');
+        } else {
+            const truncatedText = fullText.length > TESTIMONIAL_PREVIEW_LENGTH
+                ? fullText.substring(0, TESTIMONIAL_PREVIEW_LENGTH).trim() + '...'
+                : fullText;
+            textElement.textContent = truncatedText;
+            button.textContent = 'Read More';
+            button.setAttribute('data-open', 'false');
+            testimonialCard.classList.add('collapsed');
+            testimonialCard.classList.remove('expanded');
+        }
+    }
+
+    function toggleTestimonial(button) {
+        const testimonialCard = button.closest('.testimonial-card');
+        const isOpen = button.getAttribute('data-open') === 'true';
+        setTestimonialState(testimonialCard, !isOpen);
+    }
+
+    function initializeTestimonialCards() {
+        const testimonialCards = Array.from(document.querySelectorAll('.testimonial-card'));
+        testimonialCards.forEach(card => setTestimonialState(card, false));
+    }
+
+    initializeTestimonialCards();
