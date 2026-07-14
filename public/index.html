@@ -10,10 +10,11 @@
         content="ProLaunch Careers helps early-career African professionals land competitive remote jobs through expert coaching, CV optimization, and structured career programs.">
     <meta property="og:title" content="ProLaunch Careers | Land Your Remote Career">
     <meta property="og:description"
-        content="Join 2000+ African professionals who've transformed their careers. Cohort 03 enrollment is now open.">
+        content="Join 2000+ African professionals who've transformed their careers. Cohort 6 enrollment is now open.">
 
     <meta property="og:type" content="website">
 
+    <link rel="icon" href="./assets/images/logo2.webp" sizes="48x48">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
@@ -37,6 +38,9 @@
             --forest-mid: #124745;
             --teal: #19a08c;
             --cream: #f8faf3;
+            --crema: #f8faf3;
+            --darkgreen: #0d3b38;
+            --dark-green: #0d3b38;
             --warm-white: #ffffff;
             --text-muted: #6b7a6a;
             --border: rgba(18, 71, 69, 0.1);
@@ -92,14 +96,14 @@
             left: 0;
             right: 0;
             z-index: 100;
-            padding: 1.25rem 2rem;
+            padding: 1.25rem 4rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(248, 250, 243, 0.85);
+            background: var(--darkgreen);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(248, 250, 243, 0.12);
             transition: padding 0.3s ease, box-shadow 0.3s ease;
         }
 
@@ -113,7 +117,7 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: var(--forest);
+            color: var(--crema);
         }
 
         .logo-mark {
@@ -132,7 +136,7 @@
             font-family: 'Playfair Display', serif;
             font-size: 1.4rem;
             font-weight: 800;
-            color: var(--forest);
+            color: var(--crema);
             letter-spacing: -0.02em;
         }
 
@@ -146,10 +150,10 @@
 
         .nav-links a {
             text-decoration: none;
-            color: var(--forest);
+            color: var(--crema);
             font-size: 0.85rem;
             font-weight: 500;
-            opacity: 0.7;
+            opacity: 0.85;
             transition: opacity 0.2s;
         }
 
@@ -158,8 +162,8 @@
         }
 
         .nav-cta {
-            background: var(--forest) !important;
-            color: white !important;
+            background: var(--cream) !important;
+            color: var(--dark-green) !important;
             opacity: 1 !important;
             padding: 0.6rem 1.4rem;
             border-radius: 100px;
@@ -170,7 +174,7 @@
         }
 
         .nav-cta:hover {
-            background: var(--green-dark) !important;
+            background: var(--green-light) !important;
             transform: translateY(-1px);
         }
 
@@ -188,7 +192,7 @@
             display: block;
             width: 22px;
             height: 2px;
-            background: var(--forest);
+            background: var(--crema);
             border-radius: 2px;
             transition: all 0.3s ease;
         }
@@ -243,31 +247,90 @@
             border-bottom: none;
         }
 
+        .content {
+            padding: 0 4rem;
+        }
+
         .hero {
             min-height: 100vh;
-            padding: 8rem 2rem 5rem;
-            max-width: 1200px;
+            padding: 10rem 4rem 8rem;
             margin: 0 auto;
             display: grid;
+            background: var(--darkgreen);
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
+            width: 100%;
             align-items: center;
             position: relative;
+            overflow: visible;
+            isolation: isolate;
+        }
+
+        .float-div-1,
+        .float-div-2,
+        .float-div-3 {
+            position: absolute;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .float-div-1 {
+            top: 0;
+            right: 0;
+        }
+
+        .float-div-2 {
+            top: 0;
+            right: 0;
+        }
+
+        .float-div-3 {
+            bottom: 0;
+            left: 0;
+        }
+
+        .float-img-1 {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.25));
+        }
+
+        .float-img-2 {
+            width: 640px;
+            height: 14rem;
+            object-fit: contain;
+            filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.25));
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: var(--green-light);
-            color: var(--green-dark);
-            padding: 0.4rem 1rem;
-            border-radius: 100px;
+            width: fit-content;
+            max-width: 100%;
+            background: rgba(248, 250, 243, 0.16);
+            color: var(--cream);
+            padding: 0.55rem 1rem;
+            border-radius: 999px;
             font-size: 0.78rem;
             font-weight: 700;
             letter-spacing: 0.05em;
             text-transform: uppercase;
-            margin-bottom: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .pain-line {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--cream);
+            margin-top: .5rem;
+            font-size: 0.86rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            line-height: 1.5;
         }
 
         .badge-dot {
@@ -293,14 +356,14 @@
         .hero h1 {
             font-size: clamp(3rem, 5vw, 5rem);
             font-weight: 700;
-            color: var(--forest);
+            color: var(--cream);
             margin-bottom: 1.5rem;
         }
 
         .hero h1 em {
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            color: var(--green);
+            color: var(--cream);
             font-weight: 700;
             position: relative;
         }
@@ -312,28 +375,34 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: var(--green);
+            background: var(--cream);
             border-radius: 2px;
             opacity: 0.4;
         }
 
         .hero-sub {
             font-size: 1.1rem;
-            color: var(--text-muted);
-            margin-bottom: 2.5rem;
+            color: var(--cream);
             max-width: 460px;
             line-height: 1.75;
-            opacity: 1 !important;
+            opacity: 0.9;
             visibility: visible !important;
             transform: none !important;
             animation: none !important;
+            margin: 0;
+        }
+
+        .hero-text-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: .95rem
         }
 
         .hero-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem 2.5rem;
-            margin-bottom: 2.5rem;
+            /* margin-bottom: 2.5rem; */
             max-width: 650px;
         }
 
@@ -354,15 +423,16 @@
             font-family: 'Playfair Display', serif;
             font-size: 2.5rem;
             font-weight: 800;
-            color: var(--forest);
+            color: var(--cream);
             line-height: 1;
         }
 
         .stat-label {
             font-size: 0.78rem;
-            color: var(--text-muted);
+            color: var(--cream);
             font-weight: 500;
             margin-top: 2px;
+            opacity: 0.8;
         }
 
         .hero-trust {
@@ -417,14 +487,16 @@
         }
 
         .form-card {
-            background: white;
+            background: linear-gradient(145deg, #ffffff 0%, #f7fff3 100%);
+            border: 1px solid rgba(6, 58, 45, 0.08);
             border-radius: 28px;
             padding: 2.75rem;
             padding-top: 3.25rem;
-            box-shadow: 0 30px 80px rgba(13, 59, 56, 0.12), 0 1px 0 var(--border);
+            box-shadow: 0 24px 60px rgba(13, 59, 56, 0.12), 0 10px 24px rgba(16, 86, 68, 0.08);
             position: relative;
             overflow: hidden;
             margin-top: 1.5rem;
+            isolation: isolate;
         }
 
         .form-card::before {
@@ -433,23 +505,35 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--green), var(--teal));
+            height: 5px;
+            background: linear-gradient(90deg, var(--green), var(--teal), var(--green-light));
+            z-index: 1;
+        }
+
+        .form-card::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: inherit;
+            background: linear-gradient(140deg, rgba(255, 255, 255, 0.7), transparent 45%, rgba(123, 182, 64, 0.08));
+            pointer-events: none;
+            z-index: -1;
         }
 
         .cohort-badge {
             position: absolute;
             top: 0;
             right: 2rem;
-            background: var(--green-light);
-            color: #063a2d;
+            background: linear-gradient(135deg, var(--green) 0%, var(--teal) 100%);
+            color: white;
             font-size: 0.72rem;
             font-weight: 800;
             padding: 0.45rem 1.1rem;
             border-radius: 0 0 12px 12px;
             letter-spacing: 0.05em;
             text-transform: uppercase;
-            border: 1px solid rgba(123, 182, 64, 0.2);
+            box-shadow: 0 8px 20px rgba(6, 58, 45, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-top: none;
         }
 
@@ -478,15 +562,15 @@
 
         .form-input {
             width: 100%;
-            padding: 0.9rem 1.1rem;
-            border: 1.5px solid #e0e8d8;
+            padding: 0.95rem 1.1rem;
+            border: 1.5px solid rgba(6, 58, 45, 0.1);
             border-radius: 12px;
             font-family: 'Lato', sans-serif;
             font-size: 0.9rem;
             color: var(--forest);
-            background: var(--cloud-gray);
+            background: rgba(247, 251, 244, 0.95);
             outline: none;
-            transition: border-color 0.2s, background 0.2s, transform 0.2s;
+            transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
         }
 
         .form-input::placeholder {
@@ -497,6 +581,7 @@
             border-color: var(--green);
             background: white;
             transform: translateY(-1px);
+            box-shadow: 0 0 0 4px rgba(123, 182, 64, 0.12);
         }
 
         .submit-btn {
@@ -607,8 +692,8 @@
         }
 
         .pillars-section {
-            padding: 6rem 2rem;
-            background: var(--forest);
+            padding: 6rem 3rem;
+            background: var(--cream);
             position: relative;
             overflow: hidden;
         }
@@ -651,7 +736,7 @@
         }
 
         .pillars-section .section-header p {
-            color: rgba(255, 255, 255, 0.55);
+            color: var(--forest);
         }
 
         .pillars-grid {
@@ -661,7 +746,7 @@
         }
 
         .pillar-card {
-            background: rgba(255, 255, 255, 0.05);
+            background: var(--green);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
             padding: 2rem 1.5rem;
@@ -669,14 +754,14 @@
         }
 
         .pillar-card:hover {
-            background: rgba(255, 255, 255, 0.09);
+            background: var(--dark-green);
             transform: translateY(-4px);
         }
 
         .pillar-icon {
             width: 48px;
             height: 48px;
-            background: rgba(123, 182, 64, 0.15);
+            background: var(--cream);
             border-radius: 14px;
             display: flex;
             align-items: center;
@@ -699,22 +784,74 @@
         }
 
         .services-section {
-            padding: 6rem 2rem;
+            background: var(--forest);
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 3rem;
+        }
+
+        .services-section::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(123, 182, 64, 0.06);
+        }
+
+        .services-section::after {
+            content: '';
+            position: absolute;
+            bottom: -100px;
+            left: -60px;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: rgba(25, 160, 140, 0.06);
+        }
+
+        .services-section .service-deco {
+            position: absolute;
+            top: 3rem;
+            width: clamp(96px, 10vw, 140px);
+            height: auto;
+            /* opacity: 0.95; */
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .services-section .service-deco-left {
+            left: 1rem;
+            transform: rotate(-6deg);
+        }
+
+        .services-section .service-deco-right {
+            right: 1rem;
+            transform: rotate(6deg);
+        }
+
+        .services-container {
+            position: relative;
+            z-index: 1;
+            padding: 0;
             max-width: 1100px;
             margin: 0 auto;
         }
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 1.5rem;
+            align-items: stretch;
         }
 
         .service-card {
-            background: white;
+            background: var(--forest);
             border-radius: 20px;
             padding: 2rem;
-            border: 1px solid #edf2e8;
+            border: 1px solid var(--green-dark);
             transition: box-shadow 0.3s, transform 0.3s;
             position: relative;
             overflow: hidden;
@@ -768,21 +905,33 @@
             margin-bottom: 0.75rem;
         }
 
+        .services-section .section-header h2 {
+            color: var(--cream);
+        }
+
         .service-card h4 {
             font-size: 1.2rem;
-            color: var(--forest);
+            color: white;
             margin-bottom: 0.5rem;
         }
 
         .service-card p {
             font-size: 0.84rem;
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.78);
             line-height: 1.7;
         }
 
+        .service-card a {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--green-dark);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
         .service-card.featured {
-            background: white;
-            border-color: #edf2e8;
+            background: var(--forest);
+            border-color: var(--green-dark);
         }
 
         .service-card.featured .service-icon {
@@ -796,16 +945,16 @@
         }
 
         .service-card.featured h4 {
-            color: var(--forest);
+            color: var(--cream);
         }
 
         .service-card.featured p {
-            color: var(--text-muted);
+            color: rgba(255, 255, 255, 0.78);
         }
 
         .testimonials-section {
             background: var(--cream);
-            padding: 3.5rem 1.5rem;
+            padding: 3.5rem 3rem;
             border-top: 1px solid var(--border)
         }
 
@@ -1064,7 +1213,7 @@
         }
 
         .cv-tool-section {
-            padding: 6rem 2rem;
+            padding: 6rem 3rem;
             background: white;
             border-top: 1px solid var(--border);
         }
@@ -1255,7 +1404,7 @@
         }
 
         .cta-section {
-            padding: 6rem 2rem;
+            padding: 6rem 3rem;
             background: var(--forest);
             text-align: center;
             position: relative;
@@ -1517,8 +1666,24 @@
         @media (max-width: 900px) {
             .hero {
                 grid-template-columns: 1fr;
-                padding-top: 6rem;
+                padding: 6.5rem 1.5rem 5rem;
                 min-height: auto;
+            }
+
+            .float-div-1,
+            .float-div-2 {
+                width: 180px;
+                height: 180px;
+            }
+
+            .float-div-3 {
+                width: 260px;
+                height: 180px;
+            }
+
+            .float-img-2 {
+                width: 100%;
+                height: 100%;
             }
 
             .pillars-grid {
@@ -1567,7 +1732,20 @@
             }
 
             .hero {
-                padding: 5.5rem 1.25rem 3rem;
+                padding: 5.5rem 1.25rem 4rem;
+            }
+
+            .float-div-1,
+            .float-div-2 {
+                width: 110px;
+                height: 110px;
+                opacity: 0.9;
+            }
+
+            .float-div-3 {
+                width: 180px;
+                height: 120px;
+                opacity: 0.95;
             }
 
             .hero h1 {
@@ -1593,7 +1771,7 @@
             }
 
             .services-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .testimonials-grid {
@@ -1610,7 +1788,7 @@
         }
 
         .about-us-section {
-            padding: 6rem 2rem;
+            padding: 6rem 3rem;
             background: white;
         }
 
@@ -1860,6 +2038,11 @@
             display: grid;
             gap: 1.25rem;
             margin-top: 1.5rem;
+        }
+
+        .content {
+            max-width: 1300px;
+            padding: 0 4rem;
         }
 
         .signup-section {
@@ -2197,15 +2380,66 @@
             color: rgba(255, 255, 255, 0.95);
         }
 
-        .webinar-modal-form {
-            padding: 0;
+        .webinar-modal-form iframe {
+            height: 480px;
+            width: 100%;
         }
 
-        .webinar-modal-form iframe {
-            width: 100%;
-            height: 480px;
-            border: none;
-            display: block;
+        .webinar-modal-form--list {
+            min-height: auto;
+        }
+
+        .archive-list {
+            list-style: none;
+            margin: 0;
+            padding: 0.5rem 0;
+            max-height: 380px;
+            overflow-y: auto;
+        }
+
+        .archive-item {
+            border-bottom: 1px solid #edf2e8;
+        }
+
+        .archive-item:last-child {
+            border-bottom: none;
+        }
+
+        .archive-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 1rem 2.25rem;
+            text-decoration: none;
+            color: var(--forest);
+            transition: background 0.2s ease, padding-left 0.2s ease;
+        }
+
+        .archive-link:hover {
+            background: var(--green-light);
+            padding-left: 2.6rem;
+        }
+
+        .archive-link-title {
+            font-weight: 700;
+            font-size: 0.92rem;
+            color: var(--forest);
+            flex: 1;
+        }
+
+        .archive-link-date {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .archive-empty {
+            padding: 2rem 2.25rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
         }
 
         @media (max-width: 768px) {
@@ -2589,7 +2823,7 @@
 <body>
 
     <!-- FLOATING WEBINAR BANNER -->
-    <div class="webinar-float" id="webinarFloat" role="complementary" aria-label="Upcoming webinar notification">
+    <div class="webinar-float" id="webinarFloat" role="complementary" aria-label="Upcoming webinar notification" style="display:none;">
         <div class="webinar-float-accent"></div>
         <button class="webinar-float-dismiss" data-close-modal aria-label="Close modal" id="dismissWebinarFloat"
             aria-label="Dismiss notification">&times;</button>
@@ -2597,12 +2831,12 @@
             <div class="webinar-float-icon">🎙️</div>
             <div class="webinar-float-text">
                 <div class="webinar-float-label"><span class="dot"></span> Free Live Webinar Recording</div>
-                <div class="webinar-float-title">The Volunteer Edge</div>
-                <div class="webinar-float-meta">May 30, 2026 · 7:00 PM · Online</div>
+                <div class="webinar-float-title">Stop Applying Blindly</div>
+                <div class="webinar-float-meta">July 18, 2026 · 7:00 PM · Online</div>
             </div>
         </div>
-        <div class="webinar-float-cta" data-modal="pastWebinarModal-5">
-            <span>Access Replay</span>
+        <div class="webinar-float-cta" data-webinar-modal="__pending__">
+            <span>Reserve your spot</span>
             <svg class="icon">
                 <use href="#icon-arrow"></use>
             </svg>
@@ -2713,11 +2947,17 @@
 
         <!-- HERO -->
         <header class="hero" id="home">
-            <div>
-                <span class="hero-badge"><span class="badge-dot"></span> Career Grooming Camp C4</span>
+            <div class="hero-text-wrap">
+                <div>
+                    <span class="hero-badge"><span class="badge-dot"></span>CAREER GROOMING CAMP — COHORT 6
+                        ENROLLING</span>
+                    <span class="pain-line">Skilled. Experienced. Still invisible to recruiters?</span>
+                </div>
                 <h1>Your <em>Remote</em><br>Career Starts<br>Here.</h1>
-                <p class="hero-sub">ProLaunch Careers equips early-career African professionals with the skills, tools,
-                    and positioning to land competitive remote jobs locally and globally.</p>
+                <p class="hero-sub">In 14 days, we rebuild your CV, LinkedIn, and interview strategy — guided by a coach
+                    who's also a Cloud & DevOps engineer, not a motivational speaker. Built for technical and
+                    non-technical professionals alike.</p>
+
 
                 <div class="hero-stats">
                     <div class="stat-item">
@@ -2760,92 +3000,193 @@
                 </div>
             </div>
 
-            <!-- RESOURCES & STRATEGIC CTAs -->
-            <div class="form-card reveal" id="hero-cta-card">
-                <div class="cohort-badge">Career Grooming Camp C4</div>
-                <h2>Take the Next Step</h2>
-                <p class="form-subtitle">Choose a path and start commanding your career today.</p>
+            <div class="form-card reveal" id="hero-signup-form">
+                <div class="cohort-badge">Reserve Your Spot — Cohort 06</div>
+                <h2>Choose a path and start today.</h2>
+                <p class="form-subtitle">Limited to 50 seats. Secure your place in the next Career Grooming Camp cohort.
+                </p>
 
-                <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 1.5rem;">
-                    <button class="submit-btn open-signup-btn">
-                        <span><svg class="icon">
-                                <use href="#icon-grad"></use>
-                            </svg></span>
-                        <span>Join Career Grooming Camp C4</span>
+                <form id="heroLeadForm" novalidate>
+                    <div class="form-group">
+                        <input type="text" id="fullName" placeholder="Full Name" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Email Address" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="whatsapp" placeholder="WhatsApp Number" required class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <select id="blocker" class="form-input" required>
+                            <option value="" disabled selected>Biggest blocker right now</option>
+                            <option value="CV">CV</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Interview">Interview</option>
+                            <option value="Job Search Strategy">Job Search Strategy</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span>Reserve My Spot</span>
+                        <svg class="icon">
+                            <use href="#icon-arrow"></use>
+                        </svg>
                     </button>
-                    <a href="https://prolaunch-cv-optimizer.vercel.app/" target="_blank" class="submit-btn btn-green"
-                        style="text-decoration: none;">
-                        <span><svg class="icon">
-                                <use href="#icon-robot"></use>
-                            </svg></span>
-                        <span>Try Launch IQ For Free</span>
-                    </a>
-                </div>
+                </form>
+
+                <p class="form-note">Cohort 06 closes July 18, 2026. <span>Limited to 50 seats.</span></p>
+                <div id="formResponse"></div>
+            </div>
+
+            <div class="float-div-1">
+                <img src="./assets/images/gaddd.png" alt="Decoration" class="float-img-1" />
+            </div>
+            <div class="float-div-2">
+                <img src="./assets/images/gadd.png" alt="Decoration" class="float-img-1" />
+            </div>
+            <div class="float-div-3">
+                <img src="./assets/images/gad.png" alt="Decoration" class="float-img-2" />
             </div>
         </header>
 
-        <!-- ABOUT US SECTION -->
-        <section class="about-us-section" id="about-us">
-            <div class="about-us-inner">
+
+        <!-- PILLARS / OLD ABOUT -->
+        <section class="pillars-section" id="about-us">
+            <div class="pillars-inner">
                 <div class="section-header reveal">
-                    <span class="section-tag">Who We Are</span>
-                    <h2>Empowering Remote Professionals</h2>
+                    <span class="section-tag">Our Methodology</span>
+                    <h2>Four Pillars. One Mission.</h2>
+                    <p class="pillar-text">Our approach is built on four core strengths that drive professional success
+                        in the remote
+                        market.</p>
                 </div>
 
-                <div class="about-us-grid">
-                    <div class="about-content reveal">
-                        <p>ProLaunch Careers is a career grooming organization focused on helping early remote
-                            professionals secure high-paying jobs through structured coaching and strategic branding.
-                        </p>
-                        <p>We offer personalized coaching, 14-day career bootcamps, and digital products designed to
-                            help skilled, stuck professionals gain clarity and land opportunities.</p>
-                        <p style="margin-bottom: 1.5rem; color: var(--text-muted); font-weight: 500;">Through our
-                            structured curriculum, we provide a holistic career acceleration experience:</p>
-                        <h3
-                            style="margin-top: 2rem; margin-bottom: 1.5rem; color: var(--forest); font-family: 'Playfair Display', serif; font-size: 1.8rem;">
-                            Our Services</h3>
-                        <div class="key-features-list">
-                            <div class="feature-item">
-                                <svg class="icon">
-                                    <use href="#icon-arrow"></use>
-                                </svg>
-                                <span><strong>Career Grooming Bootcamp:</strong> A 14-day intensive program for skilled
-                                    professionals who lack recognition.</span>
-                            </div>
-                            <div class="feature-item">
-                                <svg class="icon">
-                                    <use href="#icon-arrow"></use>
-                                </svg>
-                                <span><strong>1-on-1 Coaching Sessions:</strong> 15-minute consultations to fix career
-                                    bottlenecks and create roadmaps.</span>
-                            </div>
-                            <div class="feature-item">
-                                <svg class="icon">
-                                    <use href="#icon-arrow"></use>
-                                </svg>
-                                <span><strong>Professional Branding:</strong> CV rebuilding, LinkedIn optimization, and
-                                    online authority.</span>
-                            </div>
-                            <div class="feature-item">
-                                <svg class="icon">
-                                    <use href="#icon-arrow"></use>
-                                </svg>
-                                <span><strong>Remote Job Focus:</strong> Targeted at professionals looking to earn in
-                                    foreign currency.</span>
-                            </div>
-                            <div class="feature-item">
-                                <svg class="icon">
-                                    <use href="#icon-arrow"></use>
-                                </svg>
-                                <span><strong>Resources:</strong> Digital products like "The Silent Career Killers
-                                    Nobody Talks About".</span>
-                            </div>
-                        </div>
+                <div class="pillars-grid">
+                    <div class="pillar-card reveal reveal-delay-1">
+                        <div class="pillar-icon"><svg class="icon">
+                                <use href="#icon-target"></use>
+                            </svg></div>
+                        <h4>Career Development</h4>
+                        <p>Structured coaching, mentorship, and skills training designed to fast-track your professional
+                            growth.</p>
+                    </div>
+                    <div class="pillar-card reveal reveal-delay-2">
+                        <div class="pillar-icon"><svg class="icon">
+                                <use href="#icon-magic"></use>
+                            </svg></div>
+                        <h4>Talent Positioning</h4>
+                        <p>CV optimisation, LinkedIn branding, and portfolio building that gets you noticed by global
+                            recruiters.</p>
+                    </div>
+                    <div class="pillar-card reveal reveal-delay-3">
+                        <div class="pillar-icon"><svg class="icon">
+                                <use href="#icon-tools"></use>
+                            </svg></div>
+                        <h4>Workforce Preparation</h4>
+                        <p>Practical, industry-aligned training programs built specifically for the demands of today's
+                            remote workforce.</p>
+                    </div>
+                    <div class="pillar-card reveal reveal-delay-4">
+                        <div class="pillar-icon"><svg class="icon">
+                                <use href="#icon-earth"></use>
+                            </svg></div>
+                        <h4>Remote Job Access</h4>
+                        <p>Coaching and placement support that puts you in front of competitive remote opportunities
+                            locally and globally.</p>
                     </div>
                 </div>
             </div>
         </section>
 
+
+        <!-- SERVICES -->
+        <section class="services-section" id="services">
+            <img src="./assets/images/gadd.png" alt="" class="service-deco service-deco-left" />
+            <!-- <img src="./assets/images/gaddd.png" alt="" class="service-deco service-deco-right" /> -->
+            <div class="services-container">
+                <div class="section-header reveal">
+                    <span class="section-tag">Our Offerings</span>
+                    <h2>Everything You Need to Land the Role</h2>
+                    <!-- <p>From group programs to 1-on-1 coaching and proprietary tools, We've built the full career
+                    acceleration stack.</p> -->
+                </div>
+
+                <div class="services-grid">
+                    <div class="service-card featured reveal reveal-delay-1">
+                        <div class="service-icon"><svg class="icon">
+                                <use href="#icon-grad"></use>
+                            </svg></div>
+                        <span class="service-status">Now Enrolling</span>
+                        <h4>Career Grooming Camp</h4>
+                        <p>Our flagship live monthly online cohort. Covers CV, LinkedIn, job strategy, interview prep,
+                            and
+                            soft skills, all in one structured program.</p>
+                        <a href="#signup"
+                            style="display: inline-block; margin-top: 1rem; color: var(--green-dark); font-weight: 700; text-decoration: none;">Enroll
+                            Now →</a>
+                    </div>
+                    <!-- <div class="service-card reveal reveal-delay-2">
+                    <div class="service-icon"><svg class="icon">
+                            <use href="#icon-user"></use>
+                        </svg></div>
+                    <span class="service-status">Free</span>
+                    <h4>1-on-1 Career Coaching</h4>
+                    <p>Personalized sessions tailored for job seekers and career changers targeting remote and
+                        international roles.</p>
+                    <a href="https://coachli.co/prolaunch_careers/SV-g9WEX"
+                        style="display: inline-block; margin-top: 1rem; color: var(--forest); font-weight: 700; text-decoration: none;"
+                        target="_blank">Book
+                        a Session →</a>
+                </div> -->
+                    <div class="service-card reveal reveal-delay-3">
+                        <div class="service-icon"><svg class="icon">
+                                <use href="#icon-file"></use>
+                            </svg></div>
+                        <h4>Expert CV Rewrite (Human-Led)</h4>
+                        <p>Professional CV rewrites aligned to ATS systems and global hiring standards making you
+                            visible to
+                            the right recruiters.</p>
+                        <a href="#signup"
+                            style="display: inline-block; margin-top: 1rem; color: var(--green-dark); font-weight: 700; text-decoration: none;">Get
+                            a Professional Makeover →</a>
+                    </div>
+                    <div class="service-card reveal reveal-delay-4">
+                        <div class="service-icon"><svg class="icon">
+                                <use href="#icon-robot"></use>
+                            </svg></div>
+                        <h4>AI-Powered CV Optimizer</h4>
+                        <p>Our proprietary web tool that analyses and scores your CV against job descriptions giving
+                            instant
+                            gap feedback and recommendations.</p>
+                        <a href="https://prolaunch-cv-optimizer.vercel.app/" target="_blank" rel="noopener"
+                            style="display: inline-block; margin-top: 1rem; color: var(--green-dark); font-weight: 700; text-decoration: none;">Try
+                            Tool →</a>
+                    </div>
+                    <div class="service-card reveal reveal-delay-5">
+                        <div class="service-icon"><svg class="icon">
+                                <use href="#icon-briefcase"></use>
+                            </svg></div>
+                        <h4>LinkedIn Profile Optimization</h4>
+                        <p>Strategic profile rewrites built for visibility and recruiter attraction in the competitive
+                            remote job market.</p>
+                        <a href="#signup"
+                            style="display: inline-block; margin-top: 1rem; color: var(--green-dark); font-weight: 700; text-decoration: none;">Optimize
+                            My Profile →</a>
+                    </div>
+                    <div class="service-card reveal reveal-delay-1">
+                        <div class="service-icon"><svg class="icon">
+                                <use href="#icon-folder"></use>
+                            </svg></div>
+                        <h4>Portfolio Building</h4>
+                        <p>Guided creation of professional portfolios tailored for non-technical remote workers seeking
+                            global opportunities.</p>
+                        <a href="#signup"
+                            style="display: inline-block; margin-top: 1rem; color: var(--green-dark); font-weight: 700; text-decoration: none;">Build
+                            Portfolio →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- CEO SECTION -->
         <section class="ceo-section" id="ceo">
@@ -2892,135 +3233,6 @@
             </div>
         </section>
 
-        <!-- PILLARS / OLD ABOUT -->
-        <section class="pillars-section">
-            <div class="pillars-inner">
-                <div class="section-header reveal">
-                    <span class="section-tag">Our Methodology</span>
-                    <h2>Four Pillars. One Mission.</h2>
-                    <p>Our approach is built on four core strengths that drive professional success in the remote
-                        market.</p>
-                </div>
-
-                <div class="pillars-grid">
-                    <div class="pillar-card reveal reveal-delay-1">
-                        <div class="pillar-icon"><svg class="icon">
-                                <use href="#icon-target"></use>
-                            </svg></div>
-                        <h4>Career Development</h4>
-                        <p>Structured coaching, mentorship, and skills training designed to fast-track your professional
-                            growth.</p>
-                    </div>
-                    <div class="pillar-card reveal reveal-delay-2">
-                        <div class="pillar-icon"><svg class="icon">
-                                <use href="#icon-magic"></use>
-                            </svg></div>
-                        <h4>Talent Positioning</h4>
-                        <p>CV optimisation, LinkedIn branding, and portfolio building that gets you noticed by global
-                            recruiters.</p>
-                    </div>
-                    <div class="pillar-card reveal reveal-delay-3">
-                        <div class="pillar-icon"><svg class="icon">
-                                <use href="#icon-tools"></use>
-                            </svg></div>
-                        <h4>Workforce Preparation</h4>
-                        <p>Practical, industry-aligned training programs built specifically for the demands of today's
-                            remote workforce.</p>
-                    </div>
-                    <div class="pillar-card reveal reveal-delay-4">
-                        <div class="pillar-icon"><svg class="icon">
-                                <use href="#icon-earth"></use>
-                            </svg></div>
-                        <h4>Remote Job Access</h4>
-                        <p>Coaching and placement support that puts you in front of competitive remote opportunities
-                            locally and globally.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SERVICES -->
-        <section class="services-section" id="services">
-            <div class="section-header reveal">
-                <span class="section-tag">Our Offerings</span>
-                <h2>Everything You Need to Land the Role</h2>
-                <p>From group programs to 1-on-1 coaching and proprietary tools, We've built the full career
-                    acceleration stack.</p>
-            </div>
-
-            <div class="services-grid">
-                <div class="service-card featured reveal reveal-delay-1">
-                    <div class="service-icon"><svg class="icon">
-                            <use href="#icon-grad"></use>
-                        </svg></div>
-                    <span class="service-status">Now Enrolling</span>
-                    <h4>Career Grooming Camp</h4>
-                    <p>Our flagship live monthly online cohort. Covers CV, LinkedIn, job strategy, interview prep, and
-                        soft skills, all in one structured program.</p>
-                    <a href="#signup"
-                        style="display: inline-block; margin-top: 1rem; color: var(--forest); font-weight: 700; text-decoration: none;">Enroll
-                        Now →</a>
-                </div>
-                <div class="service-card reveal reveal-delay-2">
-                    <div class="service-icon"><svg class="icon">
-                            <use href="#icon-user"></use>
-                        </svg></div>
-                    <span class="service-status">Free</span>
-                    <h4>1-on-1 Career Coaching</h4>
-                    <p>Personalized sessions tailored for job seekers and career changers targeting remote and
-                        international roles.</p>
-                    <a href="https://coachli.co/prolaunch_careers/SV-g9WEX"
-                        style="display: inline-block; margin-top: 1rem; color: var(--forest); font-weight: 700; text-decoration: none;"
-                        target="_blank">Book
-                        a Session →</a>
-                </div>
-                <div class="service-card reveal reveal-delay-3">
-                    <div class="service-icon"><svg class="icon">
-                            <use href="#icon-file"></use>
-                        </svg></div>
-                    <h4>Expert CV Rewrite (Human-Led)</h4>
-                    <p>Professional CV rewrites aligned to ATS systems and global hiring standards making you visible to
-                        the right recruiters.</p>
-                    <a href="#signup"
-                        style="display: inline-block; margin-top: 1rem; color: var(--forest); font-weight: 700; text-decoration: none;">Get
-                        a Professional Makeover →</a>
-                </div>
-                <div class="service-card reveal reveal-delay-4">
-                    <div class="service-icon"><svg class="icon">
-                            <use href="#icon-robot"></use>
-                        </svg></div>
-                    <h4>AI-Powered CV Optimizer</h4>
-                    <p>Our proprietary web tool that analyses and scores your CV against job descriptions giving instant
-                        gap feedback and recommendations.</p>
-                    <a href="https://prolaunch-cv-optimizer.vercel.app/" target="_blank" rel="noopener"
-                        style="display: inline-block; margin-top: 1rem; color: var(--forest); font-weight: 700; text-decoration: none;">Try
-                        Tool →</a>
-                </div>
-                <div class="service-card reveal reveal-delay-5">
-                    <div class="service-icon"><svg class="icon">
-                            <use href="#icon-briefcase"></use>
-                        </svg></div>
-                    <h4>LinkedIn Profile Optimization</h4>
-                    <p>Strategic profile rewrites built for visibility and recruiter attraction in the competitive
-                        remote job market.</p>
-                    <a href="#signup"
-                        style="display: inline-block; margin-top: 1rem; color: var(--forest); font-weight: 700; text-decoration: none;">Optimize
-                        My Profile →</a>
-                </div>
-                <div class="service-card reveal reveal-delay-1">
-                    <div class="service-icon"><svg class="icon">
-                            <use href="#icon-folder"></use>
-                        </svg></div>
-                    <h4>Portfolio Building</h4>
-                    <p>Guided creation of professional portfolios tailored for non-technical remote workers seeking
-                        global opportunities.</p>
-                    <a href="#signup"
-                        style="display: inline-block; margin-top: 1rem; color: var(--forest); font-weight: 700; text-decoration: none;">Build
-                        Portfolio →</a>
-                </div>
-            </div>
-        </section>
-
         <!-- EVENTS & WEBINARS -->
         <section class="events-section" id="events">
             <div class="events-inner">
@@ -3034,88 +3246,9 @@
                 <div class="events-grid">
                     <!-- Event 4 (Upcoming Webinar) -->
                     <!-- style to add upcoming-highlight -->
-                    <div class="event-card reveal reveal-delay-1">
-                        <div class="event-header">
-                            <span class="event-badge upcoming">Past Webinar</span>
-                            <img src="assets/images/event-4.webp" loading="lazy" alt="The Volunteer Edge"
-                                class="event-img">
-                        </div>
-                        <div class="event-body">
-                            <div class="event-date">Live Masterclass Replay</div>
-                            <h4>The Volunteer Edge</h4>
-                            <p>A free webinar to help you accelerate your career growth through strategic service and
-                                learn how to position your volunteer experience as job-ready value employers will notice
-                            </p>
-                            <button class="event-cta" data-modal="pastWebinarModal-5"
-                                aria-label="Access Remote Interview Replay">
-                                Access Replay
-                                <svg class="icon">
-                                    <use href="#icon-arrow"></use>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Event 3 (Past Webinar) -->
-                    <div class="event-card reveal reveal-delay-1">
-                        <div class="event-header">
-                            <span class="event-badge past">Past Webinar</span>
-                            <img src="assets/images/event-3.webp" loading="lazy"
-                                alt="Mastering the Remote Interview Webinar" class="event-img">
-                        </div>
-                        <div class="event-body">
-                            <div class="event-date">Live Masterclass Replay</div>
-                            <h4>Mastering the Remote Interview</h4>
-                            <p>A free live webinar to help you confidently pass remote interview stages — learn to
-                                answer screening questions, present your experience, and communicate your value.</p>
-                            <!-- Past Webinar 1 -->
-                            <button class="event-cta" data-modal="pastWebinarModal-1"
-                                aria-label="Access Remote Interview Replay">
-                                Access Replay <svg class="icon">
-                                    <use href="#icon-arrow"></use>
-                                </svg></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Event 1 (Past) -->
-                    <!-- <div class="event-card reveal reveal-delay-2">
-                <div class="event-header">
-                    <span class="event-badge past">Past Webinar</span>
-                    <img src="assets/images/event-1.webp" loading="lazy" alt="How Your LinkedIn is Costing You Opportunities" class="event-img">
-                </div>
-                <div class="event-body">
-                    <div class="event-date">Live Masterclass Replay</div>
-                    <h4>How Your LinkedIn is Costing You Opportunities</h4>
-                    <p>Learn the exact LinkedIn mistakes that keep you invisible to global recruiters and how to fix them.</p>
-                    <a href="https://drive.google.com/file/d/115bBJPT2XWKsTfSepT_e7k1eV0w_F2Ox/view" target="_blank" rel="noopener" class="event-cta" aria-label="Access LinkedIn Secrets Masterclass Replay">Access Replay <i class="fa-solid fa-arrow-right"></i></a>
-                </div>
-            </div> -->
-
-                    <!-- Event 2 (Past) -->
-                    <div class="event-card reveal reveal-delay-3">
-                        <div class="event-header">
-                            <span class="event-badge past">Past Webinar</span>
-                            <img src="assets/images/event-2.webp" loading="lazy" alt="ATS Friendly CVs"
-                                class="event-img">
-                        </div>
-                        <div class="event-body">
-                            <div class="event-date">Live Masterclass Replay</div>
-                            <h4>How To Draft ATS Friendly CVs + Personal Branding & Packaging</h4>
-                            <p>A deep dive into crafting CVs that beat the bots and branding yourself for premium global
-                                roles.</p>
-                            <!-- Past Webinar 2 (ATS CV) -->
-                            <button class="event-cta" data-modal="pastWebinarModal-3"
-                                aria-label="Access ATS CV Masterclass Replay">
-                                Access Replay <svg class="icon">
-                                    <use href="#icon-arrow"></use>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
                 </div>
                 <div class="older-webinars">
-                    <a data-modal="pastWebinarModal-4" aria-label="Access ATS CV Masterclass Replay">
+                    <a data-modal="webinarModal" data-archive="true" aria-label="Access older webinars">
                         Access Older Webinars
                         <span class="arrow">→</span>
                     </a>
@@ -3144,7 +3277,9 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text" data-full-text="Before joining ProLaunch Career Grooming Camp, I thought being a generalist was the real deal. But through Coach MQ's structured lessons, I saw clearly how the corporate world actually works. I realised I had no clear professional identity and couldn't communicate or position myself strategically. Now I have a clear professional identity and I'm intentional and strategic in my approach.">Before joining ProLaunch Career Grooming Camp, I thought
+                                <p class="testimonial-text"
+                                    data-full-text="Before joining ProLaunch Career Grooming Camp, I thought being a generalist was the real deal. But through Coach MQ's structured lessons, I saw clearly how the corporate world actually works. I realised I had no clear professional identity and couldn't communicate or position myself strategically. Now I have a clear professional identity and I'm intentional and strategic in my approach.">
+                                    Before joining ProLaunch Career Grooming Camp, I thought
                                     being a generalist was the real deal. But through Coach MQ's structured lessons, I
                                     saw clearly how the corporate world actually works. I realised I had no clear
                                     professional identity and couldn't communicate or position myself strategically. Now
@@ -3157,7 +3292,8 @@
                                         <div class="author-role">Now: Executive Virtual Assistant · Cohort 01</div>
                                     </div>
                                 </div>
-                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read
+                                    More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3168,7 +3304,9 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text" data-full-text="I had no idea my LinkedIn profile was holding me back. After the optimization session, my profile views increased dramatically and I started getting recruiter messages every week.">I had no idea my LinkedIn profile was holding me back. After
+                                <p class="testimonial-text"
+                                    data-full-text="I had no idea my LinkedIn profile was holding me back. After the optimization session, my profile views increased dramatically and I started getting recruiter messages every week.">
+                                    I had no idea my LinkedIn profile was holding me back. After
                                     the optimization session, my profile views increased dramatically and I started
                                     getting recruiter messages every week.</p>
                                 <div class="testimonial-author">
@@ -3179,7 +3317,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read
+                                    More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3190,17 +3329,20 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text" data-full-text="The Career Grooming Camp is unlike anything I've experienced. Practical, structured, and genuinely focused on getting you results. I landed my first remote role one month after completing the program.">The Career Grooming Camp is unlike anything I've
+                                <p class="testimonial-text"
+                                    data-full-text="The Career Grooming Camp is unlike anything I've experienced. Practical, structured, and genuinely focused on getting you results. I landed my first remote zrole one month after completing the program.">
+                                    The Career Grooming Camp is unlike anything I've
                                     experienced. Practical, structured, and genuinely focused on getting you results. I
                                     landed my first remote role one month after completing the program.</p>
                                 <div class="testimonial-author">
                                     <div class="author-avatar" style="background:#19a08c">CO</div>
                                     <div>
                                         <div class="author-name">Chidi Okoro</div>
-                                        <div class="author-role">Now: Remote Virtual Assistant · Cohort 01</div>
+                                        <div class="author-role">Now: Remote Virtual Assistant · Cohort 1</div>
                                     </div>
                                 </div>
-                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read
+                                    More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3211,7 +3353,9 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text" data-full-text="The 1-on-1 coaching sessions were incredibly valuable. My coach helped me identify exactly what was missing in my job search strategy and gave me a clear actionable plan that worked.">The 1-on-1 coaching sessions were incredibly valuable. My
+                                <p class="testimonial-text"
+                                    data-full-text="The 1-on-1 coaching sessions were incredibly valuable. My coach helped me identify exactly what was missing in my job search strategy and gave me a clear actionable plan that worked.">
+                                    The 1-on-1 coaching sessions were incredibly valuable. My
                                     coach helped me identify exactly what was missing in my job search strategy and gave
                                     me a clear actionable plan that worked.</p>
                                 <div class="testimonial-author">
@@ -3221,7 +3365,8 @@
                                         <div class="author-role">Now: Remote Data Analyst · 1-on-1 Coaching</div>
                                     </div>
                                 </div>
-                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read
+                                    More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3232,7 +3377,9 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text" data-full-text="Before ProLaunch I was applying to hundreds of jobs with zero response. The ATS-optimized CV they created for me transformed my results — I started getting responses immediately.">Before ProLaunch I was applying to hundreds of jobs with
+                                <p class="testimonial-text"
+                                    data-full-text="Before ProLaunch I was applying to hundreds of jobs with zero response. The ATS-optimized CV they created for me transformed my results — I started getting responses immediately.">
+                                    Before ProLaunch I was applying to hundreds of jobs with
                                     zero response. The ATS-optimized CV they created for me transformed my results — I
                                     started getting responses immediately.</p>
                                 <div class="testimonial-author">
@@ -3243,7 +3390,8 @@
                                             Rewrite</div>
                                     </div>
                                 </div>
-                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read
+                                    More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3254,7 +3402,9 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text" data-full-text="The portfolio building support was a game changer for me as a non-technical professional. I now have a portfolio I'm genuinely proud to send to employers.">The portfolio building support was a game changer for me as
+                                <p class="testimonial-text"
+                                    data-full-text="The portfolio building support was a game changer for me as a non-technical professional. I now have a portfolio I'm genuinely proud to send to employers.">
+                                    The portfolio building support was a game changer for me as
                                     a non-technical professional. I now have a portfolio I'm genuinely proud to send to
                                     employers.</p>
                                 <div class="testimonial-author">
@@ -3265,7 +3415,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read
+                                    More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3276,7 +3427,9 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text" data-full-text="ProLaunch Career Grooming Camp was a turning point for me. As someone who has been working onsite all through my career period and trying to navigate my way into the remote space without clarity, I must say thisnis a total turn around for me. From CV refinement to personal branding, every session was practical and impactful. I now step into the remote space with clarity, confidence, and a sharper professional identity. Highly recommend this to any professional ready to take their career to the next level.">ProLaunch Career Grooming Camp was a turning point for me.
+                                <p class="testimonial-text"
+                                    data-full-text="ProLaunch Career Grooming Camp was a turning point for me. As someone who has been working onsite all through my career period and trying to navigate my way into the remote space without clarity, I must say thisnis a total turn around for me. From CV refinement to personal branding, every session was practical and impactful. I now step into the remote space with clarity, confidence, and a sharper professional identity. Highly recommend this to any professional ready to take their career to the next level.">
+                                    ProLaunch Career Grooming Camp was a turning point for me.
                                     As someone who has been working onsite all through my career period and trying to
                                     navigate my way into the remote space without clarity, I must say thisnis a total
                                     turn around for me. From CV refinement to personal branding, every session was
@@ -3292,7 +3445,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read
+                                    More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3303,7 +3457,9 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text" data-full-text="Prolaunch Careers grooming camp helped me to optimise how interviewers and people see me by helping me improve my cv, LinkedIn and provide clarity on my career path as well as steps to take. This has helped me greatly in knowing what jobs to apply for and what to do to ace interviews.">Prolaunch Careers grooming camp helped me to optimise how
+                                <p class="testimonial-text"
+                                    data-full-text="Prolaunch Careers grooming camp helped me to optimise how interviewers and people see me by helping me improve my cv, LinkedIn and provide clarity on my career path as well as steps to take. This has helped me greatly in knowing what jobs to apply for and what to do to ace interviews.">
+                                    Prolaunch Careers grooming camp helped me to optimise how
                                     interviewers and people see me by helping me improve my cv, LinkedIn and provide
                                     clarity on my career path as well as steps to take. This has helped me greatly in
                                     knowing what jobs to apply for and what to do to ace interviews.</p>
@@ -3316,7 +3472,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read
+                                    More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3327,7 +3484,8 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text" data-full-text="Joining Prolaunch Career Grooming Camp has been one of the best decision I've made because it has been a transformative experience. It has helped me build confidence, it has given me clarity on the actual path I want to walk, and also understanding what it means to grow in this competitive world. Through the session, assignments and mentorship, I've learnt how to present myself better and approach opportunities with the mindset of growth. I am grateful for the opportunity to learn and grow along side other great minds. Thank you Coach MQ for creating such impactful platform. To the Prolaunch Career Grooming Camp team, you guys are amazing I look forward to applying what I've learnt as I continue to build my career">
+                                <p class="testimonial-text"
+                                    data-full-text="Joining Prolaunch Career Grooming Camp has been one of the best decision I've made because it has been a transformative experience. It has helped me build confidence, it has given me clarity on the actual path I want to walk, and also understanding what it means to grow in this competitive world. Through the session, assignments and mentorship, I've learnt how to present myself better and approach opportunities with the mindset of growth. I am grateful for the opportunity to learn and grow along side other great minds. Thank you Coach MQ for creating such impactful platform. To the Prolaunch Career Grooming Camp team, you guys are amazing I look forward to applying what I've learnt as I continue to build my career">
                                     Joining Prolaunch Career Grooming Camp has been one of the best decision I've made
                                     because it has been a transformative experience. It has helped me build confidence,
                                     it has given me clarity on the actual path I want to walk, and also understanding
@@ -3346,7 +3504,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read
+                                    More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3357,7 +3516,9 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text" data-full-text="My experience with the ProLaunch Career Grooming Camp has been amazing and truly eye opening. Before joining, I had the desire to grow professionally, but I lacked structure and a clear strategy. Throughout the program, I learned how to approach my job search intentionally, improve my CV and LinkedIn profile, build my personal brand, and position myself for opportunities. What stood out most for me was my amazing and very supportive coach and the practical lessons that I could apply immediately. Overall, the experience has boosted my confidence and given me a clearer direction for my career. I'm grateful I took the step to join.">My experience with the ProLaunch Career Grooming Camp has
+                                <p class="testimonial-text"
+                                    data-full-text="My experience with the ProLaunch Career Grooming Camp has been amazing and truly eye opening. Before joining, I had the desire to grow professionally, but I lacked structure and a clear strategy. Throughout the program, I learned how to approach my job search intentionally, improve my CV and LinkedIn profile, build my personal brand, and position myself for opportunities. What stood out most for me was my amazing and very supportive coach and the practical lessons that I could apply immediately. Overall, the experience has boosted my confidence and given me a clearer direction for my career. I'm grateful I took the step to join.">
+                                    My experience with the ProLaunch Career Grooming Camp has
                                     been amazing and truly eye opening. Before joining, I had the desire to grow
                                     professionally, but I lacked structure and a clear strategy. Throughout the program,
                                     I learned how to approach my job search intentionally, improve my CV and LinkedIn
@@ -3375,7 +3536,8 @@
                                         </div> -->
                                     </div>
                                 </div>
-                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read
+                                    More</button>
                             </div>
 
                             <div class="testimonial-card">
@@ -3386,7 +3548,9 @@
                                             d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z" />
                                     </svg></span>
                                 <div class="testimonial-stars">★★★★★</div>
-                                <p class="testimonial-text" data-full-text="Before joining ProLaunch Career Grooming Camp, I had the skills and experience, but I was not confident about how to present them effectively. The program helped me gain clarity, improve my communication, and understand how to position myself for opportunities. One of the biggest benefits for me was learning how to answer interview questions confidently using the STAR practical framework. It also helped me identify my strengths and communicate my value more effectively. In the course of the program, I applied for a job role; the next day I received mail for an interview. I did the interview, and successfully I've been passed to the second phase of the interview. Today, I feel more prepared, confident, and intentional about my career growth. ProLaunch has helped me develop a mindset of continuous growth and professional excellence. I would highly recommend it to anyone looking to advance their career and increase their confidence in the job market.">Before joining ProLaunch Career Grooming Camp, I had the
+                                <p class="testimonial-text"
+                                    data-full-text="Before joining ProLaunch Career Grooming Camp, I had the skills and experience, but I was not confident about how to present them effectively. The program helped me gain clarity, improve my communication, and understand how to position myself for opportunities. One of the biggest benefits for me was learning how to answer interview questions confidently using the STAR practical framework. It also helped me identify my strengths and communicate my value more effectively. In the course of the program, I applied for a job role; the next day I received mail for an interview. I did the interview, and successfully I've been passed to the second phase of the interview. Today, I feel more prepared, confident, and intentional about my career growth. ProLaunch has helped me develop a mindset of continuous growth and professional excellence. I would highly recommend it to anyone looking to advance their career and increase their confidence in the job market.">
+                                    Before joining ProLaunch Career Grooming Camp, I had the
                                     skills and experience, but I was not confident about how to present them
                                     effectively. The program helped me gain clarity, improve my communication, and
                                     understand how to position myself for opportunities.
@@ -3410,7 +3574,8 @@
                                         </div> -->
                                     </div>
                                 </div>
-                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read More</button>
+                                <button class="testimonial-read-more" onclick="toggleTestimonial(this)">Read
+                                    More</button>
                             </div>
 
 
@@ -3515,15 +3680,15 @@
         </section>
 
         <!-- CTA -->
-        <section class="cta-section">
+        <!-- <section class="cta-section">
             <div class="cta-inner">
                 <span class="section-tag">Don't Miss Out</span>
-                <h2>Cohort 04 Spots Are<br>Filling Fast.</h2>
+                <h2>Cohort 6 Spots Are<br>Filling Fast.</h2>
                 <p>Join a community of ambitious African professionals who are landing remote roles with confidence.
                     Enrollment closes soon.</p>
                 <a href="#signup" class="cta-btn">Reserve My Spot Now →</a>
             </div>
-        </section>
+        </section> -->
 
     </main>
 
@@ -3607,151 +3772,70 @@
         <div class="modal-content">
             <button class="modal-close" id="closeModal">&times;</button>
             <div class="form-card">
-                <div class="cohort-badge">Cohort 04 Open</div>
-                <h2>Secure Your Spot</h2>
-                <p class="form-subtitle">Enroll now to reserve your space in the next Career Grooming Camp cohort.</p>
+                <div class="cohort-badge">Reserve Your Spot — Cohort 06</div>
+                <h2>Choose a path and start today.</h2>
+                <p class="form-subtitle">Limited to 50 seats. Secure your place in the next Career Grooming Camp cohort.
+                </p>
 
                 <form id="leadForm" novalidate>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <input type="text" id="fname" placeholder="First Name" required class="form-input">
-                        </div>
-                        <div class="form-group">
-                            <input type="text" id="lname" placeholder="Last Name" required class="form-input">
-                        </div>
+                    <div class="form-group">
+                        <input type="text" id="fullName" placeholder="Full Name" required class="form-input">
                     </div>
                     <div class="form-group">
                         <input type="email" id="email" placeholder="Email Address" required class="form-input">
                     </div>
                     <div class="form-group">
-                        <input type="tel" id="whatsapp" placeholder="WhatsApp Number (e.g. +234...)" required
-                            class="form-input">
+                        <input type="tel" id="whatsapp" placeholder="WhatsApp Number" required class="form-input">
                     </div>
                     <div class="form-group">
-                        <input type="text" id="niche"
-                            placeholder="Your Career Role/Field (e.g. Virtual Assistant, Designer)" required
-                            class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <select id="interest" class="form-input" required>
-                            <option value="" disabled selected>I'm interested in...</option>
-                            <option value="Career Grooming Camp (Cohort 03)">Career Grooming Camp (Cohort 04)</option>
-                            <option value="1-on-1 Career Coaching">1-on-1 Career Coaching</option>
-                            <option value="Expert Professional Rewrite">Expert Professional Rewrite</option>
-                            <option value="LinkedIn Profile Optimization">LinkedIn Profile Optimization</option>
-                            <option value="Portfolio Building">Portfolio Building</option>
+                        <select id="blocker" class="form-input" required>
+                            <option value="" disabled selected>Biggest blocker right now</option>
+                            <option value="CV">CV</option>
+                            <option value="LinkedIn">LinkedIn</option>
+                            <option value="Interview">Interview</option>
+                            <option value="Job Search Strategy">Job Search Strategy</option>
                         </select>
                     </div>
 
                     <button type="submit" class="submit-btn" id="submitBtn">
-                        <span>Reserve My Access</span>
+                        <span>Reserve My Spot</span>
                         <svg class="icon">
                             <use href="#icon-arrow"></use>
                         </svg>
                     </button>
                 </form>
 
-                <p class="form-note">No spam. We'll only send you relevant program updates. <span>Free to join.</span>
-                </p>
+                <p class="form-note">Cohort 06 closes July 18, 2026. <span>Limited to 50 seats.</span></p>
                 <div id="formResponse"></div>
             </div>
         </div>
     </div>
 
-    <!-- WEBINAR REGISTRATION MODAL -->
-    <div class="webinar-modal-overlay" id="pastWebinarModal-5">
-        <div class="webinar-modal">
-            <button class="webinar-modal-close" data-close-modal aria-label="Close modal">&times;</button>
-            <div class="webinar-modal-header">
-                <span class="webinar-modal-badge"><span class="badge-dot"></span> Past Webinar</span>
-                <h3>The Volunteer Edge</h3>
-                <div class="webinar-modal-meta">
-                    <!-- <span>📅 <strong>May 30, 2026</strong></span>
-                    <span>🕖 <strong>7:00 PM</strong></span> -->
-                    <span>📍 <strong>Online (Google Meet)</strong></span>
-                </div>
-            </div>
-            <div class="webinar-modal-form">
-                <iframe
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSfizpQrQN4YucHd-eQkoMPcfjcb7p2t04IzpiX6r-6_5V2LwA/viewform"
-                    title="Webinar Registration Form" loading="lazy">Loading…</iframe>
-            </div>
-        </div>
-    </div>
 
-    <!--PAST WEBINAR REGISTRATION MODAL -->
-    <div class="webinar-modal-overlay" id="pastWebinarModal-1">
+    <!--WEBINAR REGISTRATION MODAL -->
+    <div class="webinar-modal-overlay" id="webinarModal">
         <div class="webinar-modal">
             <button class="webinar-modal-close" data-close-modal aria-label="Close modal">&times;</button>
             <div class="webinar-modal-header">
-                <span class="webinar-modal-badge"><span class="badge-dot"></span>Past Webinar</span>
-                <h3>Mastering the Remote Interview </h3>
+                <span class="webinar-modal-badge"><span class="badge-dot"></span> Upcoming Webinar</span>
+                <h3>Stop Applying Blindly: Where to Actually Find Jobs That Match Your Skills Webinar Registration</h3>
                 <div class="webinar-modal-meta">
                     <span>📍 <strong>Online (Google Meet)</strong></span>
                 </div>
             </div>
-            <div class="webinar-modal-form">
-                <iframe
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSdZIdk1M8vn6hEULfjALkyQHPKP7bd1VpSrVDyAkhmEaGPuEA/viewform"
-                    title="Webinar Registration Form" loading="lazy">Loading…</iframe>
+            <div class=" webinar-modal-form iframe">
+                <iframe src="" title="Webinar Replay" loading="lazy">Loading…</iframe>
             </div>
         </div>
     </div>
 
-    <div class="webinar-modal-overlay" id="pastWebinarModal-2">
-        <div class="webinar-modal">
-            <button class="webinar-modal-close" data-close-modal aria-label="Close modal">&times;</button>
-            <div class="webinar-modal-header">
-                <span class="webinar-modal-badge"><span class="badge-dot"></span>Past Webinar</span>
-                <h3>How To Draft ATS Friendly CVs + Personal & Packaging</h3>
-                <div class="webinar-modal-meta">
-
-                    <span>📍 <strong>Online (Google Meet)</strong></span>
-                </div>
-            </div>
-            <div class="webinar-modal-form">
-                <iframe
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSdvrioK9KzQ-tbh4LlaGBDiYfGzAvmp0nvZsXJUM0YQIggmIQ/viewform"
-                    title="Past Webinar Registration Form" loading="lazy">Loading…</iframe>
-            </div>
-        </div>
-    </div>
-
-    <div class="webinar-modal-overlay" id="pastWebinarModal-3">
-        <div class="webinar-modal">
-            <button class="webinar-modal-close" data-close-modal aria-label="Close modal">&times;</button>
-            <div class="webinar-modal-header">
-                <span class="webinar-modal-badge"><span class="badge-dot"></span>Past Webinar</span>
-                <h3>How To Draft ATS Friendly CVs + Personal & Packaging </h3>
-                <div class="webinar-modal-meta">
-                    <span>📍 <strong>Online (Google Meet)</strong></span>
-                </div>
-            </div>
-            <div class="webinar-modal-form">
-                <iframe
-                    src="https://docs.google.com/forms/d/e/1FAIpQLSdvrioK9KzQ-tbh4LlaGBDiYfGzAvmp0nvZsXJUM0YQIggmIQ/viewform"
-                    title="Webinar Registration Form" loading="lazy">Loading…</iframe>
-            </div>
-        </div>
-    </div>
-
+    <!--ARCHIVED WEBINAR MODAL -->
     <div class="webinar-modal-overlay" id="pastWebinarModal-4">
-        <div class="webinar-modal">
-            <button class="webinar-modal-close" data-close-modal aria-label="Close modal">&times;</button>
-            <div class="webinar-modal-header">
-                <span class="webinar-modal-badge"><span class="badge-dot"></span>Past Webinar</span>
-                <h3>How your LinkedIn is Costing you Opportunities</h3>
-                <div class="webinar-modal-meta">
-                    <span>📍 <strong>Online (Google Meet)</strong></span>
-                </div>
-            </div>
-            <div class="webinar-modal-form">
-                <iframe
-                    src="https://docs.google.com/forms/d/e/1FAIpQLScfinuIn-J4Fp7aPmHxice5A-c6eblwb9hY9CXUrOFqtH-X0A/viewform"
-                    title="Webinar Registration Form" loading="lazy">Loading…</iframe>
-            </div>
+        <div class="webinar-modal-form webinar-modal-form--list">
+            <ul class="archive-list"></ul>
         </div>
     </div>
+
 
     <!-- DEFERRED ASSETS (Non-blocking) -->
     <script>
