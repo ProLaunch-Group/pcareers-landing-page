@@ -7,11 +7,11 @@
    "Access Older Webinars" archive list) is handled automatically.
    ========================================================================= */
 const WEBINARS = [
-     {
+    {
         id: "Stop Applying Blindly",
         title: "Stop Applying Blindly: Where to Actually Find Jobs That Match Your Skills Webinar Registration.",
-        date: "2026-07-18",             
-        status: "upcoming",                  
+        date: "2026-07-18",
+        status: "upcoming",
         image: "assets/images/event-5.webp",
         description: 'In this session, you\'ll discover how to identify opportunities that match your skills and experience, where to find quality job openings, what recruiters actually look for in candidates, and practical strategies to increase your chances of landing interviews.',
         formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSez0aBGAJoUPej3LNFr3QaJUOTBEdMeyrdtUqbr6NoiYKHDeQ/viewform"
@@ -19,8 +19,8 @@ const WEBINARS = [
     {
         id: "volunteer-edge",
         title: "The Volunteer Edge",
-        date: "2026-05-30",             
-        status: "past",                  
+        date: "2026-05-30",
+        status: "past",
         image: "assets/images/event-4.webp",
         description: "A free webinar to help you accelerate your career growth through strategic service and learn how to position your volunteer experience as job-ready value employers will notice.",
         formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSfizpQrQN4YucHd-eQkoMPcfjcb7p2t04IzpiX6r-6_5V2LwA/viewform"
@@ -335,9 +335,9 @@ document.addEventListener('DOMContentLoaded', () => {
         formWrap.innerHTML = `
             <ul class="archive-list">
                 ${[...WEBINARS]
-                    .sort((a, b) => new Date(b.date) - new Date(a.date))
-                    .slice(MAX_FEATURED_CARDS)
-                    .map(w => `
+                .sort((a, b) => new Date(b.date) - new Date(a.date))
+                .slice(MAX_FEATURED_CARDS)
+                .map(w => `
                         <li class="archive-item">
                             <a href="${w.formUrl}" target="_blank" rel="noopener" class="archive-link">
                                 <span class="archive-link-title">${w.title}</span>
@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </a>
                         </li>
                     `)
-                    .join('')}
+                .join('')}
             </ul>
         `;
     };
@@ -509,21 +509,76 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── FLOATING WEBINAR BANNER ────────────────────────────────────────
     const webinarFloat = document.getElementById('webinarFloat');
     const dismissFloatBtn = document.getElementById('dismissWebinarFloat');
+    const eventsSection = document.getElementById('events');
+    const upcomingWebinar = [...WEBINARS]
+        .filter(webinar => webinar.status === 'upcoming')
+        .sort((a, b) => new Date(a.date) - new Date(b.date))[0] || null;
 
-    if (webinarFloat && !sessionStorage.getItem('webinar_float_dismissed')) {
-        setTimeout(() => webinarFloat.classList.add('visible'), 2000);
+    const showWebinarFloat = () => {
+        if (!webinarFloat || !upcomingWebinar) return;
+        if (sessionStorage.getItem('webinar_float_dismissed')) return;
+        if (webinarFloat.classList.contains('visible')) return;
 
+        const title = webinarFloat.querySelector('.webinar-float-title');
+        const meta = webinarFloat.querySelector('.webinar-float-meta');
+        const cta = webinarFloat.querySelector('.webinar-float-cta');
+        const label = webinarFloat.querySelector('.webinar-float-label');
+
+        if (title) title.textContent = upcomingWebinar.title;
+        if (meta) meta.textContent = `${new Date(upcomingWebinar.date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} · Online`;
+        if (cta) {
+            cta.setAttribute('data-webinar-modal', upcomingWebinar.id);
+            cta.setAttribute('aria-label', `Reserve your spot for ${upcomingWebinar.title}`);
+        }
+        if (label) label.innerHTML = '<span class="dot"></span> Upcoming Webinar';
+
+        webinarFloat.style.display = 'flex';
+        requestAnimationFrame(() => webinarFloat.classList.add('visible'));
+    };
+
+    const hideWebinarFloat = () => {
+        if (!webinarFloat) return;
+        webinarFloat.classList.remove('visible');
+        webinarFloat.classList.add('dismissed');
+        webinarFloat.style.display = 'none';
+    };
+
+    if (webinarFloat && upcomingWebinar) {
         webinarFloat.addEventListener('click', (e) => {
             if (e.target.closest('#dismissWebinarFloat')) return;
-            openWebinarModal('webinarModal');
-            webinarFloat.classList.replace('visible', 'dismissed');
+            openFeaturedWebinarModal(upcomingWebinar.id);
+            hideWebinarFloat();
         });
 
         dismissFloatBtn?.addEventListener('click', (e) => {
             e.stopPropagation();
-            webinarFloat.classList.replace('visible', 'dismissed');
+            hideWebinarFloat();
             sessionStorage.setItem('webinar_float_dismissed', '1');
         });
+
+        let floatVisibleTriggered = false;
+
+        const handleBannerTrigger = () => {
+            if (floatVisibleTriggered || sessionStorage.getItem('webinar_float_dismissed')) return;
+            if (!eventsSection) return;
+
+            const rect = eventsSection.getBoundingClientRect();
+            const sectionInView = rect.top < window.innerHeight * 0.75 && rect.bottom > 0;
+
+            if (sectionInView) {
+                floatVisibleTriggered = true;
+                showWebinarFloat();
+            }
+        };
+
+        window.addEventListener('scroll', handleBannerTrigger, { passive: true });
+        window.addEventListener('resize', handleBannerTrigger);
+
+        if (window.location.hash === '#events') {
+            setTimeout(handleBannerTrigger, 300);
+        }
+    } else if (webinarFloat) {
+        webinarFloat.style.display = 'none';
     }
 
 });

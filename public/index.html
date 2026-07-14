@@ -487,14 +487,16 @@
         }
 
         .form-card {
-            background: white;
+            background: linear-gradient(145deg, #ffffff 0%, #f7fff3 100%);
+            border: 1px solid rgba(6, 58, 45, 0.08);
             border-radius: 28px;
             padding: 2.75rem;
             padding-top: 3.25rem;
-            box-shadow: 0 30px 80px rgba(13, 59, 56, 0.12), 0 1px 0 var(--border);
+            box-shadow: 0 24px 60px rgba(13, 59, 56, 0.12), 0 10px 24px rgba(16, 86, 68, 0.08);
             position: relative;
             overflow: hidden;
             margin-top: 1.5rem;
+            isolation: isolate;
         }
 
         .form-card::before {
@@ -503,23 +505,35 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--green), var(--teal));
+            height: 5px;
+            background: linear-gradient(90deg, var(--green), var(--teal), var(--green-light));
+            z-index: 1;
+        }
+
+        .form-card::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: inherit;
+            background: linear-gradient(140deg, rgba(255, 255, 255, 0.7), transparent 45%, rgba(123, 182, 64, 0.08));
+            pointer-events: none;
+            z-index: -1;
         }
 
         .cohort-badge {
             position: absolute;
             top: 0;
             right: 2rem;
-            background: var(--green-light);
-            color: #063a2d;
+            background: linear-gradient(135deg, var(--green) 0%, var(--teal) 100%);
+            color: white;
             font-size: 0.72rem;
             font-weight: 800;
             padding: 0.45rem 1.1rem;
             border-radius: 0 0 12px 12px;
             letter-spacing: 0.05em;
             text-transform: uppercase;
-            border: 1px solid rgba(123, 182, 64, 0.2);
+            box-shadow: 0 8px 20px rgba(6, 58, 45, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-top: none;
         }
 
@@ -548,15 +562,15 @@
 
         .form-input {
             width: 100%;
-            padding: 0.9rem 1.1rem;
-            border: 1.5px solid #e0e8d8;
+            padding: 0.95rem 1.1rem;
+            border: 1.5px solid rgba(6, 58, 45, 0.1);
             border-radius: 12px;
             font-family: 'Lato', sans-serif;
             font-size: 0.9rem;
             color: var(--forest);
-            background: var(--cloud-gray);
+            background: rgba(247, 251, 244, 0.95);
             outline: none;
-            transition: border-color 0.2s, background 0.2s, transform 0.2s;
+            transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
         }
 
         .form-input::placeholder {
@@ -567,6 +581,7 @@
             border-color: var(--green);
             background: white;
             transform: translateY(-1px);
+            box-shadow: 0 0 0 4px rgba(123, 182, 64, 0.12);
         }
 
         .submit-btn {
@@ -2808,7 +2823,7 @@
 <body>
 
     <!-- FLOATING WEBINAR BANNER -->
-    <!-- <div class="webinar-float" id="webinarFloat" role="complementary" aria-label="Upcoming webinar notification">
+    <div class="webinar-float" id="webinarFloat" role="complementary" aria-label="Upcoming webinar notification" style="display:none;">
         <div class="webinar-float-accent"></div>
         <button class="webinar-float-dismiss" data-close-modal aria-label="Close modal" id="dismissWebinarFloat"
             aria-label="Dismiss notification">&times;</button>
@@ -2816,17 +2831,17 @@
             <div class="webinar-float-icon">🎙️</div>
             <div class="webinar-float-text">
                 <div class="webinar-float-label"><span class="dot"></span> Free Live Webinar Recording</div>
-                <div class="webinar-float-title">The Volunteer Edge</div>
-                <div class="webinar-float-meta">May 30, 2026 · 7:00 PM · Online</div>
+                <div class="webinar-float-title">Stop Applying Blindly</div>
+                <div class="webinar-float-meta">July 18, 2026 · 7:00 PM · Online</div>
             </div>
         </div>
-        <div class="webinar-float-cta" data-modal="pastWebinarModal-5">
-            <span>Access Replay</span>
+        <div class="webinar-float-cta" data-webinar-modal="__pending__">
+            <span>Reserve your spot</span>
             <svg class="icon">
                 <use href="#icon-arrow"></use>
             </svg>
         </div>
-    </div> -->
+    </div>
 
     <!-- ICON SPRITE (Purged FontAwesome) -->
     <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
@@ -3802,8 +3817,8 @@
         <div class="webinar-modal">
             <button class="webinar-modal-close" data-close-modal aria-label="Close modal">&times;</button>
             <div class="webinar-modal-header">
-                <span class="webinar-modal-badge"><span class="badge-dot"></span> Past Webinar</span>
-                <h3>Webinar Replay</h3>
+                <span class="webinar-modal-badge"><span class="badge-dot"></span> Upcoming Webinar</span>
+                <h3>Stop Applying Blindly: Where to Actually Find Jobs That Match Your Skills Webinar Registration</h3>
                 <div class="webinar-modal-meta">
                     <span>📍 <strong>Online (Google Meet)</strong></span>
                 </div>
