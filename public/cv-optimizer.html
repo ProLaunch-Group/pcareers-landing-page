@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI CV Optimizer (LaunchIQ) | ProLaunch Careers</title>
+    <meta name="description" content="Analyze your CV against any job description and get an instant ATS and positioning score with LaunchIQ, ProLaunch Careers' free AI CV Optimizer.">
+    <meta property="og:title" content="AI CV Optimizer (LaunchIQ) | ProLaunch Careers">
+    <meta property="og:description" content="Analyze your CV against any job description and get an instant ATS and positioning score with LaunchIQ, ProLaunch Careers' free AI CV Optimizer.">
+    <meta property="og:type" content="website">
+
+    <link rel="icon" href="assets/images/logo2.webp" sizes="48x48">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=Lato:wght@300;400;700&display=swap">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=Lato:wght@300;400;700&display=swap"
+        rel="stylesheet" media="print" onload="this.media='all'">
+
+    <link rel="stylesheet" href="assets/css/main.css">
+    
+</head>
+
+<body>
+
+    <svg style="display:none;">
+        <symbol id="icon-grad" viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></symbol>
+        <symbol id="icon-robot" viewBox="0 0 24 24"><path d="M12 2a2 2 0 0 1 2 2v1h2a3 3 0 0 1 3 3v2h1v4h-1v3a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3v-3H4v-4h1V8a3 3 0 0 1 3-3h2V4a2 2 0 0 1 2-2zM9 12a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm6 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></symbol>
+        <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M4 12h13M13 6l6 6-6 6"/></symbol>
+        <symbol id="icon-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol>
+        <symbol id="icon-magic" viewBox="0 0 24 24"><path d="M5 3v4M3 5h4M6 17v4M4 19h4M13 3l2.5 5.5L21 11l-5.5 2.5L13 19l-2.5-5.5L5 11l5.5-2.5L13 3z"/></symbol>
+        <symbol id="icon-tools" viewBox="0 0 24 24"><path d="M14 7l3 3-8 8-3-3 8-8zM17 3l4 4-2 2-4-4 2-2zM3 21l3-6 3 3-6 3z"/></symbol>
+        <symbol id="icon-earth" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18"/></symbol>
+        <symbol id="icon-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-7 8-7s8 3 8 7"/></symbol>
+        <symbol id="icon-file" viewBox="0 0 24 24"><path d="M6 2h9l5 5v15H6V2z"/><path d="M14 2v6h6"/></symbol>
+        <symbol id="icon-briefcase" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+        <symbol id="icon-folder" viewBox="0 0 24 24"><path d="M3 6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6z"/></symbol>
+        <symbol id="icon-quote" viewBox="0 0 24 24"><path d="M7 8c-2.5 1.5-3 3.5-3 6a3 3 0 0 0 3 3 3 3 0 0 0 3-3c0-1.5-1-2.5-2.5-2.7C8 9.5 9 8.7 10.5 8L7 8zm10 0c-2.5 1.5-3 3.5-3 6a3 3 0 0 0 3 3 3 3 0 0 0 3-3c0-1.5-1-2.5-2.5-2.7 1-1.8 2-2.6 3.5-3.3L17 8z"/></symbol>
+        <symbol id="icon-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+        <symbol id="icon-linkedin" viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.1 3.77-2.1 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.7c0-1.36-.02-3.1-1.89-3.1-1.9 0-2.19 1.48-2.19 3v5.8H9z"/></symbol>
+        <symbol id="icon-whatsapp" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.2-1.4A10 10 0 1 0 12 2zm0 18a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20z"/></symbol>
+        <symbol id="icon-facebook" viewBox="0 0 24 24"><path d="M13.5 21v-8h2.7l.4-3.1h-3.1V8c0-.9.2-1.5 1.5-1.5h1.7V3.7C15.9 3.5 15 3.4 13.9 3.4c-2.3 0-3.9 1.4-3.9 4v2.5H7.3V13H10v8h3.5z"/></symbol>
+        <symbol id="icon-tiktok" viewBox="0 0 24 24"><path d="M14 3c.3 1.8 1.6 3.2 3.4 3.5V9c-1.2 0-2.4-.4-3.4-1.1v6.6a5 5 0 1 1-4.3-5v2.6a2.4 2.4 0 1 0 1.7 2.3V3H14z"/></symbol>
+        <symbol id="icon-instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></symbol>
+        <symbol id="icon-mail" viewBox="0 0 24 24"><path d="M3 5h18v14H3z"/><path d="m3 6 9 7 9-7"/></symbol>
+        <symbol id="icon-phone" viewBox="0 0 24 24"><path d="M6 3h4l2 5-2.5 1.5a12 12 0 0 0 5 5L16 12l5 2v4a2 2 0 0 1-2 2C10.5 20 4 13.5 4 5a2 2 0 0 1 2-2z"/></symbol>
+        <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></symbol>
+    </svg>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a href="index.html" class="nav-logo">
+            <img src="assets/images/logo2.webp" width="38" height="38" alt="ProLaunch Logo" class="logo-mark">
+            <span class="logo-text">ProLaunch Careers</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="career-grooming-camp.html">Career Grooming Camp</a></li>
+            <li><a href="mentorship.html">Mentorship (PMI)</a></li>
+            <li><a href="events.html">Events</a></li>
+            <li><a href="resources.html">Resources</a></li>
+            <li><a href="cv-optimizer.html" class="active">CV Optimizer</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li><a href="career-grooming-camp.html" class="nav-cta">Secure Your Seat &rarr;</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="career-grooming-camp.html" class="mobile-link">Career Grooming Camp</a>
+        <a href="mentorship.html" class="mobile-link">Mentorship (PMI)</a>
+        <a href="events.html" class="mobile-link">Events</a>
+        <a href="resources.html" class="mobile-link">Resources</a>
+        <a href="cv-optimizer.html" class="mobile-link">CV Optimizer</a>
+        <a href="contact.html" class="mobile-link">Contact</a>
+        <a href="career-grooming-camp.html" class="mobile-cta">Secure Your Seat &rarr;</a>
+    </div>
+
+    <main id="main-content">
+
+        <section class="section-cream" id="cv-optimizer-redirect" style="min-height: 70vh; display: flex; align-items: center; padding-top: 9rem;">
+            <div class="section-inner-narrow">
+                <div class="redirect-card reveal">
+                    <div class="service-icon" style="width: 64px; height: 64px; font-size: 1.8rem;">
+                        <svg class="icon"><use href="#icon-robot"></use></svg>
+                    </div>
+                    <h2>Taking You to LaunchIQ</h2>
+                    <p>The AI CV Optimizer is a free proprietary tool that scores your CV against any job description and shows you exactly what to fix. You're being redirected to LaunchIQ &mdash; if nothing happens, use the button below.</p>
+                    <a href="https://prolaunch-cv-optimizer.vercel.app/" target="_blank" rel="noopener" class="cta-btn" id="cv-opt-manual-link">Open the CV Optimizer <svg class="icon"><use href="#icon-arrow"></use></svg></a>
+                    <p class="redirect-countdown" id="cv-opt-countdown">Redirecting in 3 seconds&hellip;</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-brand">
+                    <img src="assets/images/logo2.webp" width="40" height="40" alt="ProLaunch Logo" class="footer-logo-img">
+                    <h3 class="footer-logo-text">ProLaunch Careers</h3>
+                </div>
+                <p>Equipping Africa's next generation of remote professionals with the skills and tools to land global roles.</p>
+                <div class="footer-socials">
+                    <a href="https://www.linkedin.com/company/prolaunch-careers/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="icon"><use href="#icon-linkedin"></use></svg></a>
+                    <a href="https://whatsapp.com/channel/0029VbBQHJw3WHTYHeJK5I0s" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="icon"><use href="#icon-whatsapp"></use></svg></a>
+                    <a href="https://web.facebook.com/prolaunch.careers" target="_blank" rel="noopener" aria-label="Facebook"><svg class="icon"><use href="#icon-facebook"></use></svg></a>
+                    <a href="https://www.tiktok.com/@prolaunch_careers" target="_blank" rel="noopener" aria-label="TikTok"><svg class="icon"><use href="#icon-tiktok"></use></svg></a>
+                    <a href="https://www.instagram.com/prolaunch_careers" target="_blank" rel="noopener" aria-label="Instagram"><svg class="icon"><use href="#icon-instagram"></use></svg></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h2>Quick Links</h2>
+                <ul class="footer-links-list">
+                    <li><a href="index.html#about-us">About ProLaunch</a></li>
+                    <li><a href="career-grooming-camp.html">Career Grooming Camp</a></li>
+                    <li><a href="mentorship.html">Mentorship (PMI)</a></li>
+                    <li><a href="events.html">Events</a></li>
+                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="https://prolaunch-cv-optimizer.vercel.app/" target="_blank" rel="noopener">CV Optimizer Tool</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h2>Contact Us</h2>
+                <p>Have questions about which path is right for you? Reach out to our team.</p>
+                <a href="mailto:careers@prolaunchgroup.org" class="footer-email">careers@prolaunchgroup.org</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p style="color: var(--text-muted); font-size: 0.85rem;">&copy; 2026 ProLaunch Careers. All Rights Reserved.</p>
+            <div style="display: flex; gap: 1.5rem;">
+                <a href="#" rel="noopener" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">Privacy Policy</a>
+                <a href="#" rel="noopener" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+    <style>
+        .footer-logo-img { width: 40px; height: 40px !important; }
+        .nav-links a.active { color: var(--green-dark); }
+    </style>
+
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/site.js"></script>
+    <script>
+        (function () {
+            var target = "https://prolaunch-cv-optimizer.vercel.app/";
+            var seconds = 3;
+            var el = document.getElementById('cv-opt-countdown');
+            var timer = setInterval(function () {
+                seconds -= 1;
+                if (el) el.textContent = seconds > 0 ? ('Redirecting in ' + seconds + ' second' + (seconds === 1 ? '' : 's') + '\u2026') : 'Redirecting now\u2026';
+                if (seconds <= 0) {
+                    clearInterval(timer);
+                    window.location.href = target;
+                }
+            }, 1000);
+        })();
+    </script>
+</body>
+
+</html>

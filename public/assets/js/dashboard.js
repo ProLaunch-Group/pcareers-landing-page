@@ -1,0 +1,541 @@
+const getAuthHeader = () => 'Basic ' + btoa((sessionStorage.getItem('lpm-usr')||'') + ':' + (sessionStorage.getItem('lpm-pwd')||''));
+const API_BASE = (window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost') ? 'http://127.0.0.1:8000' : '';
+
+// ─── STATE ───────────────────────────────────────────────
+const S = {
+  leads:[], active_users:[], total_users:[], labels:[], rawDates:[], ga4Sessions:[], ga4Sources:[],
+  ga4NewU:[], ga4PV:[], ga4Events:[], ga4Dur:[], totals:{}, daily_stats:[], lastPeriod:'cumulative'
+};
+let CH = {};
+
+// ─── UTILS ───────────────────────────────────────────────
+const $  = id => document.getElementById(id);
+const td = () => new Date().toLocaleDateString('en-CA'); 
+const l7 = () => Array.from({length:7},(_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(6-i)); return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'}); });
+const d7 = () => Array.from({length:7},(_,i)=>{ const d=new Date(); d.setDate(d.getDate()-(6-i)); return d.toLocaleDateString('en-CA'); });
+const ago= n=>{ const d=new Date(); d.setDate(d.getDate()-n); return d.toLocaleDateString('en-CA'); };
+const getDR = p => {
+  if(p==='today') return {s:td(),e:td()};
+  if(p==='yesterday') return {s:ago(1),e:ago(1)};
+  return {s:'2026-03-31',e:td()};
+};
+
+function getRelativeBadge(ts) {
+  if(!ts || ts === '—') return { text: '—', class: 'bold' };
+  if (isSameDay(ts, td())) return { text: 'Today', class: 'bnew' };
+  if (isSameDay(ts, ago(1))) return { text: 'Yesterday', class: 'bold' };
+
+  const d = new Date(ts);
+  if(isNaN(d)) return { text: '—', class: 'bold' };
+  
+  const now = new Date();
+  const diffTime = now - d;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 7) {
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    return { text: days[d.getDay()], class: 'bold' };
+  }
+  
+  return { text: d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }), class: 'bold' };
+}
+
+const isSameDay = (ts, dStr) => {
+  if(!ts || typeof ts !== 'string') return false;
+  if(ts.startsWith(dStr)) return true;
+  const [y,m,d] = dStr.split('-');
+  const m1 = parseInt(m, 10), d1 = parseInt(d, 10), m2 = m1.toString().padStart(2,'0'), d2 = d1.toString().padStart(2,'0');
+  const fmts = [`${d1}/${m1}/${y}`, `${m1}/${d1}/${y}`, `${d2}/${m2}/${y}`, `${m2}/${d2}/${y}`];
+  if(fmts.some(f => ts.includes(f))) return true;
+  const pd = new Date(ts);
+  return !isNaN(pd) && pd.getFullYear()===parseInt(y, 10) && (pd.getMonth()+1)===m1 && pd.getDate()===d1;
+};
+
+function toast(msg,dur=2800){
+  const t=$('toast'); t.textContent=msg; t.className='show';
+  clearTimeout(t._t); t._t=setTimeout(()=>t.className='',dur);
+}
+function ftime(){ return new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}); }
+
+function animateValue(id, start, end, duration, formatStr = '') {
+  const obj = $(id);
+  if (!obj) return;
+  obj.classList.remove('skeleton-text');
+  if (end === 0) {
+    obj.innerHTML = end + formatStr;
+    return;
+  }
+  let startTimestamp = null;
+  const step = (timestamp) => {
+    if (!startTimestamp) startTimestamp = timestamp;
+    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+    const easeProgress = 1 - Math.pow(1 - progress, 3); // Ease out cubic
+    let currentVal = Math.floor(easeProgress * (end - start) + start);
+    obj.innerHTML = currentVal + formatStr;
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    } else {
+      obj.innerHTML = end + formatStr;
+    }
+  };
+  window.requestAnimationFrame(step);
+}
+
+// ─── AUTH ────────────────────────────────────────────────
+async function tryLogin(){
+  const u = $('usr-input').value.trim();
+  const p = $('pwd-input').value;
+  if(!u || !p){
+    $('pwd-error').textContent='Enter both username and password.';
+    return;
+  }
+  
+  sessionStorage.setItem('lpm-usr', u);
+  sessionStorage.setItem('lpm-pwd', p);
+  
+  const btn = $('lock-btn');
+  const org = btn.innerHTML;
+  btn.innerHTML = '<span class="spinner" style="border-width:2px;width:14px;height:14px;border-top-color:#fff"></span>';
+  
+  try {
+    const r = await fetch(`${API_BASE}/api/verify`, { headers: { 'Authorization': getAuthHeader() } });
+    if (r.ok) {
+      sessionStorage.setItem('lpm-ok','1');
+      $('lock-screen').style.display='none';
+      $('app').style.display='block';
+      init();
+    } else if (r.status === 401) {
+      btn.innerHTML = org;
+      $('pwd-error').textContent='Incorrect credentials — try again.';
+      sessionStorage.removeItem('lpm-usr');
+      sessionStorage.removeItem('lpm-pwd');
+      $('pwd-input').value=''; $('pwd-input').focus();
+    } else {
+      btn.innerHTML = org;
+      $('pwd-error').textContent=`Error ${r.status}: Backend issue.`;
+    }
+  } catch(e) {
+    btn.innerHTML = org;
+    $('pwd-error').textContent='Backend is offline — check your terminal.';
+  }
+}
+function doLock(){
+  sessionStorage.removeItem('lpm-ok');
+  sessionStorage.removeItem('lpm-usr');
+  sessionStorage.removeItem('lpm-pwd');
+  $('app').style.display='none';
+  $('lock-screen').style.display='flex';
+  $('pwd-input').value=''; $('usr-input').value=''; 
+  $('pwd-error').textContent='';
+  $('lock-btn').innerHTML = 'Unlock';
+}
+
+// ─── NAV ─────────────────────────────────────────────────
+function go(v,el){
+  ['overview','leads','analytics'].forEach(x=>{
+    const section = $('view-'+x);
+    if(x === v) {
+      section.style.display='block';
+      section.style.animation = 'none';
+      section.offsetHeight; // trigger reflow
+      section.style.animation = null; 
+    } else {
+      section.style.display='none';
+    }
+  });
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  el.classList.add('active');
+  const T={overview:'Overview',leads:'Leads',analytics:'GA4 Analytics'};
+  $('ptitle').textContent=T[v];
+  if(v==='analytics') setTimeout(buildGA4Charts,60);
+}
+
+// ─── FETCH DATA (FastAPI Backend) ────────────────────────
+function setSkeleton(id) {
+  const el = $(id);
+  if(el) {
+    el.innerHTML = '0';
+    el.classList.add('skeleton-text');
+  }
+}
+
+async function fetchLeads(){
+  setConn('loading');
+  setSkeleton('m-leads');
+  setSkeleton('m-cvr');
+  try{
+    const r = await fetch(`${API_BASE}/api/leads`, { headers: { 'Authorization': getAuthHeader() } });
+    if(r.status === 401){ toast('API auth failed — check backend credentials'); setConn('error'); return; }
+    if(!r.ok){ const e = await r.json().catch(()=>({})); toast('API error: '+(e.detail||r.status)); setConn('error'); return; }
+    const data = await r.json();
+    S.leads = data.leads || [];
+    setConn('ok');
+  }catch(e){
+    toast('Network error — backend unreachable');
+    setConn('error');
+  }
+}
+
+async function fetchAnalytics(period = 'cumulative'){
+  ['m-vis', 'm-sess', 'ga-sess', 'ga-users', 'ga-newu', 'ga-pv', 'ga-events', 'ga-dur'].forEach(setSkeleton);
+  
+  try{
+    const r = await fetch(`${API_BASE}/api/analytics?period=${period}`, { headers: { 'Authorization': getAuthHeader() } });
+    if(!r.ok) throw new Error('Analytics API error status');
+    const data = await r.json();
+    const stats = data.daily_stats || [];
+    const totals = data.totals || {};
+    
+    if(stats.length > 0){
+      S.labels = stats.map(s => {
+        const d = new Date(s.date); return d.toLocaleDateString('en-GB',{weekday:'short',day:'numeric'});
+      });
+      S.rawDates = stats.map(s => s.date);
+      S.active_users = stats.map(s => s.active_users);
+      S.total_users = stats.map(s => s.total_users);
+      S.ga4Sessions = stats.map(s => s.sessions);
+      S.ga4NewU = stats.map(s => s.new_users);
+      S.ga4PV = stats.map(s => s.page_views);
+      S.ga4Events = stats.map(s => s.event_count);
+      S.ga4Dur = stats.map(s => s.avg_duration);
+      S.totals = totals;
+      S.daily_stats = stats;
+      S.lastPeriod = period;
+      
+      // ─── Populating Big Numbers from the Deduplicated API Totals ───
+      animateValue('ga-sess', 0, totals.sessions || 0, 1000);
+      animateValue('ga-users', 0, totals.active_users || 0, 1000);
+      animateValue('ga-newu', 0, totals.new_users || 0, 1000);
+      animateValue('ga-pv', 0, totals.page_views || 0, 1000);
+      animateValue('ga-events', 0, totals.event_count || 0, 1000);
+      animateValue('ga-dur', 0, Math.round(totals.avg_engagement_time || 0), 1000, 's');
+
+      // Update range labels
+      document.querySelectorAll('.ga4-range-text').forEach(el => {
+        el.textContent = (period === 'cumulative') ? 'Since Mar 31' : (period.charAt(0).toUpperCase() + period.slice(1));
+      });
+      
+    } else { throw new Error('Empty stats array returned'); }
+  }catch(e){
+    console.warn('GA4 fetch fallback:', e);
+    S.labels = []; S.rawDates = []; S.visits = []; S.ga4Sessions = [];
+    S.ga4NewU = []; S.ga4PV = []; S.ga4Events = []; S.ga4Dur = [];
+    ['ga-sess','ga-users','ga-newu','ga-pv','ga-events'].forEach(id => { $(id).textContent='0'; $(id).classList.remove('skeleton-text'); });
+    $('ga-dur').textContent='0s'; $('ga-dur').classList.remove('skeleton-text');
+  }
+}
+
+async function fetchEvents(period = 'cumulative'){
+  try{
+    const r = await fetch(`${API_BASE}/api/events?period=${period}`, { headers: { 'Authorization': getAuthHeader() } });
+    if(!r.ok) return;
+    const data = await r.json();
+    const evs = data.events || [];
+    const colors = ['#7bb640','#19a08c','#f0b860','#8a9e89','#5c8680','#c9d8a3'];
+    S.ga4Sources = evs.map((e,i) => ({
+      label: e.name, val: e.interactions, sessions: e.unique_users, color: colors[i%colors.length]
+    }));
+  }catch(e){
+    console.warn('Events fetch fallback:', e);
+    S.ga4Sources = [];
+  }
+}
+
+// ─── METRICS ─────────────────────────────────────────────
+function updateMetrics(){
+  const dr = getDR(S.lastPeriod);
+  const leadsInPeriod = S.leads.filter(l => {
+    const ld = (l.timestamp || l.date || '').split('T')[0];
+    return ld >= dr.s && ld <= dr.e;
+  });
+  
+  const todayLeads = S.leads.filter(l=>isSameDay(l.timestamp||l.date||'', td())).length;
+  
+  // Find EXACT today stats (prevent fallback to yesterday)
+  const todayEntry = S.daily_stats.find(s => s.date === td());
+  const todayActive = todayEntry ? todayEntry.active_users : 0;
+  
+  const totalActive = S.totals.active_users || 0;
+  const cvr = totalActive > 0 ? Math.round((leadsInPeriod.length / totalActive) * 100) : 0;
+  const sess30 = S.ga4Sessions.reduce((a,b)=>a+b,0);
+
+  animateValue('m-vis', 0, todayActive, 1000);
+  $('m-vis-d').textContent=todayActive>0?'↑ active':'Live via GA4 API';
+  $('m-vis-d').className='mdelta '+(todayActive>0?'up':'nu');
+  
+  animateValue('m-leads', 0, S.leads.length, 1200);
+  $('m-leads-d').textContent=`+${todayLeads} today`;
+  
+  animateValue('m-cvr', 0, cvr, 1200, '%');
+  const cd=$('m-cvr-d');
+  cd.textContent=cvr>0?(totalActive>0 && cvr>=5?'✓ above 5% target':'Below 5% — needs work'):'Need visit data';
+  cd.className='mdelta '+(cvr>=5?'up':cvr>0?'dn':'nu');
+  
+  animateValue('m-sess', 0, sess30, 1000);
+}
+
+// ─── LEADS TABLE ─────────────────────────────────────────
+function renderLeads(){
+  _renderTable('leads-wrap', 50);
+  _renderTable('overview-leads-wrap', 5, true); 
+}
+
+function _renderTable(id, limit, todayOnly = false) {
+  const w=$(id);
+  if(!w) return;
+  
+  let leadsToRender = todayOnly 
+    ? S.leads.filter(l => isSameDay(l.timestamp||l.date||'', td()))
+    : S.leads;
+
+  if(id === 'leads-wrap') {
+    const lbl=$('leads-count');
+    if(!leadsToRender.length){w.innerHTML='<div class="empty">No leads yet. Ensure the backend is configured with your Google Sheet.</div>';if(lbl)lbl.textContent='';return;}
+    if(lbl)lbl.textContent=leadsToRender.length+' total';
+  } else {
+    if(!leadsToRender.length){w.innerHTML='<div class="empty">No new leads today.</div>';return;}
+  }
+  
+  const keys = Object.keys(leadsToRender[0] || {});
+  if(!keys.length) return;
+
+  let h='<div style="overflow-x:auto;"><table><thead><tr>';
+  keys.forEach(k => { h += `<th>${k.charAt(0).toUpperCase() + k.slice(1)}</th>`; });
+  h+='<th></th></tr></thead><tbody>';
+  
+  leadsToRender.slice(0,limit).forEach((l,i)=>{
+    h+='<tr>';
+    keys.forEach(k => {
+      let val = l[k] || '—';
+      const isMuted = ['email','phone','timestamp','source','niche','interest'].includes(k.toLowerCase());
+      const isMono = ['timestamp'].includes(k.toLowerCase());
+      const isName = (k.toLowerCase() === 'name' || k.toLowerCase() === 'firstname' || k.toLowerCase() === 'first_name');
+      
+      let style = '';
+      if(isName) {
+        style += 'font-weight:600; font-family:var(--font-heading);';
+        val = `<div style="display:flex;align-items:center;"><span style="display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,0.5);backdrop-filter:blur(8px);border:1px solid rgba(13,59,56,0.1);margin-right:10px;box-shadow:0 2px 6px rgba(13,59,56,0.04);flex-shrink:0;"><i class="fa-solid fa-user" style="color:var(--muted);font-size:11px;"></i></span>${val}</div>`;
+      }
+      if(isMuted) style += 'color:var(--muted);';
+      if(isMono) style += 'font-size:12px;';
+      
+      h += `<td class="${isMono?'mono':''}" style="${style}">${val}</td>`;
+    });
+    const badge = getRelativeBadge(l.timestamp || l.date);
+    h += `<td><span class="badge ${badge.class}">${badge.text}</span></td></tr>`;
+  });
+  w.innerHTML=h+'</tbody></table></div>';
+}
+
+// ─── EXPORT ──────────────────────────────────────────────
+function exportCSV(){
+  if(!S.leads.length){toast('No leads to export');return;}
+  const keys = Object.keys(S.leads[0]);
+  const header = keys.map(k => k.charAt(0).toUpperCase() + k.slice(1)).join(',');
+  const csv = [header, ...S.leads.map(l=>keys.map(k=>`"${(l[k]||'').toString().replace(/"/g, '""')}"`).join(','))].join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='prolaunch-leads-'+td()+'.csv'; a.click();
+  toast('CSV downloaded');
+}
+
+// ─── CHARTS ──────────────────────────────────────────────
+const CC={a:'#7bb640',b:'#19a08c',txt:'#6b7a6a',grid:'rgba(13,59,56,0.06)'};
+function bOpts(){
+  return{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{
+        backgroundColor:'#0d3b38',
+        titleColor:'#ffffff', bodyColor:'#e8f5d6',
+        borderColor:'#124745', borderWidth:1,
+        padding: 12, cornerRadius: 8, displayColors: false
+      }
+    },
+    scales:{
+      x:{ticks:{color:CC.txt,font:{size:11,family:"'Plus Jakarta Sans', sans-serif"}},grid:{color:CC.grid, drawBorder:false}},
+      y:{ticks:{color:CC.txt,font:{size:11,family:"'JetBrains Mono', monospace"}},grid:{color:CC.grid, drawBorder:false},beginAtZero:true}
+    }
+  };
+}
+function lpd(){ return S.rawDates.map(d=>S.leads.filter(l=>isSameDay(l.timestamp||l.date||'', d)).length); }
+
+function buildOverviewCharts(){
+  const ld=lpd();
+  if(CH.main)   CH.main.destroy();
+  if(CH.funnel) CH.funnel.destroy();
+  if(CH.cvr)    CH.cvr.destroy();
+  
+  CH.main=new Chart($('c-main'),{type:'bar',data:{labels:S.labels,datasets:[
+    {label:'Visits',data:S.active_users,backgroundColor:'rgba(25,160,140,0.15)',borderColor:CC.b,borderWidth:1.5,borderRadius:4},
+    {label:'Leads', data:ld,     backgroundColor:'rgba(123,182,64,0.3)', borderColor:CC.a,borderWidth:1.5,borderRadius:4}
+  ]},options:bOpts()});
+  
+  const tot = S.active_users.reduce((a,b)=>a+b,0);
+  const optIntent = S.ga4Sources.find(s => s.label === "Intent (Opened Form)");
+  const optStarted = S.ga4Sources.find(s => s.label === "Form Started");
+  const engaged = Math.max(
+    optIntent ? optIntent.sessions : 0,
+    optStarted ? optStarted.sessions : 0
+  );
+  
+  CH.funnel=new Chart($('c-funnel'),{type:'bar',data:{labels:['Visits(30d)','Engaged','Submitted'],datasets:[{
+    data:[tot, engaged, S.leads.length],
+    backgroundColor:['rgba(25,160,140,0.1)','rgba(25,160,140,0.2)','rgba(123,182,64,0.3)'],
+    borderColor:[CC.b,CC.b,CC.a],borderWidth:1.5,borderRadius:4
+  }]},options:{...bOpts(),indexAxis:'y'}});
+  
+  const cvrData=S.active_users.map((v,i)=>v>0?+((ld[i]/v)*100).toFixed(1):0);
+  
+  // Create gradient
+  const ctx = $('c-cvr').getContext('2d');
+  const gradient = ctx.createLinearGradient(0, 0, 0, 110);
+  gradient.addColorStop(0, 'rgba(123,182,64,0.15)');
+  gradient.addColorStop(1, 'rgba(123,182,64,0.01)');
+  
+  CH.cvr=new Chart($('c-cvr'),{type:'line',data:{labels:S.labels,datasets:[{
+    data:cvrData,borderColor:CC.a,backgroundColor:gradient,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:CC.a, pointBorderWidth: 2, pointBorderColor: '#ffffff'
+  }]},options:{...bOpts(),scales:{x:{ticks:{color:CC.txt,font:{size:11}},grid:{color:CC.grid}},y:{ticks:{color:CC.txt,font:{size:11},callback:v=>v+'%'},grid:{color:CC.grid},beginAtZero:true}}}});
+}
+
+function buildGA4Charts(){
+  const sess=S.ga4Sessions.length?S.ga4Sessions:S.active_users;
+  if(CH.ga) CH.ga.destroy();
+  
+  const ctx = $('c-ga').getContext('2d');
+  const gradient = ctx.createLinearGradient(0, 0, 0, 200);
+  gradient.addColorStop(0, 'rgba(25,160,140,0.15)');
+  gradient.addColorStop(1, 'rgba(25,160,140,0.01)');
+  
+  CH.ga=new Chart($('c-ga'),{type:'line',data:{labels:S.labels,datasets:[{
+    data:sess,borderColor:CC.b,backgroundColor:gradient,fill:true,tension:.4,pointRadius:4,pointBackgroundColor:CC.b, pointBorderWidth: 2, pointBorderColor: '#ffffff'
+  }]},options:bOpts()});
+  
+  if(!S.ga4Sources.length) return;
+  
+  const tMap = {
+    "Form Started": { def: "Someone clicked into a text box in the registration form.", insight: "High intent! They started the process but might have gotten stuck." },
+    "Intent (Opened Form)": { def: "Someone clicked a \"Join\" button to see the form.", insight: "They liked the pitch enough to see what the next step was." },
+    "Form Submitted": { def: "Successful form submissions sent to our Google Sheets.", insight: "The Goal. Needs follow up." },
+    "AI CV Tool Usage": { def: "Number of times someone clicked the AI Optimizer.", insight: "Our \"Lead Magnet.\" Shows if the tech is drawing people in." },
+    "Page Reads": { def: "Number of people who scrolled to the bottom (90%).", insight: "Tells us if our \"Success Stories\" are actually being read." }
+  };
+
+  const container = $('events-card-list');
+  if(container) {
+    const maxVal = Math.max(...S.ga4Sources.map(s => s.val)) || 1;
+    container.innerHTML = S.ga4Sources.map(s => {
+      let pct = (s.val / maxVal) * 100;
+      return `
+        <div class="event-card">
+          <div class="ec-header" style="border-left: 4px solid ${s.color};">
+            <div class="ec-title metric-title" style="display:flex;align-items:center;">
+              ${s.label}
+              ${tMap[s.label] ? `
+              <div class="tooltip" tabindex="0">
+                  <i class="fa-solid fa-circle-info"></i>
+                  <span class="tooltip-text">
+                      <strong>${tMap[s.label].def}</strong><br><br>${tMap[s.label].insight}
+                  </span>
+              </div>` : ''}
+            </div>
+          </div>
+          <div class="ec-body">
+            <div class="ec-stat">
+              <span class="ec-val">${s.val}</span>
+              <span class="ec-lbl">Total Interactions</span>
+            </div>
+            <div class="ec-stat" style="text-align: right;">
+              <span class="ec-val sm">${s.sessions}</span>
+              <span class="ec-lbl">Unique Visitors</span>
+            </div>
+          </div>
+          <div class="ec-progress-bg">
+            <div class="ec-progress-fill" style="background: ${s.color}; width: ${pct}%"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+}
+
+// ─── CONN STATUS ─────────────────────────────────────────
+function setConn(s){
+  const dot=$('cdot'),txt=$('ctxt');
+  ({ok:()=>{dot.style.background='var(--success)';txt.textContent='Connected';},
+    error:()=>{dot.style.background='var(--danger)';txt.textContent='Connection error';},
+    loading:()=>{dot.style.background='var(--warn)';txt.textContent='Loading...';},
+    none:()=>{dot.style.background='var(--muted)';txt.textContent='Not connected';}
+  })[s]?.();
+}
+
+// ─── REFRESH ─────────────────────────────────────────────
+async function refreshAll(){
+  $('ri').innerHTML='<span class="spinner"></span>';
+  // Check active range button in Analytics view, fallback to cumulative
+  const activeBtn = document.querySelector('.range-btn.active');
+  const period = activeBtn ? activeBtn.dataset.period : 'cumulative';
+  try {
+    await Promise.all([fetchLeads(), fetchAnalytics(period), fetchEvents(period)]);
+    toast(`Fetched backend logs`);
+    updateAll(); 
+  } finally {
+    $('ri').textContent='↻';
+  }
+}
+function updateAll(){
+  updateMetrics(); renderLeads();
+  buildOverviewCharts(); buildGA4Charts();
+  $('lrefresh').textContent=ftime();
+}
+
+// ─── INIT ────────────────────────────────────────────────
+function init(){
+  Promise.all([fetchLeads(), fetchAnalytics(), fetchEvents()]).then(()=>{
+    updateAll();
+  });
+}
+
+// ─── BOOT ────────────────────────────────────────────────
+window.addEventListener('DOMContentLoaded',()=>{
+  $('pwd-input').addEventListener('keydown',e=>{ if(e.key==='Enter') tryLogin(); });
+  if(sessionStorage.getItem('lpm-ok')==='1'){
+    $('lock-screen').style.display='none';
+    $('app').style.display='block';
+    init();
+  }
+  
+  // Global tooltip toggle & dismiss for touch screens
+  document.addEventListener('click', e => {
+    const clickedTooltip = e.target.closest('.tooltip');
+    document.querySelectorAll('.tooltip').forEach(t => {
+      if(t !== clickedTooltip) t.classList.remove('active');
+    });
+    if(clickedTooltip) clickedTooltip.classList.toggle('active');
+  });
+
+  // Range Switcher Listeners
+  document.querySelectorAll('.range-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      document.querySelectorAll('.range-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const period = btn.dataset.period;
+      
+      // Visual feedback
+      const originalText = btn.textContent;
+      btn.innerHTML = '<span class="spinner" style="width:12px;height:12px;border-width:2px;"></span>';
+      try {
+        await Promise.all([fetchAnalytics(period), fetchEvents(period)]);
+        updateAll();
+        toast(`Range updated: ${originalText}`);
+      } finally {
+        btn.innerHTML = originalText;
+      }
+    });
+  });
+});
+
+function toggleMNav(){
+  $('m-nav').classList.toggle('active');
+}

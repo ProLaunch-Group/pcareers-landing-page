@@ -1,0 +1,14 @@
+{
+  "name": "prolaunchcareers-landing-page",
+  "version": "1.0.0",
+  "description": "ProLaunch Careers landing page with Vercel Web Analytics",
+  "private": true,
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "lint": "echo 'No linter configured for static HTML'"
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1",
+    "requests": "^0.3.0"
+  }
+}

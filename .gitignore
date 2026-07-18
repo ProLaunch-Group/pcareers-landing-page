@@ -1,0 +1,10 @@
+assets/js/config.js
+node_modules/
+.env
+.DS_Store
+*.docx
+__pycache__/
+*.pyc
+.vercel/
+service-account.json
+tmp/
