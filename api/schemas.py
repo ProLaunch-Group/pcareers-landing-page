@@ -104,7 +104,7 @@ class CvRewriteLeadItem(BaseModel):
 
 class CvRewriteLeadsResponse(BaseModel):
     total_leads: int
-    leads: List[CVRewriteLeadItem]
+    leads: List[CvRewriteLeadItem]
 
 class LinkedinLeadsSubmission(BaseModel):
     firstname: str

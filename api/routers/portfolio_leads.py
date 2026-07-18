@@ -13,13 +13,8 @@ router = APIRouter(prefix="/api", tags=["Portfolio Leads"])
 
 # ─── Configuration ────────────────────────────────────────────────────────────
 
-HUBSPOT_ACCESS_TOKEN = os.getenv("HUBSPOT_ACCESS_TOKEN")
+HUBSPOT_ACCESS_TOKEN = os.getenv("HUBSPOT_ACCESS_TOKEN", "")
 HUBSPOT_API_URL = "https://api.hubapi.com/crm/v3/objects/contacts"
-
-if not HUBSPOT_ACCESS_TOKEN:
-    raise RuntimeError(
-        "HUBSPOT_ACCESS_TOKEN is not set. "
-    )
 
 # ─── HubSpot helper ───────────────────────────────────────────────────────────
 
