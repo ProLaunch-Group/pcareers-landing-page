@@ -590,7 +590,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.getElementById('prev');
     const nextBtn = document.getElementById('next');
     const dotsEl = document.getElementById('dots');
-    const cards = Array.from(slidesEl.querySelectorAll('.testimonial-card'));
+    const cards = slidesEl ? Array.from(slidesEl.querySelectorAll('.testimonial-card')) : [];
 
     let current = 0;
     let perView = 1;
@@ -608,6 +608,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function buildDots() {
+        if (!dotsEl) return;
         dotsEl.innerHTML = '';
         const count = maxIndex() + 1;
         for (let i = 0; i < count; i++) {
@@ -621,6 +622,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function updateDots() {
+        if (!dotsEl) return;
         const ds = dotsEl.querySelectorAll('.dot');
         ds.forEach((d, i) => d.classList.toggle('active', i === current));
     }
@@ -632,21 +634,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function goTo(idx) {
+        if (!slidesEl) return;
         perView = getPerView();
         current = Math.max(0, Math.min(idx, maxIndex()));
         slidesEl.style.transform = `translateX(-${getOffset()}px)`;
-        prevBtn.disabled = current === 0;
-        nextBtn.disabled = current >= maxIndex();
+        if (prevBtn) prevBtn.disabled = current === 0;
+        if (nextBtn) nextBtn.disabled = current >= maxIndex();
         updateDots();
     }
 
     function next() { goTo(current + 1); }
     function prev() { goTo(current - 1); }
 
-    prevBtn.addEventListener('click', () => { prev(); resetAuto(); });
-    nextBtn.addEventListener('click', () => { next(); resetAuto(); });
+    if (prevBtn) prevBtn.addEventListener('click', () => { prev(); resetAuto(); });
+    if (nextBtn) nextBtn.addEventListener('click', () => { next(); resetAuto(); });
 
     function startAuto() {
+        // only auto-rotate when there are more slides than the viewport
+        if (maxIndex() <= 0) return;
+        clearInterval(autoTimer);
         autoTimer = setInterval(() => {
             goTo(current >= maxIndex() ? 0 : current + 1);
         }, 4500);
@@ -658,13 +664,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let touchStartX = 0;
-    slidesEl.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-    slidesEl.addEventListener('touchend', e => {
-        const dx = touchStartX - e.changedTouches[0].clientX;
-        if (Math.abs(dx) > 40) { dx > 0 ? next() : prev(); resetAuto(); }
-    }, { passive: true });
+    if (slidesEl) {
+        slidesEl.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+        slidesEl.addEventListener('touchend', e => {
+            const dx = touchStartX - e.changedTouches[0].clientX;
+            if (Math.abs(dx) > 40) { dx > 0 ? next() : prev(); resetAuto(); }
+        }, { passive: true });
+    }
 
     function init() {
+        // make sure DOM is available and slides exist
+        if (!slidesEl || !cards.length) return;
         perView = getPerView();
         current = 0;
         buildDots();
@@ -678,7 +688,16 @@ document.addEventListener('DOMContentLoaded', () => {
         resizeTimer = setTimeout(() => { init(); }, 120);
     });
 
-    init();
+    // Ensure carousel initializes when DOM is ready (robust if script order changes)
+    function runWhenReady() {
+        try { init(); } catch (e) { /* silent */ }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', runWhenReady);
+    } else {
+        runWhenReady();
+    }
 })();
 
 // Testimonial Read More Toggle Function

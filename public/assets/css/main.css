@@ -111,11 +111,13 @@
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 2rem;
+            gap: 1rem;
             list-style: none;
             transition: gap 0.3s ease;
             flex-wrap: nowrap;
             white-space: nowrap;
+            flex: 1 1 auto;
+            justify-content: center;
         }
 
         .nav-links a {
@@ -1041,10 +1043,10 @@
 
         .testimonial-media {
             width: 100%;
-            /* default: keep proportional on larger cards */
-            height: 25%;
-            min-height: 80px;
-            max-height: 220px;
+            /* increased default fixed height so photos are clearly visible */
+            height: 240px;
+            min-height: 140px;
+            max-height: 260px;
             border-radius: 12px;
             overflow: hidden;
             margin-bottom: 1rem;
@@ -1072,11 +1074,18 @@
             color: var(--text-muted);
         }
 
+        .author-service {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+
         /* Responsive: fixed pixel heights on small/medium screens for consistent cropping */
         @media (max-width: 700px) {
             .testimonial-media {
-                height: 140px; /* fixed height on mobile */
-                min-height: 120px;
+                height: 180px; /* larger mobile crop so faces show clearly */
+                min-height: 160px;
                 max-height: none;
             }
 
@@ -1089,8 +1098,8 @@
 
         @media (min-width: 701px) and (max-width: 960px) {
             .testimonial-media {
-                height: 160px; /* medium screens */
-                min-height: 140px;
+                height: 200px; /* medium screens */
+                min-height: 180px;
                 max-height: none;
             }
 
