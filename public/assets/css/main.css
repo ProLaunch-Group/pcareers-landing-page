@@ -743,16 +743,19 @@
 
         .pillars-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1.5rem;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 1rem;
+            max-width: 1180px;
+            margin: 0 auto;
         }
 
         .pillar-card {
             background: var(--green);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px;
-            padding: 2rem 1.5rem;
+            border-radius: 18px;
+            padding: 1.15rem 0.95rem;
             transition: background 0.3s, transform 0.3s;
+            min-height: 180px;
         }
 
         .pillar-card:hover {
@@ -761,28 +764,28 @@
         }
 
         .pillar-icon {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             background: var(--cream);
-            border-radius: 14px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.25rem;
+            font-size: 1rem;
             color: var(--green);
-            margin-bottom: 1.25rem;
+            margin-bottom: 0.9rem;
         }
 
         .pillar-card h4 {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             color: white;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.45rem;
         }
 
         .pillar-card p {
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             color: rgba(255, 255, 255, 0.5);
-            line-height: 1.7;
+            line-height: 1.6;
         }
 
         .services-section {
@@ -1728,7 +1731,7 @@
             }
 
             .pillars-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
 
             .services-grid {
@@ -1807,8 +1810,8 @@
             }
 
             .pillars-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 1rem;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 0.85rem;
             }
 
             .services-grid {
