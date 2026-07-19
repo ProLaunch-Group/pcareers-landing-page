@@ -711,6 +711,36 @@
             color: var(--forest);
         }
 
+        .about-copy {
+            max-width: 860px;
+            margin: 0 auto 2.5rem;
+            display: grid;
+            gap: 1rem;
+            color: var(--forest);
+            font-size: 1rem;
+            line-height: 1.8;
+        }
+
+        .about-values-header {
+            text-align: center;
+            margin: 2.5rem 0 1.75rem;
+        }
+
+        .about-values-header h3 {
+            font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+            color: var(--forest);
+            margin-top: 0.5rem;
+        }
+
+        .about-signoff {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            color: var(--green-dark);
+        }
+
         .pillars-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
