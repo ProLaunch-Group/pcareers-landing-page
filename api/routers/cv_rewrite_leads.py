@@ -13,14 +13,8 @@ router = APIRouter(prefix="/api", tags=["CvRewrite Leads"])
 
 # ─── Configuration ────────────────────────────────────────────────────────────
 
-HUBSPOT_ACCESS_TOKEN = os.getenv("HUBSPOT_ACCESS_TOKEN")
+HUBSPOT_ACCESS_TOKEN = os.getenv("HUBSPOT_ACCESS_TOKEN", "")
 HUBSPOT_API_URL = "https://api.hubapi.com/crm/v3/objects/contacts"
-
-if not HUBSPOT_ACCESS_TOKEN:
-    raise RuntimeError(
-        "HUBSPOT_ACCESS_TOKEN is not set. "
-        "Add it to your .env file or environment before starting the server."
-    )
 
 # ─── HubSpot CvRewrite Object Creation helper ───────────────────────────────────────────────────────────
 def create_hubspot_cvrewrite_lead(contact: CvRewriteLeadsSubmission, timestamp: str) -> dict:
@@ -45,7 +39,7 @@ def create_hubspot_cvrewrite_lead(contact: CvRewriteLeadsSubmission, timestamp: 
     }
 
     try:
-        response = requests.post(HUBSPOT_CVREWRITE_API_URL, json=payload, headers=headers, timeout=10)
+        response = requests.post(HUBSPOT_API_URL, json=payload, headers=headers, timeout=10)
     except requests.exceptions.Timeout:
         raise HTTPException(status_code=504, detail="HubSpot API timed out. Try again.")
     except requests.exceptions.RequestException as exc:

@@ -13,14 +13,8 @@ router = APIRouter(prefix="/api", tags=["LinkedIn Leads"])
 
 # ─── Configuration
 
-HUBSPOT_ACCESS_TOKEN = os.getenv("HUBSPOT_ACCESS_TOKEN")
+HUBSPOT_ACCESS_TOKEN = os.getenv("HUBSPOT_ACCESS_TOKEN", "")
 HUBSPOT_API_URL = "https://api.hubapi.com/crm/v3/objects/contacts"
-
-if not HUBSPOT_ACCESS_TOKEN:
-    raise RuntimeError(
-        "HUBSPOT_ACCESS_TOKEN is not set. "
-        "Add it to your .env file or environment before starting the server."
-    )
 
 # ─── HubSpot helper function to create a contact from LinkedIn lead data
 
