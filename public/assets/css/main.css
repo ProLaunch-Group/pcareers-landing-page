@@ -1,8 +1,9 @@
-        :root {
+:root {
             --green: #7bb640;
             --green-dark: #5e9428;
             --green-light: #e8f5d6;
             --forest: #0d3b38;
+            --page-space: 64px;
             --forest-mid: #124745;
             --teal: #19a08c;
             --cream: #f8faf3;
@@ -12,6 +13,18 @@
             --warm-white: #ffffff;
             --text-muted: #6b7a6a;
             --border: rgba(18, 71, 69, 0.1);
+        }
+
+        @media (max-width: 900px) {
+            :root {
+                --page-space: 48px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            :root {
+                --page-space: 32px;
+            }
         }
 
         *,
@@ -64,7 +77,7 @@
             left: 0;
             right: 0;
             z-index: 100;
-            padding: 1.25rem 4rem;
+            padding: 1.25rem var(--page-space);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -118,6 +131,7 @@
             white-space: nowrap;
             flex: 1 1 auto;
             justify-content: center;
+            margin: 0 1rem;
         }
 
         .nav-links a {
@@ -133,9 +147,22 @@
             opacity: 1;
         }
 
+        .nav-cta-container {
+            display: flex;
+            align-items: center;
+            margin-left: 1rem;
+            flex-shrink: 0;
+        }
+
         .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background: var(--cream) !important;
             color: var(--dark-green) !important;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
             opacity: 1 !important;
             padding: 0.6rem 1.4rem;
             border-radius: 100px;
@@ -143,6 +170,7 @@
             font-size: 0.8rem !important;
             letter-spacing: 0.03em;
             transition: background 0.2s, transform 0.2s !important;
+            text-decoration: none;
         }
 
         .nav-cta:hover {
@@ -158,6 +186,11 @@
             padding: 4px;
             background: none;
             border: none;
+            width: 34px;
+            height: 34px;
+            justify-content: center;
+            align-items: center;
+            position: relative;
         }
 
         .hamburger span {
@@ -169,16 +202,35 @@
             transition: all 0.3s ease;
         }
 
-        .hamburger.open span:nth-child(1) {
-            transform: rotate(45deg) translate(5px, 5px);
+        .hamburger span:nth-child(1) {
+            transform: translateY(-6px);
         }
 
-        .hamburger.open span:nth-child(2) {
-            opacity: 0;
+        .hamburger span:nth-child(3) {
+            transform: translateY(6px);
         }
 
-        .hamburger.open span:nth-child(3) {
-            transform: rotate(-45deg) translate(5px, -5px);
+        .hamburger.close span {
+            display: none;
+        }
+
+        .hamburger.close::before,
+        .hamburger.close::after {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 2px;
+            background: var(--crema);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.close::before {
+            transform: rotate(45deg);
+        }
+
+        .hamburger.close::after {
+            transform: rotate(-45deg);
         }
 
         .mobile-menu {
@@ -220,12 +272,12 @@
         }
 
         .content {
-            padding: 0 4rem;
+            padding: 0 var(--page-space);
         }
 
         .hero {
             min-height: 100vh;
-            padding: 10rem 4rem 8rem;
+            padding: calc(7rem + var(--page-space)) var(--page-space) calc(5rem + var(--page-space));
             margin: 0 auto;
             display: grid;
             background: var(--darkgreen);
@@ -664,7 +716,7 @@
         }
 
         .pillars-section {
-            padding: 6rem 3rem;
+            padding: var(--page-space);
             background: var(--cream);
             position: relative;
             overflow: hidden;
@@ -792,7 +844,7 @@
             background: var(--forest);
             position: relative;
             overflow: hidden;
-            padding: 6rem 3rem;
+            padding: var(--page-space);
         }
 
         .services-section::before {
@@ -1448,7 +1500,7 @@
         }
 
         .cta-section {
-            padding: 6rem 3rem;
+            padding: var(--page-space);
             background: var(--forest);
             text-align: center;
             position: relative;
@@ -1512,7 +1564,7 @@
 
         footer {
             background: white;
-            padding: 5rem 2rem 3rem;
+            padding: var(--page-space);
             text-align: center;
             border-top: 1px solid var(--border);
         }
@@ -1699,7 +1751,7 @@
             }
 
             nav {
-                padding: 1.1rem 1.5rem;
+                padding: 1.1rem var(--page-space);
             }
 
             .logo-text {
@@ -1710,7 +1762,7 @@
         @media (max-width: 900px) {
             .hero {
                 grid-template-columns: 1fr;
-                padding: 6.5rem 1.5rem 5rem;
+                padding: calc(4.5rem + var(--page-space)) var(--page-space) calc(3.5rem + var(--page-space));
                 min-height: auto;
             }
 
@@ -1750,10 +1802,14 @@
 
         @media (max-width: 850px) {
             nav {
-                padding: 1rem 1.5rem;
+                padding: 1rem var(--page-space);
             }
 
             .nav-links {
+                display: none;
+            }
+
+            .nav-cta-container {
                 display: none;
             }
 
@@ -1768,7 +1824,7 @@
 
         @media (max-width: 640px) {
             nav {
-                padding: 0.85rem 1.25rem;
+                padding: 0.85rem var(--page-space);
             }
 
             .mobile-menu {
@@ -1776,7 +1832,7 @@
             }
 
             .hero {
-                padding: 5.5rem 1.25rem 4rem;
+                padding: calc(3.5rem + var(--page-space)) var(--page-space) calc(2.5rem + var(--page-space));
             }
 
             .float-div-1,
@@ -2086,7 +2142,7 @@
 
         .content {
             max-width: 1300px;
-            padding: 0 4rem;
+            padding: 0 var(--page-space);
         }
 
         .signup-section {

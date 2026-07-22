@@ -5,10 +5,10 @@ const EVENTS_WEBINARS = [
         id: "Stop Applying Blindly",
         title: "Stop Applying Blindly: Where to Actually Find Jobs That Match Your Skills",
         date: "2026-07-18",
-        status: "upcoming",
+        status: "past",
         image: "assets/images/event-5.webp",
         description: "Discover how to identify opportunities that match your skills and experience, where to find quality job openings, what recruiters actually look for, and practical strategies to increase your chances of landing interviews.",
-        formUrl: "https://docs.google.com/forms/d/e/1FAIpQLSez0aBGAJoUPej3LNFr3QaJUOTBEdMeyrdtUqbr6NoiYKHDeQ/viewform"
+        formUrl: "https://forms.gle/q1f5BXfxeBYx2k2s9"
     },
     {
         id: "volunteer-edge",
