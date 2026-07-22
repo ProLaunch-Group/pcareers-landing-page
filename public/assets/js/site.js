@@ -13,14 +13,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (hamburger && mobileMenu) {
-        hamburger.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
-            hamburger.classList.toggle('active');
-        });
+        const toggleMobileMenu = () => {
+            const isOpen = mobileMenu.classList.toggle('open');
+            hamburger.classList.toggle('close', isOpen);
+            hamburger.setAttribute('aria-expanded', String(isOpen));
+        };
+
+        hamburger.addEventListener('click', toggleMobileMenu);
         mobileMenu.addEventListener('click', (e) => {
-            if (e.target.tagName === 'A') {
+            if (e.target.closest('a')) {
                 mobileMenu.classList.remove('open');
-                hamburger.classList.remove('active');
+                hamburger.classList.remove('close');
+                hamburger.setAttribute('aria-expanded', 'false');
             }
         });
     }

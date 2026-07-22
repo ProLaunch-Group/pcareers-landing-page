@@ -53,21 +53,24 @@
     </svg>
 
     <!-- NAV -->
-    <nav id="navbar">
+     <nav id="navbar">
         <a href="index.html" class="nav-logo">
             <img src="assets/images/logo2.webp" width="38" height="38" alt="ProLaunch Logo" class="logo-mark">
             <span class="logo-text">ProLaunch Careers</span>
         </a>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html" class="active">Home</a></li>
             <li><a href="career-grooming-camp.html">Career Grooming Camp</a></li>
-            <li><a href="mentorship.html" class="active">Mentorship (PMI)</a></li>
+            <li><a href="mentorship.html">Mentorship (PMI)</a></li>
             <li><a href="events.html">Events</a></li>
             <li><a href="resources.html">Resources</a></li>
             <li><a href="cv-optimizer.html">CV Optimizer</a></li>
             <li><a href="contact.html">Contact</a></li>
-            <li><a href="career-grooming-camp.html" class="nav-cta">Secure Your Seat &rarr;</a></li>
+            <!-- <li><a href="career-grooming-camp.html" class="nav-cta">Secure Your Seat &rarr;</a></li> -->
         </ul>
+        <div class="nav-cta-container">
+            <button type="button" class="nav-cta" onclick="window.location.href='career-grooming-camp.html'">Secure Your Seat &rarr;</button>
+        </div>
         <button class="hamburger" id="hamburger" aria-label="Toggle menu">
             <span></span><span></span><span></span>
         </button>
