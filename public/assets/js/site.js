@@ -1,7 +1,10 @@
 /* ProLaunch Careers — shared site behavior (nav, reveal, forms, stats) */
 document.addEventListener('DOMContentLoaded', () => {
 
-    // ── Navbar scroll state
+    // Ensure page opens at hero top unless specific hash anchor was requested
+    if (!window.location.hash) {
+        window.scrollTo(0, 0);
+    }
     const navbar = document.getElementById('navbar');
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobileMenu');

@@ -106,6 +106,7 @@ const CGC_QUESTIONS = [
 class CgcWizard {
     constructor() {
         this.currentIndex = 0;
+        this.hasInteracted = false;
         this.answers = {};
 
         this.dom = {
@@ -228,10 +229,12 @@ class CgcWizard {
 
         this.attachEvents(q);
 
-        setTimeout(() => {
-            const input = this.dom.stage.querySelector('input');
-            if (input) input.focus();
-        }, 50);
+        if (this.hasInteracted) {
+            setTimeout(() => {
+                const input = this.dom.stage.querySelector('input');
+                if (input) input.focus({ preventScroll: true });
+            }, 50);
+        }
     }
 
     attachEvents(q) {
@@ -248,10 +251,11 @@ class CgcWizard {
 
                     if (val === 'Other' && otherWrap) {
                         otherWrap.classList.add('active');
-                        if (otherInput) otherInput.focus();
+                        if (otherInput) otherInput.focus({ preventScroll: true });
                     } else if (otherWrap) {
                         otherWrap.classList.remove('active');
                     }
+                    this.hasInteracted = true;
                     this.clearError();
                 });
             });
@@ -309,6 +313,7 @@ class CgcWizard {
     }
 
     prev() {
+        this.hasInteracted = true;
         if (this.currentIndex > 0) {
             this.currentIndex--;
             this.renderQuestion();
@@ -316,6 +321,7 @@ class CgcWizard {
     }
 
     async next() {
+        this.hasInteracted = true;
         if (!this.validateCurrent()) return;
 
         if (this.currentIndex < CGC_QUESTIONS.length - 1) {

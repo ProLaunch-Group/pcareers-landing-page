@@ -415,6 +415,7 @@ class PmiWizard {
     constructor() {
         this.currentRole = 'mentee';
         this.currentIndex = 0;
+        this.hasInteracted = false;
         this.formData = {
             mentee: {},
             mentor: {}
@@ -644,11 +645,13 @@ class PmiWizard {
         // Attach dynamic listeners for inputs
         this.attachQuestionEvents(q);
 
-        // Auto-focus input if text/textarea
-        setTimeout(() => {
-            const input = this.dom.stage.querySelector('input:not([type="checkbox"]), textarea');
-            if (input) input.focus();
-        }, 50);
+        // Auto-focus input if text/textarea (only after user has started interacting)
+        if (this.hasInteracted) {
+            setTimeout(() => {
+                const input = this.dom.stage.querySelector('input:not([type="checkbox"]), textarea');
+                if (input) input.focus({ preventScroll: true });
+            }, 50);
+        }
     }
 
     attachQuestionEvents(q) {
@@ -665,10 +668,11 @@ class PmiWizard {
 
                     if (val === 'Other' && otherWrap) {
                         otherWrap.classList.add('active');
-                        if (otherInput) otherInput.focus();
+                        if (otherInput) otherInput.focus({ preventScroll: true });
                     } else if (otherWrap) {
                         otherWrap.classList.remove('active');
                     }
+                    this.hasInteracted = true;
                     this.clearError();
                 });
             });
@@ -694,8 +698,9 @@ class PmiWizard {
 
                     if (val === 'Other' && otherWrap) {
                         otherWrap.classList.toggle('active', !isSelected);
-                        if (!isSelected && otherInput) otherInput.focus();
+                        if (!isSelected && otherInput) otherInput.focus({ preventScroll: true });
                     }
+                    this.hasInteracted = true;
                     this.clearError();
                 });
             });
@@ -798,6 +803,7 @@ class PmiWizard {
     }
 
     prev() {
+        this.hasInteracted = true;
         if (this.currentIndex > 0) {
             this.currentIndex--;
             this.renderQuestion();
@@ -805,6 +811,7 @@ class PmiWizard {
     }
 
     async next() {
+        this.hasInteracted = true;
         if (!this.validateCurrent()) {
             return;
         }

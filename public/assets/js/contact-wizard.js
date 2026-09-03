@@ -70,6 +70,7 @@ const CONTACT_QUESTIONS = [
 class ContactWizard {
     constructor() {
         this.currentIndex = 0;
+        this.hasInteracted = false;
         this.answers = {};
 
         this.dom = {
@@ -193,10 +194,12 @@ class ContactWizard {
 
         this.attachEvents(q);
 
-        setTimeout(() => {
-            const input = this.dom.stage.querySelector('input, textarea');
-            if (input) input.focus();
-        }, 50);
+        if (this.hasInteracted) {
+            setTimeout(() => {
+                const input = this.dom.stage.querySelector('input, textarea');
+                if (input) input.focus({ preventScroll: true });
+            }, 50);
+        }
     }
 
     attachEvents(q) {
@@ -206,6 +209,7 @@ class ContactWizard {
                 card.addEventListener('click', () => {
                     cards.forEach(c => c.classList.remove('selected'));
                     card.classList.add('selected');
+                    this.hasInteracted = true;
                     this.clearError();
                 });
             });
@@ -266,6 +270,7 @@ class ContactWizard {
     }
 
     prev() {
+        this.hasInteracted = true;
         if (this.currentIndex > 0) {
             this.currentIndex--;
             this.renderQuestion();
@@ -273,6 +278,7 @@ class ContactWizard {
     }
 
     async next() {
+        this.hasInteracted = true;
         if (!this.validateCurrent()) return;
 
         if (this.currentIndex < CONTACT_QUESTIONS.length - 1) {
