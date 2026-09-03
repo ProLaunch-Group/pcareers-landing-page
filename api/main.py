@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from api.routers import auth, pmi_leads
+from api.routers import auth, pmi_leads, cgc_leads
 from api.schemas import HealthResponse
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,6 +25,7 @@ app.add_middleware(
 
 app.include_router(auth.router)
 app.include_router(pmi_leads.router)
+app.include_router(cgc_leads.router)
 
 @app.get("/api/health", response_model=HealthResponse)
 def health():
