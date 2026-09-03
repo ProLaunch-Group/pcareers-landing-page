@@ -35,6 +35,12 @@ def serve_frontend(full_path: str):
     if full_path.startswith("api"):
         raise HTTPException(status_code=404, detail="Not Found")
 
+    normalized = full_path.strip("/")
+    if normalized in {"", ".", "home", "index.html"}:
+        return FileResponse(PUBLIC_DIR / "index.html")
+    if normalized in {"cgc", "career-grooming-camp", "career-grooming-camp.html"}:
+        return FileResponse(PUBLIC_DIR / "career-grooming-camp.html")
+
     candidate = PUBLIC_DIR / full_path
     if candidate.is_dir():
         candidate = candidate / "index.html"
@@ -43,11 +49,8 @@ def serve_frontend(full_path: str):
         return FileResponse(candidate)
 
     if not Path(full_path).suffix:
-        html_candidate = PUBLIC_DIR / f"{full_path}.html"
+        html_candidate = PUBLIC_DIR / f"{normalized}.html"
         if html_candidate.is_file():
             return FileResponse(html_candidate)
-
-    if full_path in {"", "."}:
-        return FileResponse(PUBLIC_DIR / "index.html")
 
     return FileResponse(PUBLIC_DIR / "index.html")

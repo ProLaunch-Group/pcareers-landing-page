@@ -29,6 +29,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // ── Active nav link highlighting for clean URLs
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/home';
+    document.querySelectorAll('.nav-links a, .mobile-menu a.mobile-link').forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        const normalizedHref = href.split('#')[0].replace(/\/$/, '');
+        const isHome = (currentPath === '' || currentPath === '/' || currentPath === '/home') && (normalizedHref === '/home' || normalizedHref === 'home');
+        const isMatch = normalizedHref && normalizedHref === currentPath;
+        if (isHome || isMatch) {
+            link.classList.add('active');
+        } else if (normalizedHref.startsWith('/')) {
+            link.classList.remove('active');
+        }
+    });
+
     // ── Reveal-on-scroll
     const revealEls = document.querySelectorAll('.reveal');
     if (revealEls.length && 'IntersectionObserver' in window) {

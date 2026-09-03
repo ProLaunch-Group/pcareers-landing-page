@@ -1,6 +1,25 @@
 {
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/index(.html)?", "destination": "/home", "permanent": true },
+    { "source": "/mentorship.html", "destination": "/mentorship", "permanent": true },
+    { "source": "/career-grooming-camp(.html)?", "destination": "/cgc", "permanent": true },
+    { "source": "/contact.html", "destination": "/contact", "permanent": true },
+    { "source": "/resources.html", "destination": "/resources", "permanent": true },
+    { "source": "/events.html", "destination": "/events", "permanent": true },
+    { "source": "/cv-optimizer.html", "destination": "/cv-optimizer", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/main.py" },
+    { "source": "/", "destination": "/public/index.html" },
+    { "source": "/home", "destination": "/public/index.html" },
+    { "source": "/cgc", "destination": "/public/career-grooming-camp.html" },
+    { "source": "/mentorship", "destination": "/public/mentorship.html" },
+    { "source": "/contact", "destination": "/public/contact.html" },
+    { "source": "/resources", "destination": "/public/resources.html" },
+    { "source": "/events", "destination": "/public/events.html" },
+    { "source": "/cv-optimizer", "destination": "/public/cv-optimizer.html" },
     { "source": "/(.*)", "destination": "/public/$1" }
   ]
 }
