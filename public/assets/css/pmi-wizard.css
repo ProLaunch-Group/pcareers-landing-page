@@ -1,0 +1,569 @@
+/* ── PMI INTERACTIVE APPLICATION WIZARD & MENTOR STYLES ── */
+
+/* Hero Co-Primary Buttons */
+.hero-btn-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+}
+
+.cta-btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.75rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    background: transparent;
+    color: var(--cream);
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    transition: all 0.25s ease;
+}
+
+.cta-btn-outline:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: var(--cream);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.cta-btn-outline .icon {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    transition: transform 0.2s ease;
+}
+
+.cta-btn-outline:hover .icon {
+    transform: translateX(4px);
+}
+
+/* Section Callout / PS Card */
+.pmi-ps-box {
+    background: #f4f8ef;
+    border-left: 4px solid var(--green);
+    border-radius: 0 12px 12px 0;
+    padding: 1.25rem 1.5rem;
+    margin-top: 1.5rem;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: var(--forest);
+}
+
+.pmi-ps-box strong {
+    color: var(--forest);
+    font-weight: 700;
+}
+
+/* Mentor Section Specific Styling */
+.mentor-pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+}
+
+.mentor-pillar-card {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem 1.75rem;
+    border: 1px solid #e7efe0;
+    box-shadow: 0 4px 20px rgba(13, 59, 56, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.mentor-pillar-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 30px rgba(13, 59, 56, 0.08);
+}
+
+.mentor-pillar-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(82, 134, 0, 0.1);
+    color: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.mentor-pillar-icon svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
+
+.mentor-pillar-card h4 {
+    font-size: 1.15rem;
+    color: var(--forest);
+    margin-bottom: 0.75rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.mentor-pillar-card p {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--text-muted);
+}
+
+/* ── INTERACTIVE APPLICATION WIZARD ── */
+.pmi-wizard-section {
+    padding: 5rem 1.5rem;
+    background: #fafbfa;
+}
+
+.pmi-wizard-container {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+/* Role Selector Tabs */
+.pmi-role-tabs {
+    display: flex;
+    background: #e9eee4;
+    border-radius: 50px;
+    padding: 6px;
+    margin-bottom: 2.5rem;
+    position: relative;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.pmi-role-tab {
+    flex: 1;
+    padding: 0.85rem 1.5rem;
+    border: none;
+    background: transparent;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--forest);
+    border-radius: 40px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+    outline: none;
+}
+
+.pmi-role-tab.active {
+    background: white;
+    color: var(--forest);
+    box-shadow: 0 4px 16px rgba(13, 59, 56, 0.12);
+}
+
+.pmi-role-tab:hover:not(.active) {
+    color: var(--green);
+}
+
+/* Wizard Card Frame */
+.pmi-wizard-card {
+    background: white;
+    border-radius: 24px;
+    padding: 3rem 2.5rem;
+    box-shadow: 0 16px 50px rgba(13, 59, 56, 0.08);
+    border: 1px solid #eef3e9;
+    position: relative;
+    min-height: 460px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Progress Header */
+.pmi-progress-header {
+    margin-bottom: 2rem;
+}
+
+.pmi-progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+}
+
+.pmi-section-pill {
+    background: rgba(82, 134, 0, 0.1);
+    color: var(--green);
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 0.75rem;
+}
+
+.pmi-step-count {
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.pmi-progress-track {
+    width: 100%;
+    height: 6px;
+    background: #edf2e8;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.pmi-progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green-light) 0%, var(--green) 100%);
+    border-radius: 10px;
+    transition: width 0.35s ease;
+}
+
+/* Question Stage */
+.pmi-question-stage {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.pmi-question-card {
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.28s ease, transform 0.28s ease;
+    display: none;
+}
+
+.pmi-question-card.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.pmi-question-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.35rem, 2.5vw, 1.8rem);
+    color: var(--forest);
+    line-height: 1.35;
+    margin-bottom: 0.65rem;
+}
+
+.pmi-question-title .required-star {
+    color: #e53935;
+    font-size: 1.1rem;
+    margin-left: 4px;
+}
+
+.pmi-question-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.75rem;
+}
+
+/* Input Styles */
+.pmi-input-wrap {
+    margin-bottom: 1rem;
+}
+
+.pmi-text-input,
+.pmi-textarea {
+    width: 100%;
+    background: #fdfdfd;
+    border: 2px solid #dde5d7;
+    border-radius: 14px;
+    padding: 1.1rem 1.25rem;
+    font-size: 1.05rem;
+    color: var(--forest);
+    font-family: inherit;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.pmi-text-input:focus,
+.pmi-textarea:focus {
+    outline: none;
+    border-color: var(--green);
+    background: white;
+    box-shadow: 0 0 0 4px rgba(82, 134, 0, 0.12);
+}
+
+.pmi-textarea {
+    min-height: 130px;
+    resize: vertical;
+    line-height: 1.6;
+}
+
+/* Options Grid for Single/Multi Choice */
+.pmi-options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.pmi-option-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: #fafcf9;
+    border: 2px solid #e2eada;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.pmi-option-card:hover {
+    border-color: var(--green);
+    background: #f3f8ee;
+    transform: translateY(-1px);
+}
+
+.pmi-option-card.selected {
+    border-color: var(--green);
+    background: #eef6e6;
+    box-shadow: 0 4px 12px rgba(82, 134, 0, 0.12);
+}
+
+.pmi-option-indicator {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2px solid #bdcbaf;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.pmi-option-card[data-multi="true"] .pmi-option-indicator {
+    border-radius: 6px;
+}
+
+.pmi-option-card.selected .pmi-option-indicator {
+    background: var(--green);
+    border-color: var(--green);
+}
+
+.pmi-option-card.selected .pmi-option-indicator::after {
+    content: '';
+    width: 5px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) translate(-1px, -1px);
+}
+
+.pmi-option-label {
+    font-size: 0.98rem;
+    font-weight: 500;
+    color: var(--forest);
+    flex: 1;
+}
+
+/* "Other" Option Freeform Input */
+.pmi-other-input-wrap {
+    margin-top: 0.75rem;
+    display: none;
+}
+
+.pmi-other-input-wrap.active {
+    display: block;
+}
+
+/* Consent Checkbox Card */
+.pmi-consent-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: #f8faf6;
+    border: 2px solid #e0e9d8;
+    border-radius: 14px;
+    padding: 1.25rem;
+    cursor: pointer;
+    line-height: 1.6;
+    font-size: 0.92rem;
+    color: var(--forest);
+}
+
+.pmi-consent-card input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    accent-color: var(--green);
+    margin-top: 3px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+/* Error message bar */
+.pmi-error-msg {
+    color: #d32f2f;
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-top: 0.75rem;
+    display: none;
+    align-items: center;
+    gap: 6px;
+}
+
+.pmi-error-msg.visible {
+    display: flex;
+}
+
+/* Controls Footer */
+.pmi-wizard-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #edf2e8;
+}
+
+.pmi-btn-prev {
+    background: transparent;
+    border: 2px solid #dce5d5;
+    color: var(--forest);
+    padding: 0.85rem 1.6rem;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.pmi-btn-prev:hover:not(:disabled) {
+    border-color: var(--forest);
+    background: #f5f8f2;
+}
+
+.pmi-btn-prev:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+.pmi-btn-next {
+    background: var(--green);
+    border: none;
+    color: white;
+    padding: 0.95rem 2.2rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 16px rgba(82, 134, 0, 0.25);
+    transition: all 0.25s ease;
+}
+
+.pmi-btn-next:hover {
+    background: #446f00;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(82, 134, 0, 0.32);
+}
+
+.pmi-btn-next .icon {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    transition: transform 0.2s ease;
+}
+
+.pmi-btn-next:hover .icon {
+    transform: translateX(4px);
+}
+
+.pmi-hint-key {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Success Celebration View */
+.pmi-success-view {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    display: none;
+}
+
+.pmi-success-view.active {
+    display: block;
+}
+
+.pmi-success-icon {
+    width: 72px;
+    height: 72px;
+    background: #eaf5df;
+    color: var(--green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.pmi-success-icon svg {
+    width: 36px;
+    height: 36px;
+    fill: currentColor;
+}
+
+.pmi-success-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--forest);
+    margin-bottom: 0.85rem;
+}
+
+.pmi-success-body {
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 540px;
+    margin: 0 auto 2rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .mentor-pillars-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pmi-wizard-card {
+        padding: 2rem 1.25rem;
+        border-radius: 18px;
+    }
+
+    .pmi-role-tabs {
+        flex-direction: column;
+        border-radius: 16px;
+        max-width: 100%;
+    }
+
+    .pmi-role-tab {
+        border-radius: 12px;
+        padding: 0.75rem 1rem;
+    }
+
+    .pmi-wizard-footer {
+        flex-direction: column-reverse;
+        gap: 1rem;
+    }
+
+    .pmi-btn-prev, .pmi-btn-next {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .pmi-hint-key {
+        display: none;
+    }
+}
