@@ -24,7 +24,7 @@
         rel="stylesheet" media="print" onload="this.media='all'">
 
     <link rel="stylesheet" href="assets/css/main.css">
-    
+    <link rel="stylesheet" href="assets/css/pmi-wizard.css">
 </head>
 
 <body>
@@ -55,21 +55,21 @@
 
     <!-- NAV -->
     <nav id="navbar">
-        <a href="index.html" class="nav-logo">
+        <a href="/home" class="nav-logo">
             <img src="assets/images/logo2.webp" width="38" height="38" alt="ProLaunch Logo" class="logo-mark">
             <span class="logo-text">ProLaunch Careers</span>
         </a>
         <ul class="nav-links">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="career-grooming-camp.html" class="active">Career Grooming Camp</a></li>
-            <li><a href="mentorship.html">Mentorship (PMI)</a></li>
-            <li><a href="events.html">Events</a></li>
-            <li><a href="resources.html">Resources</a></li>
-            <li><a href="cv-optimizer.html">CV Optimizer</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="/home">Home</a></li>
+            <li><a href="/cgc" class="active">Career Grooming Camp</a></li>
+            <li><a href="/mentorship">Mentorship (PMI)</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/resources">Resources</a></li>
+            <li><a href="/cv-optimizer">CV Optimizer</a></li>
+            <li><a href="/contact">Contact</a></li>
         </ul>
         <div class="nav-cta-container">
-            <button type="button" class="nav-cta" onclick="window.location.href='career-grooming-camp.html'">Secure Your Seat &rarr;</button>
+            <button type="button" class="nav-cta" onclick="window.location.href='/cgc'">Secure Your Seat &rarr;</button>
         </div>
         <button class="hamburger" id="hamburger" aria-label="Toggle menu">
             <span></span><span></span><span></span>
@@ -77,14 +77,14 @@
     </nav>
 
     <div class="mobile-menu" id="mobileMenu">
-        <a href="index.html" class="mobile-link">Home</a>
-        <a href="career-grooming-camp.html" class="mobile-link">Career Grooming Camp</a>
-        <a href="mentorship.html" class="mobile-link">Mentorship (PMI)</a>
-        <a href="events.html" class="mobile-link">Events</a>
-        <a href="resources.html" class="mobile-link">Resources</a>
-        <a href="cv-optimizer.html" class="mobile-link">CV Optimizer</a>
-        <a href="contact.html" class="mobile-link">Contact</a>
-        <a href="career-grooming-camp.html" class="mobile-cta">Secure Your Seat &rarr;</a>
+        <a href="/home" class="mobile-link">Home</a>
+        <a href="/cgc" class="mobile-link">Career Grooming Camp</a>
+        <a href="/mentorship" class="mobile-link">Mentorship (PMI)</a>
+        <a href="/events" class="mobile-link">Events</a>
+        <a href="/resources" class="mobile-link">Resources</a>
+        <a href="/cv-optimizer" class="mobile-link">CV Optimizer</a>
+        <a href="/contact" class="mobile-link">Contact</a>
+        <a href="/cgc" class="mobile-cta">Secure Your Seat &rarr;</a>
     </div>
 
     <main id="main-content">
@@ -92,11 +92,11 @@
         <!-- HERO -->
         <section class="page-hero" id="camp-hero">
             <div class="page-hero-inner">
-                <span class="hero-badge reveal"><span class="badge-dot"></span> Cohort 07 Enrolling Now &mdash; Limited to 50 Participants</span>
+                <span class="hero-badge reveal"><span class="badge-dot"></span> Cohort 07 Enrolling Now &mdash; Starts Sept 07</span>
                 <h1 class="reveal reveal-delay-1">From Invisible to <em>Undeniable</em> in 14 Days.</h1>
                 <p class="page-hero-sub reveal reveal-delay-2">A live, intensive cohort programme that rebuilds your professional identity, CV, and interview strategy &mdash; so you can stop applying blindly and start landing competitive remote roles.</p>
                 <div class="page-hero-cta-row reveal reveal-delay-3">
-                    <a href="#enroll" class="cta-btn">Secure Your Seat (&#8358;10,000) <svg class="icon"><use href="#icon-arrow"></use></svg></a>
+                    <a href="#enroll" class="cta-btn">Secure Your Spot <svg class="icon"><use href="#icon-arrow"></use></svg></a>
                 </div>
             </div>
         </section>
@@ -203,34 +203,88 @@
             <div class="section-inner">
                 <div class="logistics-wrap">
                     <div class="reveal">
-                        <span class="section-tag">About The Program</span>
-                        <h2 style="color: var(--forest); font-size: clamp(1.8rem, 3vw, 2.4rem); margin-bottom: 1rem;">The Attention Is Real.</h2>
-                        <p style="color: var(--text-muted); line-height: 1.75; margin-bottom: 1.5rem;">To ensure high-impact, hands-on guidance, this programme is strictly capped at 50 participants per cohort.</p>
+                        <span class="section-tag">Expression of Interest</span>
+                        <h2 style="color: var(--forest); font-size: clamp(1.8rem, 3vw, 2.4rem); margin-bottom: 1rem;">Secure Your Spot.</h2>
+                        <p style="color: var(--text-muted); line-height: 1.75; margin-bottom: 1.5rem;">To ensure high-impact, hands-on guidance, each cohort is strictly capped at 50 participants.</p>
+                        
+                        <div style="background: white; border-radius: 16px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem;">
+                            <h4 style="color: var(--forest); margin-bottom: 0.5rem; font-size: 0.95rem;">How Enrollment Works:</h4>
+                            <ol style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6; padding-left: 1.2rem; margin: 0;">
+                                <li style="margin-bottom: 0.4rem;"><strong>Submit Interest:</strong> Complete the 9 quick questions on the form.</li>
+                                <li style="margin-bottom: 0.4rem;"><strong>Support Follow-Up:</strong> Our team reaches out directly via WhatsApp to answer questions and seal your payment (&#8358;10,000).</li>
+                                <li><strong>Access Pack:</strong> Once payment is confirmed, your official Onboarding Pack and community links are dispatched.</li>
+                            </ol>
+                        </div>
+
                         <ul class="logistics-list">
                             <li><span>Duration</span><strong>14 Intensive Days</strong></li>
                             <li><span>Format</span><strong>Live Online Cohort</strong></li>
-                            <li><span>Investment</span><strong>&#8358;10,000</strong></li>
-                            <li><span>Cohort</span><strong>Cohort 07 &mdash; Now Enrolling</strong></li>
+                            <li><span>Investment</span><strong>&#8358;10,000 (Subsidized)</strong></li>
+                            <li><span>Next Cohort</span><strong>Cohort 07 &mdash; Open for Interest</strong></li>
                         </ul>
                     </div>
 
-                    <div class="form-card reveal reveal-delay-1" style="margin-top: 0;">
-                        <span class="cohort-badge">Cohort 07 &middot; 50 Seats</span>
-                        <h2>Enroll in Cohort 06</h2>
-                        <p class="form-subtitle">Secure your seat before enrollment closes.</p>
-                        <form data-lead-form="camp-enroll" novalidate>
-                            <div class="form-group">
-                                <input type="text" name="full_name" placeholder="Full Name" required class="form-input">
+                    <div class="cgc-wizard-wrap reveal reveal-delay-1" style="flex: 1; max-width: 580px; margin: 0 auto; width: 100%;">
+                        <!-- Multi-Step Question Card Frame -->
+                        <div class="pmi-wizard-card" id="cgc-wizard-card" style="padding: 2.2rem 2rem; min-height: 440px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+                                <span class="cohort-badge" style="position: static; margin: 0;">Cohort 07 &middot; Interest Form</span>
                             </div>
-                            <div class="form-group">
-                                <input type="email" name="email" placeholder="Email Address" required class="form-input">
+
+                            <!-- Progress Bar Header -->
+                            <div class="pmi-progress-header" style="margin-bottom: 1.5rem;">
+                                <div class="pmi-progress-meta">
+                                    <span class="pmi-section-pill" id="cgc-section-pill">Personal Details</span>
+                                    <span class="pmi-step-count" id="cgc-step-count">Question 1 of 9</span>
+                                </div>
+                                <div class="pmi-progress-track">
+                                    <div class="pmi-progress-bar" id="cgc-progress-bar" style="width: 11%;"></div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <input type="tel" name="whatsapp" placeholder="WhatsApp Number" required class="form-input">
+
+                            <!-- Question Dynamic Stage -->
+                            <div class="pmi-question-stage" id="cgc-question-stage">
+                                <!-- Populated dynamically by cgc-wizard.js -->
                             </div>
-                            <button type="submit" class="submit-btn">Enroll in Cohort 07 Now</button>
-                            <div class="form-response form-note" style="margin-top: 0.75rem;"></div>
-                        </form>
+
+                            <!-- Validation Error Alert -->
+                            <div class="pmi-error-msg" id="cgc-error-msg">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                                <span id="cgc-error-text">Please provide an answer to continue.</span>
+                            </div>
+
+                            <!-- Wizard Controls Footer -->
+                            <div class="pmi-wizard-footer" style="margin-top: auto; padding-top: 1.5rem;">
+                                <button type="button" class="pmi-btn-prev" id="cgc-btn-prev" disabled>
+                                    &larr; Back
+                                </button>
+                                <span class="pmi-hint-key" style="font-size: 0.78rem;">Press <strong>Enter &crarr;</strong></span>
+                                <button type="button" class="pmi-btn-next" id="cgc-btn-next">
+                                    <span id="cgc-btn-next-text">Next Step</span>
+                                    <svg class="icon"><use href="#icon-arrow"></use></svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Success View -->
+                        <div class="pmi-success-view" id="cgc-success-view" style="padding: 3rem 2rem; background: white; border-radius: 24px; border: 1px solid #eef3e9; box-shadow: 0 16px 50px rgba(13, 59, 56, 0.08);">
+                            <div class="pmi-success-icon">
+                                <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                            </div>
+                            <h3 class="pmi-success-title">Expression of Interest Received!</h3>
+                            <p class="pmi-success-body" id="cgc-success-text">
+                                Thank you! We have reserved your provisional seat for Cohort 07.<br><br>
+                                Our Admissions &amp; Customer Support team will follow up directly on WhatsApp to answer questions and assist in sealing your payment (&#8358;10,000). Once payment is confirmed, your official Onboarding Pack will be dispatched.
+                            </p>
+                            <div style="display: flex; flex-direction: column; gap: 0.85rem; width: 100%; max-width: 360px; margin: 1.5rem auto 0;">
+                                <a href="https://whatsapp.com/channel/0029VbBQHJw3WHTYHeJK5I0s" target="_blank" rel="noopener" class="cta-btn" style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                    Join Cohort Updates Channel <svg class="icon"><use href="#icon-arrow"></use></svg>
+                                </a>
+                                <a href="https://wa.me/2348154563245?text=Hello%20ProLaunch%20Support%2C%20I%20just%20submitted%20my%20interest%20form%20for%20Career%20Grooming%20Camp%20Cohort%2007%20and%20would%20like%20to%20seal%20my%20payment." target="_blank" rel="noopener" style="display: inline-block; font-size: 0.88rem; color: var(--forest); font-weight: 700; text-decoration: underline; text-align: center; padding: 4px;">
+                                    Chat with Customer Support on WhatsApp &rarr;
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -269,11 +323,11 @@
             <div class="footer-col">
                 <h2>Quick Links</h2>
                 <ul class="footer-links-list">
-                    <li><a href="index.html#about-us">About ProLaunch</a></li>
-                    <li><a href="career-grooming-camp.html">Career Grooming Camp</a></li>
-                    <li><a href="mentorship.html">Mentorship (PMI)</a></li>
-                    <li><a href="events.html">Events</a></li>
-                    <li><a href="resources.html">Resources</a></li>
+                    <li><a href="/home#about-us">About ProLaunch</a></li>
+                    <li><a href="/cgc">Career Grooming Camp</a></li>
+                    <li><a href="/mentorship">Mentorship (PMI)</a></li>
+                    <li><a href="/events">Events</a></li>
+                    <li><a href="/resources">Resources</a></li>
                     <li><a href="https://prolaunch-cv-optimizer.vercel.app/" target="_blank" rel="noopener">CV Optimizer Tool</a></li>
                 </ul>
             </div>
@@ -288,8 +342,8 @@
         <div class="footer-bottom">
             <p style="color: var(--text-muted); font-size: 0.85rem;">&copy; 2026 ProLaunch Careers. All Rights Reserved.</p>
             <div style="display: flex; gap: 1.5rem;">
-                <a href="#" rel="noopener" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">Privacy Policy</a>
-                <a href="#" rel="noopener" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">Terms of Service</a>
+                <a href="/privacy" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">Privacy Policy</a>
+                <a href="/terms" style="color: var(--text-muted); text-decoration: none; font-size: 0.85rem;">Terms of Service</a>
             </div>
         </div>
     </footer>
@@ -301,7 +355,7 @@
 
     <script src="assets/js/config.js"></script>
     <script src="assets/js/site.js"></script>
-    
+    <script src="assets/js/cgc-wizard.js"></script>
 </body>
 
 </html>

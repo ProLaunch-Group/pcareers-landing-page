@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from api.routers import auth
+from api.routers import auth, pmi_leads, cgc_leads
 from api.schemas import HealthResponse
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,6 +24,8 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
+app.include_router(pmi_leads.router)
+app.include_router(cgc_leads.router)
 
 @app.get("/api/health", response_model=HealthResponse)
 def health():
@@ -34,6 +36,12 @@ def serve_frontend(full_path: str):
     if full_path.startswith("api"):
         raise HTTPException(status_code=404, detail="Not Found")
 
+    normalized = full_path.strip("/")
+    if normalized in {"", ".", "home", "index.html"}:
+        return FileResponse(PUBLIC_DIR / "index.html")
+    if normalized in {"cgc", "career-grooming-camp", "career-grooming-camp.html"}:
+        return FileResponse(PUBLIC_DIR / "career-grooming-camp.html")
+
     candidate = PUBLIC_DIR / full_path
     if candidate.is_dir():
         candidate = candidate / "index.html"
@@ -42,11 +50,8 @@ def serve_frontend(full_path: str):
         return FileResponse(candidate)
 
     if not Path(full_path).suffix:
-        html_candidate = PUBLIC_DIR / f"{full_path}.html"
+        html_candidate = PUBLIC_DIR / f"{normalized}.html"
         if html_candidate.is_file():
             return FileResponse(html_candidate)
-
-    if full_path in {"", "."}:
-        return FileResponse(PUBLIC_DIR / "index.html")
 
     return FileResponse(PUBLIC_DIR / "index.html")
