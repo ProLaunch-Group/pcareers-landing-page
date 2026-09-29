@@ -1,6 +1,15 @@
 /* Events page — full webinar listing (mirrors the WEBINARS source of truth in app.js).
    To add a new webinar each month, add an object here AND in app.js. */
 const EVENTS_WEBINARS = [
+     {
+        id: "The Remote Playbook",
+        title: "From Application To Hired:The Remote Playbook",
+        date: "2026-09-26",
+        status: "past",
+        image: "assets/images/event-6.webp",
+        description: "Understanding what makes candidates stand out, how to build a CV that gets noticed, where to find the right remote opportunities, and practical strategies for increasing your chances of landing interviews and getting hired.",
+        formUrl: "https://drive.google.com/file/d/1415CTjeTw6t4XZr1SZxwBpRcKypHOQwU/view?usp=drivesdk"
+    },
     {
         id: "Stop Applying Blindly",
         title: "Stop Applying Blindly: Where to Actually Find Jobs That Match Your Skills",
