@@ -1,0 +1,795 @@
+/* ── ProLaunch Careers 1-Year Anniversary Stylesheet ── */
+
+:root {
+    --gold: #f59e0b;
+    --gold-light: #fef3c7;
+    --gold-glow: rgba(245, 158, 11, 0.25);
+    --forest: #0d3b38;
+    --forest-mid: #124745;
+    --green: #7bb640;
+    --green-dark: #5e9428;
+    --green-light: #e8f5d6;
+    --cream: #f8faf3;
+}
+
+/* ── Top Countdown Announcement Bar ── */
+.anniversary-topbar {
+    background: linear-gradient(90deg, #0d3b38 0%, #124745 50%, #0d3b38 100%);
+    color: #ffffff;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 1010;
+    border-bottom: 2px solid var(--green);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+.anniversary-topbar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.anniversary-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(123, 182, 64, 0.2);
+    border: 1px solid var(--green);
+    color: #c9f29b;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.anniversary-topbar-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 280px;
+}
+
+.anniversary-countdown-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.countdown-unit {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 26px;
+}
+
+.countdown-num {
+    font-weight: 800;
+    font-size: 1rem;
+    color: #ffffff;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+.countdown-lbl {
+    font-size: 0.62rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.countdown-sep {
+    font-weight: 700;
+    color: var(--green);
+    margin-top: -4px;
+}
+
+.anniversary-topbar-cta {
+    background: var(--green);
+    color: #ffffff;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.82rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.anniversary-topbar-cta:hover {
+    background: #6ca038;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(123, 182, 64, 0.4);
+}
+
+/* ── Anniversary Hero ── */
+.anniversary-hero {
+    background: radial-gradient(circle at 80% 20%, rgba(123, 182, 64, 0.18) 0%, transparent 60%),
+                radial-gradient(circle at 20% 80%, rgba(245, 158, 11, 0.12) 0%, transparent 50%),
+                linear-gradient(180deg, #f8faf3 0%, #eef4e8 100%);
+    padding: 90px 24px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.anniversary-hero-inner {
+    max-width: 860px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.anniversary-milestone-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #ffffff;
+    border: 1px solid rgba(13, 59, 56, 0.12);
+    box-shadow: 0 4px 20px rgba(13, 59, 56, 0.06);
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 20px;
+}
+
+.anniversary-hero h1 {
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    color: var(--forest);
+    line-height: 1.15;
+    margin-bottom: 18px;
+    font-family: 'Playfair Display', serif;
+}
+
+.anniversary-hero h1 em {
+    font-style: italic;
+    color: var(--green);
+    background: linear-gradient(135deg, var(--green-dark), var(--green));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.anniversary-hero-sub {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    color: var(--text-muted);
+    line-height: 1.7;
+    margin-bottom: 32px;
+}
+
+.anniversary-quick-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.btn-anniversary-primary {
+    background: var(--forest);
+    color: #ffffff;
+    padding: 13px 26px;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+    box-shadow: 0 10px 25px rgba(13, 59, 56, 0.2);
+}
+
+.btn-anniversary-primary:hover {
+    background: var(--forest-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(13, 59, 56, 0.28);
+}
+
+.btn-anniversary-gold {
+    background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+    color: #ffffff;
+    padding: 13px 24px;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.25s ease;
+    box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3);
+}
+
+.btn-anniversary-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(245, 158, 11, 0.4);
+}
+
+.btn-anniversary-outline {
+    background: #ffffff;
+    color: var(--forest);
+    border: 1.5px solid rgba(13, 59, 56, 0.2);
+    padding: 12px 24px;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+}
+
+.btn-anniversary-outline:hover {
+    border-color: var(--green);
+    color: var(--green-dark);
+    background: var(--green-light);
+}
+
+/* ── Interactive Frame Generator Studio ── */
+.frame-studio-section {
+    padding: 80px 24px;
+    background: #ffffff;
+    border-top: 1px solid rgba(13, 59, 56, 0.08);
+    border-bottom: 1px solid rgba(13, 59, 56, 0.08);
+}
+
+.frame-studio-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.frame-studio-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 48px;
+}
+
+.frame-studio-header h2 {
+    font-size: clamp(2rem, 3.5vw, 2.6rem);
+    color: var(--forest);
+    margin-bottom: 14px;
+    font-family: 'Playfair Display', serif;
+}
+
+.frame-studio-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    background: var(--cream);
+    padding: 36px;
+    border-radius: 28px;
+    border: 1px solid rgba(13, 59, 56, 0.08);
+    box-shadow: 0 20px 60px rgba(13, 59, 56, 0.06);
+}
+
+@media (max-width: 900px) {
+    .frame-studio-grid {
+        grid-template-columns: 1fr;
+        padding: 24px 18px;
+        gap: 32px;
+    }
+}
+
+/* Canvas Preview Frame */
+.frame-preview-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.frame-canvas-box {
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 1 / 1;
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 16px 45px rgba(13, 59, 56, 0.16);
+    background: #ffffff;
+    border: 3px solid rgba(123, 182, 64, 0.3);
+}
+
+#celebrationCanvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: grab;
+    touch-action: none;
+}
+
+#celebrationCanvas:active {
+    cursor: grabbing;
+}
+
+.frame-canvas-hint {
+    margin-top: 12px;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+/* Frame Controls */
+.frame-controls-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid rgba(13, 59, 56, 0.08);
+    box-shadow: 0 10px 30px rgba(13, 59, 56, 0.04);
+}
+
+.control-group {
+    margin-bottom: 20px;
+}
+
+.control-group label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--forest);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.control-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid rgba(13, 59, 56, 0.15);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    color: var(--forest);
+    background: #fdfdfd;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    font-family: inherit;
+}
+
+.control-input:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(123, 182, 64, 0.2);
+}
+
+/* Custom File Upload Box */
+.custom-file-upload {
+    border: 2px dashed rgba(123, 182, 64, 0.45);
+    border-radius: 12px;
+    padding: 20px 16px;
+    text-align: center;
+    background: var(--green-light);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.custom-file-upload:hover {
+    background: #def0c7;
+    border-color: var(--green-dark);
+}
+
+.custom-file-upload svg {
+    color: var(--green-dark);
+    margin-bottom: 4px;
+}
+
+.custom-file-upload span.title {
+    font-weight: 700;
+    color: var(--forest);
+    font-size: 0.92rem;
+}
+
+.custom-file-upload span.desc {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+}
+
+/* Zoom Slider */
+.slider-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.slider-wrap input[type="range"] {
+    flex: 1;
+    accent-color: var(--green);
+    cursor: pointer;
+}
+
+/* Frame Color Theme Selector */
+.theme-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.theme-btn {
+    border: 1.5px solid rgba(13, 59, 56, 0.15);
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 10px 8px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--forest);
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.theme-btn .color-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.theme-btn.active {
+    border-color: var(--green);
+    background: var(--green-light);
+    color: var(--green-dark);
+}
+
+/* Frame Actions Row */
+.frame-actions-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+}
+
+.btn-frame-download {
+    flex: 1.2;
+    min-width: 180px;
+    background: var(--forest);
+    color: #ffffff;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 20px rgba(13, 59, 56, 0.2);
+}
+
+.btn-frame-download:hover {
+    background: var(--forest-mid);
+    transform: translateY(-1px);
+}
+
+.btn-frame-share {
+    flex: 1;
+    min-width: 150px;
+    background: #0a66c2;
+    color: #ffffff;
+    border: none;
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 20px rgba(10, 102, 194, 0.25);
+}
+
+.btn-frame-share:hover {
+    background: #084e96;
+    transform: translateY(-1px);
+}
+
+/* ── Anniversary Masterclass Section ── */
+.webinar-anniversary-section {
+    padding: 80px 24px;
+    background: linear-gradient(180deg, #eef4e8 0%, #f8faf3 100%);
+    position: relative;
+}
+
+.webinar-card-feature {
+    max-width: 980px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 28px;
+    border: 1px solid rgba(13, 59, 56, 0.1);
+    box-shadow: 0 20px 60px rgba(13, 59, 56, 0.08);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+}
+
+@media (max-width: 860px) {
+    .webinar-card-feature {
+        grid-template-columns: 1fr;
+    }
+}
+
+.webinar-content {
+    padding: 44px;
+}
+
+@media (max-width: 600px) {
+    .webinar-content {
+        padding: 28px 20px;
+    }
+}
+
+.webinar-meta-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    color: #b45309;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+}
+
+.webinar-content h3 {
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    color: var(--forest);
+    line-height: 1.25;
+    margin-bottom: 16px;
+    font-family: 'Playfair Display', serif;
+}
+
+.webinar-content p {
+    color: var(--text-muted);
+    font-size: 0.98rem;
+    line-height: 1.7;
+    margin-bottom: 24px;
+}
+
+.webinar-details-list {
+    list-style: none;
+    margin-bottom: 28px;
+}
+
+.webinar-details-list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--forest);
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.webinar-details-list li svg {
+    color: var(--green);
+    flex-shrink: 0;
+}
+
+.webinar-form-wrap {
+    background: var(--cream);
+    padding: 40px;
+    border-left: 1px solid rgba(13, 59, 56, 0.08);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+@media (max-width: 860px) {
+    .webinar-form-wrap {
+        border-left: none;
+        border-top: 1px solid rgba(13, 59, 56, 0.08);
+        padding: 30px 20px;
+    }
+}
+
+/* ── Giveaways Section ── */
+.giveaways-section {
+    padding: 80px 24px;
+    background: #0d3b38;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+}
+
+.giveaways-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.giveaways-header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 50px;
+}
+
+.giveaways-header .section-tag {
+    color: #c9f29b;
+}
+
+.giveaways-header h2 {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    color: #ffffff;
+    margin-bottom: 14px;
+    font-family: 'Playfair Display', serif;
+}
+
+.giveaways-header p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+.giveaways-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 860px) {
+    .giveaways-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.giveaway-tier-card {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 32px 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    backdrop-filter: blur(8px);
+}
+
+.giveaway-tier-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--green);
+    background: rgba(255, 255, 255, 0.09);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+}
+
+.giveaway-tier-card.highlight {
+    border-color: var(--gold);
+    background: rgba(245, 158, 11, 0.08);
+}
+
+.giveaway-tier-qty {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--green);
+    line-height: 1;
+    margin-bottom: 6px;
+    font-family: 'Playfair Display', serif;
+}
+
+.giveaway-tier-card.highlight .giveaway-tier-qty {
+    color: var(--gold);
+}
+
+.giveaway-tier-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 12px;
+}
+
+.giveaway-tier-desc {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.giveaway-tier-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+
+.giveaway-instructions-box {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px dashed rgba(123, 182, 64, 0.4);
+    border-radius: 16px;
+    padding: 24px 30px;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.giveaway-instructions-box h4 {
+    font-size: 1.1rem;
+    color: #c9f29b;
+    margin-bottom: 8px;
+}
+
+.giveaway-instructions-box p {
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.82);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── Impact Stats Strip ── */
+.anniversary-stats-strip {
+    padding: 70px 24px;
+    background: #ffffff;
+}
+
+.stats-grid-anniversary {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 768px) {
+    .stats-grid-anniversary {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+.stat-card-anniversary {
+    text-align: center;
+    padding: 28px 16px;
+    background: var(--cream);
+    border-radius: 18px;
+    border: 1px solid rgba(13, 59, 56, 0.06);
+}
+
+.stat-card-anniversary .num {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 800;
+    color: var(--forest);
+    font-family: 'Playfair Display', serif;
+    display: block;
+    margin-bottom: 6px;
+}
+
+.stat-card-anniversary .lbl {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}

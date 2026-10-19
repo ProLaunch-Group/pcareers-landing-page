@@ -23,6 +23,7 @@
         rel="stylesheet" media="print" onload="this.media='all'">
 
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/anniversary.css">
     
 </head>
 
@@ -52,6 +53,38 @@
         <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></symbol>
     </svg>
 
+    <!-- TOP COUNTDOWN ANNOUNCEMENT BAR -->
+    <div class="anniversary-topbar">
+        <div class="anniversary-topbar-inner">
+            <div class="anniversary-topbar-text">
+                <span class="anniversary-badge-pill">🎉 1st Anniversary</span>
+                <span>ProLaunch Turns 1! Join our Masterclass &amp; enter &#8358;50K Giveaways:</span>
+            </div>
+            <div class="anniversary-countdown-wrap">
+                <div class="countdown-unit">
+                    <span class="countdown-num countdown-days">00</span>
+                    <span class="countdown-lbl">Days</span>
+                </div>
+                <span class="countdown-sep">:</span>
+                <div class="countdown-unit">
+                    <span class="countdown-num countdown-hours">00</span>
+                    <span class="countdown-lbl">Hours</span>
+                </div>
+                <span class="countdown-sep">:</span>
+                <div class="countdown-unit">
+                    <span class="countdown-num countdown-mins">00</span>
+                    <span class="countdown-lbl">Mins</span>
+                </div>
+                <span class="countdown-sep">:</span>
+                <div class="countdown-unit">
+                    <span class="countdown-num countdown-secs">00</span>
+                    <span class="countdown-lbl">Secs</span>
+                </div>
+            </div>
+            <a href="/anniversary" class="anniversary-topbar-cta">Join Celebration &rarr;</a>
+        </div>
+    </div>
+
     <!-- NAV -->
     <nav id="navbar">
         <a href="/home" class="nav-logo">
@@ -59,13 +92,14 @@
             <span class="logo-text">ProLaunch Careers</span>
         </a>
         <ul class="nav-links">
-            <li><a href="/home" class="active">Home</a></li>
+            <li><a href="/home">Home</a></li>
             <li><a href="/cgc">Career Grooming Camp</a></li>
             <li><a href="/mentorship">Mentorship (PMI)</a></li>
-            <li><a href="/events">Events</a></li>
+            <li><a href="/events" class="active">Events</a></li>
             <li><a href="/resources">Resources</a></li>
             <li><a href="/cv-optimizer">CV Optimizer</a></li>
             <li><a href="/contact">Contact</a></li>
+            <li><a href="/anniversary" style="color: #f59e0b; font-weight: 700;">Anniversary @ 1 🎉</a></li>
             <!-- <li><a href="/cgc" class="nav-cta">Secure Your Seat &rarr;</a></li> -->
         </ul>
         <div class="nav-cta-container">
@@ -171,6 +205,7 @@
     <script src="assets/js/config.js"></script>
     <script src="assets/js/site.js"></script>
     <script src="assets/js/events.js"></script>
+    <script src="assets/js/anniversary-frame.js"></script>
 </body>
 
 </html>
