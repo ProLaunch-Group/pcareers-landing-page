@@ -61,6 +61,10 @@
             transform: none !important;
         }
 
+        em {
+            color: var(--green-dark);
+        }
+
         body::before {
             content: '';
             position: fixed;
