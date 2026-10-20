@@ -10,7 +10,8 @@
     { "source": "/events.html", "destination": "/events", "permanent": true },
     { "source": "/cv-optimizer.html", "destination": "/cv-optimizer", "permanent": true },
     { "source": "/privacy.html", "destination": "/privacy", "permanent": true },
-    { "source": "/terms.html", "destination": "/terms", "permanent": true }
+    { "source": "/terms.html", "destination": "/terms", "permanent": true },
+    { "source": "/anniversary.html", "destination": "/anniversary", "permanent": true }
   ],
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/main.py" },
@@ -24,6 +25,7 @@
     { "source": "/cv-optimizer", "destination": "/public/cv-optimizer.html" },
     { "source": "/privacy", "destination": "/public/privacy.html" },
     { "source": "/terms", "destination": "/public/terms.html" },
+    { "source": "/anniversary", "destination": "/public/anniversary.html" },
     { "source": "/(.*)", "destination": "/public/$1" }
   ]
 }

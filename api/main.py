@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from api.routers import auth, pmi_leads, cgc_leads
+from api.routers import auth, pmi_leads, cgc_leads, anniversary_leads
 from api.schemas import HealthResponse
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +26,7 @@ app.add_middleware(
 app.include_router(auth.router)
 app.include_router(pmi_leads.router)
 app.include_router(cgc_leads.router)
+app.include_router(anniversary_leads.router)
 
 @app.get("/api/health", response_model=HealthResponse)
 def health():
@@ -41,6 +42,8 @@ def serve_frontend(full_path: str):
         return FileResponse(PUBLIC_DIR / "index.html")
     if normalized in {"cgc", "career-grooming-camp", "career-grooming-camp.html"}:
         return FileResponse(PUBLIC_DIR / "career-grooming-camp.html")
+    if normalized in {"anniversary", "anniversary.html"}:
+        return FileResponse(PUBLIC_DIR / "anniversary.html")
 
     candidate = PUBLIC_DIR / full_path
     if candidate.is_dir():

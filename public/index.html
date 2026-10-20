@@ -26,6 +26,7 @@
         rel="stylesheet" media="print" onload="this.media='all'">
 
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/anniversary.css">
 
 </head>
 
@@ -113,9 +114,41 @@
         </symbol>
     </svg>
 
-   <!-- NAV -->
-     <nav id="navbar">
-        <a href="/index" class="nav-logo">
+    <!-- TOP COUNTDOWN ANNOUNCEMENT BAR -->
+    <div class="anniversary-topbar">
+        <div class="anniversary-topbar-inner">
+            <div class="anniversary-topbar-text">
+                <span class="anniversary-badge-pill">🎉 1st Anniversary</span>
+                <span>ProLaunch Turns 1! Join our Masterclass &amp; enter &#8358;50K Giveaways:</span>
+            </div>
+            <div class="anniversary-countdown-wrap">
+                <div class="countdown-unit">
+                    <span class="countdown-num countdown-days">00</span>
+                    <span class="countdown-lbl">Days</span>
+                </div>
+                <span class="countdown-sep">:</span>
+                <div class="countdown-unit">
+                    <span class="countdown-num countdown-hours">00</span>
+                    <span class="countdown-lbl">Hours</span>
+                </div>
+                <span class="countdown-sep">:</span>
+                <div class="countdown-unit">
+                    <span class="countdown-num countdown-mins">00</span>
+                    <span class="countdown-lbl">Mins</span>
+                </div>
+                <span class="countdown-sep">:</span>
+                <div class="countdown-unit">
+                    <span class="countdown-num countdown-secs">00</span>
+                    <span class="countdown-lbl">Secs</span>
+                </div>
+            </div>
+            <a href="/anniversary" class="anniversary-topbar-cta">Join Celebration &rarr;</a>
+        </div>
+    </div>
+
+    <!-- NAV -->
+    <nav id="navbar">
+        <a href="/home" class="nav-logo">
             <img src="assets/images/logo2.webp" width="38" height="38" alt="ProLaunch Logo" class="logo-mark">
             <span class="logo-text">ProLaunch Careers</span>
         </a>
@@ -127,6 +160,7 @@
             <li><a href="/resources">Resources</a></li>
             <li><a href="/cv-optimizer">CV Optimizer</a></li>
             <li><a href="/contact">Contact</a></li>
+            <li><a href="/anniversary" style="color: #f59e0b; font-weight: 700;">Anniversary @ 1 🎉</a></li>
             <!-- <li><a href="/cgc" class="nav-cta">Secure Your Seat &rarr;</a></li> -->
         </ul>
         <div class="nav-cta-container">
@@ -138,7 +172,8 @@
     </nav>
 
     <div class="mobile-menu" id="mobileMenu">
-        <a href="/index" class="mobile-link">Home</a>
+        <a href="/home" class="mobile-link">Home</a>
+        <a href="/anniversary" class="mobile-link" style="color: #f59e0b; font-weight: 700;">Anniversary @ 1 🎉</a>
         <a href="/cgc" class="mobile-link">Career Grooming Camp</a>
         <a href="/mentorship" class="mobile-link">Mentorship (PMI)</a>
         <a href="/events" class="mobile-link">Events</a>
@@ -153,7 +188,11 @@
         <!-- HERO -->
         <header class="hero" id="index">
             <div class="hero-text-wrap">
-                <span class="hero-badge reveal"><span class="badge-dot"></span> Cohort 08 Enrolling Now</span>
+                <a href="/anniversary" style="text-decoration: none; display: inline-block;">
+                    <span class="hero-badge reveal" style="border-color: #f59e0b; background: #fef3c7; color: #b45309;">
+                        <span class="badge-dot" style="background: #f59e0b;"></span> 🎉 Celebrating 1 Year of Impact &middot; Claim &#8358;50K Perks &rarr;
+                    </span>
+                </a>
                 <h1 class="reveal reveal-delay-1">Your <em>Remote</em> Career Starts Here.</h1>
                 <p class="hero-sub reveal reveal-delay-2">Equipping skilled-but-stuck African professionals with the
                     clarity, tools, and strategic positioning to land competitive remote jobs locally and globally.</p>
@@ -182,6 +221,70 @@
                 <img src="assets/images/ceo-2.webp" alt="Coach MQ, Founder of ProLaunch Careers" loading="eager">
             </div>
         </header>
+
+        <!-- ANNIVERSARY SPOTLIGHT SECTION -->
+        <section style="padding: 40px 24px; background: linear-gradient(180deg, #f8faf3 0%, #eef4e8 100%); border-bottom: 1px solid rgba(13, 59, 56, 0.08);">
+            <div style="max-width: 1100px; margin: 0 auto; background: #ffffff; border-radius: 28px; padding: 44px 36px; border: 1.5px solid rgba(245, 158, 11, 0.3); box-shadow: 0 20px 60px rgba(13, 59, 56, 0.08); position: relative; overflow: hidden;">
+                <!-- Decorative Gold Accent Ribbon -->
+                <div style="position: absolute; top: 0; right: 0; background: linear-gradient(135deg, #d97706, #f59e0b); color: #ffffff; font-size: 0.75rem; font-weight: 800; padding: 6px 36px; transform: rotate(45deg) translate(28px, -20px); letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);">
+                    1 Year Milestone
+                </div>
+
+                <div style="max-width: 760px; margin-bottom: 32px;">
+                    <span style="display: inline-flex; align-items: center; gap: 6px; background: #fef3c7; border: 1px solid #f59e0b; color: #b45309; font-size: 0.8rem; font-weight: 700; padding: 4px 12px; border-radius: 999px; text-transform: uppercase; margin-bottom: 12px;">
+                        🎉 Oct 2025 &ndash; Oct 2026 Celebration
+                    </span>
+                    <h2 style="font-size: clamp(1.8rem, 3.2vw, 2.5rem); color: var(--forest); font-family: 'Playfair Display', serif; line-height: 1.2; margin-bottom: 12px;">
+                        Celebrating 1 Year of Launching Global Careers &amp; Transforming Lives.
+                    </h2>
+                    <p style="color: var(--text-muted); font-size: 1.02rem; line-height: 1.7;">
+                        In 365 days, we have coached over 2,000 talents across 7 cohorts. To mark our 1st Anniversary, we are rolling out <strong>&#8358;50,000+ in scholarship giveaways</strong>, a landmark masterclass on October 31st, and our official celebration photo frame.
+                    </p>
+                </div>
+
+                <!-- 3 Action Cards Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 32px;">
+                    <div style="background: var(--cream); border-radius: 18px; padding: 24px; border: 1px solid rgba(13, 59, 56, 0.08); display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <span style="font-size: 2rem; display: block; margin-bottom: 8px;">🎓</span>
+                            <h4 style="color: var(--forest); font-size: 1.15rem; margin-bottom: 6px;">Anniversary Masterclass</h4>
+                            <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6;"><em>"Getting Hired is Only the Beginning"</em> &middot; Oct 31, 7:00 PM (WAT). Free live access &amp; speaker panel.</p>
+                        </div>
+                        <a href="/anniversary#webinar" style="display: inline-flex; align-items: center; gap: 6px; color: var(--forest); font-weight: 700; font-size: 0.88rem; margin-top: 16px; text-decoration: underline;">
+                            Reserve Seat &rarr;
+                        </a>
+                    </div>
+
+                    <div style="background: var(--cream); border-radius: 18px; padding: 24px; border: 1px solid rgba(245, 158, 11, 0.35); display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <span style="font-size: 2rem; display: block; margin-bottom: 8px;">🎁</span>
+                            <h4 style="color: var(--forest); font-size: 1.15rem; margin-bottom: 6px;">&#8358;50,000+ Giveaways</h4>
+                            <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6;">3 Full CGC Scholarships, 3 Half Scholarships, and 5 LaunchIQ access passes given away live.</p>
+                        </div>
+                        <a href="/anniversary#giveaways" style="display: inline-flex; align-items: center; gap: 6px; color: #b45309; font-weight: 700; font-size: 0.88rem; margin-top: 16px; text-decoration: underline;">
+                            Enter Giveaway Raffle &rarr;
+                        </a>
+                    </div>
+
+                    <div style="background: var(--cream); border-radius: 18px; padding: 24px; border: 1px solid rgba(123, 182, 64, 0.35); display: flex; flex-direction: column; justify-content: space-between;">
+                        <div>
+                            <span style="font-size: 2rem; display: block; margin-bottom: 8px;">📸</span>
+                            <h4 style="color: var(--forest); font-size: 1.15rem; margin-bottom: 6px;">LinkedIn Photo Frame</h4>
+                            <p style="color: var(--text-muted); font-size: 0.88rem; line-height: 1.6;">Create your custom celebration badge avatar in 1 click and share with our global community.</p>
+                        </div>
+                        <a href="/anniversary#frame-generator" style="display: inline-flex; align-items: center; gap: 6px; color: var(--green-dark); font-weight: 700; font-size: 0.88rem; margin-top: 16px; text-decoration: underline;">
+                            Generate Photo Frame &rarr;
+                        </a>
+                    </div>
+                </div>
+
+                <div style="text-align: center;">
+                    <a href="/anniversary" class="cta-btn" style="display: inline-flex; align-items: center; gap: 10px; padding: 14px 32px; font-size: 1.05rem;">
+                        Join the 1-Year Anniversary Celebration <svg class="icon"><use href="#icon-arrow"></use></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
 
         <!-- ABOUT -->
         <section class="pillars-section" id="about-us">
@@ -620,6 +723,7 @@
     <script src="assets/js/config.js"></script>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/site.js"></script>
+    <script src="assets/js/anniversary-frame.js"></script>
 
 </body>
 
