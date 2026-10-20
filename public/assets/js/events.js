@@ -15,8 +15,8 @@ const EVENTS_WEBINARS = [
         title: "1-Year Anniversary Masterclass: Getting Hired is Only the Beginning: Build a Career That Creates Opportunities",
         date: "2026-10-31",
         status: "upcoming",
-        image: "assets/images/ceo-2.webp",
-        description: "Celebrate ProLaunch Careers' 1st Anniversary! Discover how to command premium global compensation, sustain career velocity, and enter our ₦50,000+ scholarship giveaways.",
+        image: "assets/images/anniversary-main-flyer.png",
+        description: "Celebrate ProLaunch Careers' 1st Anniversary! Featuring Keynote by Coach MQ, Joyce Ubani (Founder, ApplyPadi), and Cornelius Abeken Christopher. Includes live ₦50,000+ scholarship giveaways.",
         formUrl: "/anniversary#webinar"
     },
     {

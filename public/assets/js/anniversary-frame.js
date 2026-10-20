@@ -273,10 +273,7 @@ class AnniversaryFrameStudio {
         // 5. Top Header Branding: ProLaunch Logo & Anniversary Banner
         this.drawTopBranding(ctx, S);
 
-        // 6. Milestone Ribbon Badge (1 Year of Impact)
-        this.drawMilestoneRibbon(ctx, centerX, centerY + radius - 15);
-
-        // 7. Bottom Name & Status Badge Box
+        // 6. Bottom Name & Status Badge Box
         this.drawBottomCard(ctx, S, centerX);
     }
 
