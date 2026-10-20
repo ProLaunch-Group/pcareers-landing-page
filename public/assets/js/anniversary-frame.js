@@ -190,27 +190,26 @@ class AnniversaryFrameStudio {
         // Clear canvas
         ctx.clearRect(0, 0, S, S);
 
-        // 1. Background Fill based on theme
-        let bgGrad;
-        if (this.theme === 'gold') {
-            bgGrad = ctx.createLinearGradient(0, 0, S, S);
-            bgGrad.addColorStop(0, '#1c1917');
-            bgGrad.addColorStop(1, '#0c0a09');
-        } else if (this.theme === 'emerald') {
-            bgGrad = ctx.createLinearGradient(0, 0, S, S);
+        // 1. Background Fill: Strict ProLaunch Brand Deep Forest Gradient
+        const bgGrad = ctx.createLinearGradient(0, 0, S, S);
+        if (this.theme === 'emerald') {
             bgGrad.addColorStop(0, '#064e3b');
-            bgGrad.addColorStop(1, '#022c22');
+            bgGrad.addColorStop(0.5, '#022c22');
+            bgGrad.addColorStop(1, '#064e3b');
+        } else if (this.theme === 'gold') {
+            bgGrad.addColorStop(0, '#0a2e2b');
+            bgGrad.addColorStop(0.5, '#0d3b38');
+            bgGrad.addColorStop(1, '#193f3b');
         } else {
-            // Forest default
-            bgGrad = ctx.createLinearGradient(0, 0, S, S);
-            bgGrad.addColorStop(0, '#0d3b38');
-            bgGrad.addColorStop(0.5, '#124745');
-            bgGrad.addColorStop(1, '#082523');
+            // Signature ProLaunch Forest & Emerald
+            bgGrad.addColorStop(0, '#092624');
+            bgGrad.addColorStop(0.45, '#0d3b38');
+            bgGrad.addColorStop(1, '#124745');
         }
         ctx.fillStyle = bgGrad;
         ctx.fillRect(0, 0, S, S);
 
-        // 2. Decorative Background Patterns & Festive Rays
+        // 2. Decorative Background Patterns & Festive Fireworks Sparks
         this.drawFestiveBackdrop(ctx, S);
 
         // 3. User Avatar Area (Centered Circle)
@@ -255,7 +254,7 @@ class AnniversaryFrameStudio {
         }
         ctx.restore();
 
-        // 4. Circle Border & Outer Rings
+        // 4. Circle Border & Outer Rings (Brand Lime Green & Crisp White)
         ctx.save();
         ctx.lineWidth = 14;
         ctx.strokeStyle = (this.theme === 'gold') ? '#f59e0b' : '#7bb640';
@@ -264,7 +263,7 @@ class AnniversaryFrameStudio {
         ctx.stroke();
 
         ctx.lineWidth = 3;
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius + 14, 0, Math.PI * 2);
         ctx.stroke();
@@ -279,30 +278,122 @@ class AnniversaryFrameStudio {
 
     drawFestiveBackdrop(ctx, S) {
         ctx.save();
-        // Subtle celebratory confetti sparkles
-        const sparkles = [
-            { x: 120, y: 160, r: 4, color: '#f59e0b' },
-            { x: 960, y: 180, r: 5, color: '#7bb640' },
-            { x: 180, y: 440, r: 3, color: '#ffffff' },
-            { x: 920, y: 480, r: 4, color: '#fef3c7' },
-            { x: 140, y: 780, r: 6, color: '#7bb640' },
-            { x: 940, y: 820, r: 5, color: '#f59e0b' },
-            { x: 280, y: 220, r: 3, color: '#ffffff' },
-            { x: 800, y: 260, r: 4, color: '#7bb640' }
-        ];
 
-        sparkles.forEach(s => {
+        // High-Quality Fireworks Burst Renderer
+        const drawFirework = (cx, cy, radius, rays, colors, coreSize = 6) => {
+            // Radial aura glow
+            const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+            glow.addColorStop(0, colors[0]);
+            glow.addColorStop(0.35, colors[1] || colors[0]);
+            glow.addColorStop(1, 'rgba(13, 59, 56, 0)');
+            ctx.fillStyle = glow;
             ctx.beginPath();
-            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-            ctx.fillStyle = s.color;
+            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
             ctx.fill();
-        });
 
-        // Top decorative gold geometric arcs
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-        ctx.lineWidth = 2;
+            // Radiating firework spark rays
+            for (let i = 0; i < rays; i++) {
+                const angle = (i * (Math.PI * 2) / rays) + (Math.sin(i * 1.5) * 0.08);
+                const sparkLen = radius * (0.65 + 0.35 * Math.sin(i * 1.7));
+                const endX = cx + Math.cos(angle) * sparkLen;
+                const endY = cy + Math.sin(angle) * sparkLen;
+                const midX = cx + Math.cos(angle) * (sparkLen * 0.52);
+                const midY = cy + Math.sin(angle) * (sparkLen * 0.52);
+
+                // Ray trail line
+                ctx.beginPath();
+                ctx.moveTo(midX, midY);
+                ctx.lineTo(endX, endY);
+                ctx.lineWidth = 2.4;
+                ctx.strokeStyle = colors[i % colors.length];
+                ctx.lineCap = 'round';
+                ctx.stroke();
+
+                // Spark dot at ray tip
+                ctx.beginPath();
+                ctx.arc(endX, endY, 3.5, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.fill();
+
+                // Trailing festive ember
+                const emberX = endX + Math.cos(angle) * 14;
+                const emberY = endY + Math.sin(angle) * 14;
+                ctx.beginPath();
+                ctx.arc(emberX, emberY, 2.2, 0, Math.PI * 2);
+                ctx.fillStyle = colors[(i + 1) % colors.length];
+                ctx.fill();
+            }
+
+            // Bright sparkling core
+            ctx.beginPath();
+            ctx.arc(cx, cy, coreSize, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowColor = colors[0];
+            ctx.shadowBlur = 14;
+            ctx.fill();
+            ctx.shadowColor = 'transparent';
+        };
+
+        // 4-Point Starburst diamond sparkle helper
+        const drawStarGlint = (x, y, r, color = '#ffffff') => {
+            ctx.save();
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.moveTo(x, y - r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.quadraticCurveTo(x, y, x, y + r);
+            ctx.quadraticCurveTo(x, y, x - r, y);
+            ctx.quadraticCurveTo(x, y, x, y - r);
+            ctx.fill();
+            ctx.restore();
+        };
+
+        // Fireworks Sparks in brand colors (Lime, Gold, White)
+        // Top-Left burst
+        drawFirework(150, 190, 130, 14, ['#7bb640', '#fbbf24', '#ffffff', '#a3e635'], 8);
+        
+        // Top-Right burst
+        drawFirework(930, 180, 140, 16, ['#fbbf24', '#f59e0b', '#ffffff', '#7bb640'], 8);
+
+        // Mid-Left burst
+        drawFirework(100, 520, 105, 12, ['#a3e635', '#7bb640', '#ffffff'], 6);
+
+        // Mid-Right burst
+        drawFirework(980, 530, 110, 13, ['#fef08a', '#f59e0b', '#7bb640', '#ffffff'], 6);
+
+        // Lower-Left festive burst
+        drawFirework(180, 780, 85, 10, ['#7bb640', '#ffffff', '#fbbf24'], 5);
+
+        // Lower-Right festive burst
+        drawFirework(900, 790, 90, 11, ['#fbbf24', '#ffffff', '#a3e635'], 5);
+
+        // Glinting diamond stars & sparkling embers scattered in background
+        const glints = [
+            { x: 280, y: 130, r: 10, c: '#fbbf24' },
+            { x: 800, y: 120, r: 12, c: '#ffffff' },
+            { x: 340, y: 280, r: 7, c: '#a3e635' },
+            { x: 740, y: 260, r: 8, c: '#fef08a' },
+            { x: 190, y: 390, r: 6, c: '#ffffff' },
+            { x: 890, y: 380, r: 8, c: '#7bb640' },
+            { x: 260, y: 680, r: 7, c: '#fbbf24' },
+            { x: 820, y: 690, r: 9, c: '#ffffff' },
+            { x: 540, y: 110, r: 11, c: '#ffffff' }
+        ];
+        glints.forEach(g => drawStarGlint(g.x, g.y, g.r, g.c));
+
+        // Concentric orbit arcs
+        ctx.strokeStyle = 'rgba(123, 182, 64, 0.28)';
+        ctx.lineWidth = 2.5;
+        ctx.setLineDash([8, 12]);
         ctx.beginPath();
-        ctx.arc(S / 2, S / 2 - 40, 420, 0, Math.PI * 2);
+        ctx.arc(S / 2, S / 2 - 40, 345, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.strokeStyle = 'rgba(251, 191, 36, 0.35)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(S / 2, S / 2 - 40, 365, 0, Math.PI * 2);
         ctx.stroke();
 
         ctx.restore();
@@ -333,50 +424,6 @@ class AnniversaryFrameStudio {
         ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
         ctx.font = '600 16px "Lato", sans-serif';
         ctx.fillText('2025 - 2026 • LAUNCHING GLOBAL TALENT', S - 70, barY + 54);
-
-        ctx.restore();
-    }
-
-    drawMilestoneRibbon(ctx, x, y) {
-        ctx.save();
-        const ribbonWidth = 360;
-        const ribbonHeight = 52;
-        const rx = x - ribbonWidth / 2;
-        const ry = y - ribbonHeight / 2;
-
-        // Shadow
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
-        ctx.shadowBlur = 18;
-        ctx.shadowOffsetY = 6;
-
-        // Ribbon Background
-        const grad = ctx.createLinearGradient(rx, ry, rx + ribbonWidth, ry);
-        if (this.theme === 'gold') {
-            grad.addColorStop(0, '#b45309');
-            grad.addColorStop(0.5, '#f59e0b');
-            grad.addColorStop(1, '#b45309');
-        } else {
-            grad.addColorStop(0, '#5e9428');
-            grad.addColorStop(0.5, '#7bb640');
-            grad.addColorStop(1, '#5e9428');
-        }
-
-        ctx.fillStyle = grad;
-        this.roundRect(ctx, rx, ry, ribbonWidth, ribbonHeight, 26);
-        ctx.fill();
-
-        ctx.shadowColor = 'transparent';
-        ctx.lineWidth = 2;
-        ctx.strokeStyle = '#ffffff';
-        this.roundRect(ctx, rx, ry, ribbonWidth, ribbonHeight, 26);
-        ctx.stroke();
-
-        // Ribbon Text
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '800 21px "Lato", sans-serif';
-        ctx.letterSpacing = '0.5px';
-        ctx.fillText('★ 1 YEAR OF IMPACT & BREAKTHROUGHS ★', x, y + 7);
 
         ctx.restore();
     }

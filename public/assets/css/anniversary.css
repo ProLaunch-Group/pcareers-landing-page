@@ -130,8 +130,8 @@
     max-width: 1200px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 1.15fr 0.85fr;
-    gap: 48px;
+    grid-template-columns: 0.82fr 1.18fr;
+    gap: 40px;
     align-items: center;
     text-align: left;
     position: relative;
@@ -142,12 +142,12 @@
     .anniversary-hero-grid {
         grid-template-columns: 1fr;
         text-align: center;
-        gap: 40px;
+        gap: 36px;
     }
 }
 
 .anniversary-hero-text {
-    max-width: 650px;
+    width: 100%;
 }
 
 @media (max-width: 960px) {
@@ -165,17 +165,17 @@
     box-shadow: 0 4px 20px rgba(13, 59, 56, 0.06);
     padding: 6px 16px;
     border-radius: 999px;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 700;
     color: var(--forest);
-    margin-bottom: 20px;
+    margin-bottom: 14px;
 }
 
 .anniversary-hero h1 {
-    font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+    font-size: clamp(2rem, 3.6vw, 3rem);
     color: var(--forest);
     line-height: 1.15;
-    margin-bottom: 18px;
+    margin-bottom: 12px;
     font-family: 'Playfair Display', serif;
 }
 
@@ -188,10 +188,77 @@
 }
 
 .anniversary-hero-sub {
-    font-size: clamp(1.02rem, 1.8vw, 1.18rem);
+    font-size: 0.98rem;
     color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 30px;
+    line-height: 1.6;
+    margin-bottom: 18px;
+}
+
+/* Vertically Stacked Hero Speaker Cards */
+.hero-speakers-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 18px 0 24px;
+}
+
+.hero-speaker-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 14px 18px;
+    border: 1px solid rgba(13, 59, 56, 0.1);
+    box-shadow: 0 4px 18px rgba(13, 59, 56, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: left;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.hero-speaker-card:hover {
+    transform: translateX(4px);
+    box-shadow: 0 8px 24px rgba(13, 59, 56, 0.09);
+    border-color: var(--green);
+}
+
+.hero-speaker-avatar {
+    width: 62px;
+    height: 62px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2.5px solid var(--green);
+    flex-shrink: 0;
+    box-shadow: 0 3px 10px rgba(123, 182, 64, 0.25);
+}
+
+.hero-speaker-info {
+    flex: 1;
+}
+
+.hero-speaker-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--forest);
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 2px;
+    line-height: 1.2;
+}
+
+.hero-speaker-role {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--green-dark);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 3px;
+    display: block;
+}
+
+.hero-speaker-bio {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
 }
 
 .anniversary-quick-nav {
@@ -199,7 +266,7 @@
     align-items: center;
     gap: 14px;
     flex-wrap: wrap;
-    margin-bottom: 20px;
+    margin-top: 8px;
 }
 
 @media (max-width: 960px) {
@@ -208,7 +275,7 @@
     }
 }
 
-/* Event Flyer Banner Card */
+/* Event Flyer Banner Card (Reasonable standard viewing size) */
 .anniversary-hero-flyer-wrap {
     display: flex;
     justify-content: center;
@@ -217,48 +284,50 @@
 
 .anniversary-flyer-card {
     position: relative;
-    max-width: 400px;
+    max-width: 360px;
+    max-height: 520px;
     width: 100%;
-    border-radius: 22px;
+    border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 24px 60px rgba(13, 59, 56, 0.22), 0 8px 25px rgba(245, 158, 11, 0.18);
-    border: 3px solid rgba(245, 158, 11, 0.45);
+    box-shadow: 0 20px 50px rgba(13, 59, 56, 0.22), 0 6px 20px rgba(245, 158, 11, 0.16);
+    border: 2.5px solid rgba(245, 158, 11, 0.45);
     transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
     display: block;
     background: #0d3b38;
 }
 
 .anniversary-flyer-card:hover {
-    transform: translateY(-6px) scale(1.015);
-    box-shadow: 0 30px 75px rgba(13, 59, 56, 0.3), 0 12px 30px rgba(245, 158, 11, 0.28);
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: 0 25px 65px rgba(13, 59, 56, 0.3), 0 10px 25px rgba(245, 158, 11, 0.25);
     border-color: #f59e0b;
 }
 
 .anniversary-flyer-img {
     width: 100%;
+    max-height: 520px;
     height: auto;
     display: block;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .flyer-floating-badge {
     position: absolute;
-    bottom: 14px;
+    bottom: 12px;
     left: 50%;
     transform: translateX(-50%);
     background: rgba(13, 59, 56, 0.95);
     color: #ffffff;
     border: 1px solid var(--green);
-    padding: 7px 16px;
+    padding: 6px 14px;
     border-radius: 999px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 700;
     white-space: nowrap;
     backdrop-filter: blur(8px);
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
 }
 
 .flyer-floating-badge .dot {
