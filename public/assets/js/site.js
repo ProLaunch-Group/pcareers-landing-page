@@ -137,4 +137,71 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // ── Dynamic Fixed Header Alignment (Topbar + Navbar on Scroll Across All Pages)
+    function updateFixedHeaderHeights() {
+        const topbar = document.querySelector('.anniversary-topbar');
+        const navbar = document.getElementById('navbar') || document.querySelector('nav');
+        if (topbar && navbar) {
+            const topbarH = topbar.offsetHeight;
+            document.documentElement.style.setProperty('--topbar-height', `${topbarH}px`);
+            navbar.style.top = `${topbarH}px`;
+            const navH = navbar.offsetHeight;
+            const totalH = topbarH + navH;
+            document.documentElement.style.setProperty('--navbar-height', `${navH}px`);
+            document.documentElement.style.setProperty('--header-total-height', `${totalH}px`);
+        } else if (navbar) {
+            document.documentElement.style.setProperty('--topbar-height', '0px');
+            navbar.style.top = '0px';
+            const navH = navbar.offsetHeight;
+            document.documentElement.style.setProperty('--navbar-height', `${navH}px`);
+            document.documentElement.style.setProperty('--header-total-height', `${navH}px`);
+        }
+    }
+    updateFixedHeaderHeights();
+    window.addEventListener('resize', updateFixedHeaderHeights);
+    window.addEventListener('orientationchange', updateFixedHeaderHeights);
+    window.addEventListener('load', updateFixedHeaderHeights);
+
+    // ── Anniversary Countdown Engine (October 31st, 2026, 7:00 PM WAT)
+    function initSharedAnniversaryCountdown() {
+        const dayEls = document.querySelectorAll('.countdown-days');
+        if (!dayEls.length) return;
+
+        const targetDate = new Date('2026-10-31T19:00:00+01:00').getTime();
+
+        function update() {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+
+            const days = document.querySelectorAll('.countdown-days');
+            const hours = document.querySelectorAll('.countdown-hours');
+            const mins = document.querySelectorAll('.countdown-mins');
+            const secs = document.querySelectorAll('.countdown-secs');
+
+            if (diff <= 0) {
+                days.forEach(el => el.textContent = '00');
+                hours.forEach(el => el.textContent = '00');
+                mins.forEach(el => el.textContent = '00');
+                secs.forEach(el => el.textContent = '00');
+                return;
+            }
+
+            const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+            const pad = (n) => String(n).padStart(2, '0');
+
+            days.forEach(el => el.textContent = pad(d));
+            hours.forEach(el => el.textContent = pad(h));
+            mins.forEach(el => el.textContent = pad(m));
+            secs.forEach(el => el.textContent = pad(s));
+        }
+
+        update();
+        setInterval(update, 1000);
+    }
+    initSharedAnniversaryCountdown();
+
 });
