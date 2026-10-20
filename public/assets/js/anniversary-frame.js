@@ -27,7 +27,7 @@ class AnniversaryFrameStudio {
         this.dragStartY = 0;
 
         // Frame Customization State
-        this.theme = 'forest'; // 'forest', 'gold', 'emerald'
+        this.theme = 'forest'; // 'forest', 'teal', 'emerald'
         this.selectedBadge = "I'm Celebrating ProLaunch Careers @ 1! 🚀";
         this.userName = "";
         this.userRole = "";
@@ -196,10 +196,10 @@ class AnniversaryFrameStudio {
             bgGrad.addColorStop(0, '#064e3b');
             bgGrad.addColorStop(0.5, '#022c22');
             bgGrad.addColorStop(1, '#064e3b');
-        } else if (this.theme === 'gold') {
+        } else if (this.theme === 'teal') {
             bgGrad.addColorStop(0, '#0a2e2b');
-            bgGrad.addColorStop(0.5, '#0d3b38');
-            bgGrad.addColorStop(1, '#193f3b');
+            bgGrad.addColorStop(0.5, '#124745');
+            bgGrad.addColorStop(1, '#19a08c');
         } else {
             // Signature ProLaunch Forest & Emerald
             bgGrad.addColorStop(0, '#092624');
@@ -257,7 +257,7 @@ class AnniversaryFrameStudio {
         // 4. Circle Border & Outer Rings (Brand Lime Green & Crisp White)
         ctx.save();
         ctx.lineWidth = 14;
-        ctx.strokeStyle = (this.theme === 'gold') ? '#f59e0b' : '#7bb640';
+        ctx.strokeStyle = (this.theme === 'teal') ? '#19a08c' : '#7bb640';
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius + 2, 0, Math.PI * 2);
         ctx.stroke();
@@ -320,7 +320,7 @@ class AnniversaryFrameStudio {
 
         // Top Right 1st Anniversary Emblem
         ctx.textAlign = 'right';
-        ctx.fillStyle = '#f59e0b';
+        ctx.fillStyle = '#7bb640';
         ctx.font = 'bold 22px "Lato", sans-serif';
         ctx.letterSpacing = '1px';
         ctx.fillText('1ST YEAR ANNIVERSARY', S - 70, barY + 32);
@@ -349,7 +349,7 @@ class AnniversaryFrameStudio {
 
         ctx.shadowColor = 'transparent';
         ctx.lineWidth = 2.5;
-        ctx.strokeStyle = (this.theme === 'gold') ? '#f59e0b' : '#7bb640';
+        ctx.strokeStyle = (this.theme === 'teal') ? '#19a08c' : '#7bb640';
         this.roundRect(ctx, cardX, cardY, cardWidth, cardHeight, 22);
         ctx.stroke();
 
@@ -377,11 +377,11 @@ class AnniversaryFrameStudio {
         const badgeHeight = 44;
         const badgeX = centerX - badgeWidth / 2;
 
-        ctx.fillStyle = (this.theme === 'gold') ? '#fef3c7' : '#e8f5d6';
+        ctx.fillStyle = (this.theme === 'teal') ? '#e6f6f4' : '#e8f5d6';
         this.roundRect(ctx, badgeX, badgeY, badgeWidth, badgeHeight, 22);
         ctx.fill();
 
-        ctx.fillStyle = (this.theme === 'gold') ? '#b45309' : '#0d3b38';
+        ctx.fillStyle = (this.theme === 'teal') ? '#124745' : '#0d3b38';
         ctx.font = '800 19px "Lato", sans-serif';
         ctx.fillText(this.selectedBadge, centerX, badgeY + 28);
 
