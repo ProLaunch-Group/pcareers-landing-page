@@ -279,121 +279,25 @@ class AnniversaryFrameStudio {
     drawFestiveBackdrop(ctx, S) {
         ctx.save();
 
-        // High-Quality Fireworks Burst Renderer
-        const drawFirework = (cx, cy, radius, rays, colors, coreSize = 6) => {
-            // Radial aura glow
-            const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-            glow.addColorStop(0, colors[0]);
-            glow.addColorStop(0.35, colors[1] || colors[0]);
-            glow.addColorStop(1, 'rgba(13, 59, 56, 0)');
-            ctx.fillStyle = glow;
-            ctx.beginPath();
-            ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-            ctx.fill();
-
-            // Radiating firework spark rays
-            for (let i = 0; i < rays; i++) {
-                const angle = (i * (Math.PI * 2) / rays) + (Math.sin(i * 1.5) * 0.08);
-                const sparkLen = radius * (0.65 + 0.35 * Math.sin(i * 1.7));
-                const endX = cx + Math.cos(angle) * sparkLen;
-                const endY = cy + Math.sin(angle) * sparkLen;
-                const midX = cx + Math.cos(angle) * (sparkLen * 0.52);
-                const midY = cy + Math.sin(angle) * (sparkLen * 0.52);
-
-                // Ray trail line
-                ctx.beginPath();
-                ctx.moveTo(midX, midY);
-                ctx.lineTo(endX, endY);
-                ctx.lineWidth = 2.4;
-                ctx.strokeStyle = colors[i % colors.length];
-                ctx.lineCap = 'round';
-                ctx.stroke();
-
-                // Spark dot at ray tip
-                ctx.beginPath();
-                ctx.arc(endX, endY, 3.5, 0, Math.PI * 2);
-                ctx.fillStyle = '#ffffff';
-                ctx.fill();
-
-                // Trailing festive ember
-                const emberX = endX + Math.cos(angle) * 14;
-                const emberY = endY + Math.sin(angle) * 14;
-                ctx.beginPath();
-                ctx.arc(emberX, emberY, 2.2, 0, Math.PI * 2);
-                ctx.fillStyle = colors[(i + 1) % colors.length];
-                ctx.fill();
-            }
-
-            // Bright sparkling core
-            ctx.beginPath();
-            ctx.arc(cx, cy, coreSize, 0, Math.PI * 2);
-            ctx.fillStyle = '#ffffff';
-            ctx.shadowColor = colors[0];
-            ctx.shadowBlur = 14;
-            ctx.fill();
-            ctx.shadowColor = 'transparent';
-        };
-
-        // 4-Point Starburst diamond sparkle helper
-        const drawStarGlint = (x, y, r, color = '#ffffff') => {
-            ctx.save();
-            ctx.fillStyle = color;
-            ctx.beginPath();
-            ctx.moveTo(x, y - r);
-            ctx.quadraticCurveTo(x, y, x + r, y);
-            ctx.quadraticCurveTo(x, y, x, y + r);
-            ctx.quadraticCurveTo(x, y, x - r, y);
-            ctx.quadraticCurveTo(x, y, x, y - r);
-            ctx.fill();
-            ctx.restore();
-        };
-
-        // Fireworks Sparks in brand colors (Lime, Gold, White)
-        // Top-Left burst
-        drawFirework(150, 190, 130, 14, ['#7bb640', '#fbbf24', '#ffffff', '#a3e635'], 8);
-        
-        // Top-Right burst
-        drawFirework(930, 180, 140, 16, ['#fbbf24', '#f59e0b', '#ffffff', '#7bb640'], 8);
-
-        // Mid-Left burst
-        drawFirework(100, 520, 105, 12, ['#a3e635', '#7bb640', '#ffffff'], 6);
-
-        // Mid-Right burst
-        drawFirework(980, 530, 110, 13, ['#fef08a', '#f59e0b', '#7bb640', '#ffffff'], 6);
-
-        // Lower-Left festive burst
-        drawFirework(180, 780, 85, 10, ['#7bb640', '#ffffff', '#fbbf24'], 5);
-
-        // Lower-Right festive burst
-        drawFirework(900, 790, 90, 11, ['#fbbf24', '#ffffff', '#a3e635'], 5);
-
-        // Glinting diamond stars & sparkling embers scattered in background
-        const glints = [
-            { x: 280, y: 130, r: 10, c: '#fbbf24' },
-            { x: 800, y: 120, r: 12, c: '#ffffff' },
-            { x: 340, y: 280, r: 7, c: '#a3e635' },
-            { x: 740, y: 260, r: 8, c: '#fef08a' },
-            { x: 190, y: 390, r: 6, c: '#ffffff' },
-            { x: 890, y: 380, r: 8, c: '#7bb640' },
-            { x: 260, y: 680, r: 7, c: '#fbbf24' },
-            { x: 820, y: 690, r: 9, c: '#ffffff' },
-            { x: 540, y: 110, r: 11, c: '#ffffff' }
-        ];
-        glints.forEach(g => drawStarGlint(g.x, g.y, g.r, g.c));
-
-        // Concentric orbit arcs
-        ctx.strokeStyle = 'rgba(123, 182, 64, 0.28)';
-        ctx.lineWidth = 2.5;
+        // Elegant geometric orbit rings in brand colors (Clean & Executive)
+        ctx.strokeStyle = 'rgba(123, 182, 64, 0.22)';
+        ctx.lineWidth = 2;
         ctx.setLineDash([8, 12]);
         ctx.beginPath();
         ctx.arc(S / 2, S / 2 - 40, 345, 0, Math.PI * 2);
         ctx.stroke();
         ctx.setLineDash([]);
 
-        ctx.strokeStyle = 'rgba(251, 191, 36, 0.35)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
         ctx.arc(S / 2, S / 2 - 40, 365, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = 'rgba(123, 182, 64, 0.15)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(S / 2, S / 2 - 40, 395, 0, Math.PI * 2);
         ctx.stroke();
 
         ctx.restore();
