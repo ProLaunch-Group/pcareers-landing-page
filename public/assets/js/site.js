@@ -33,16 +33,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ── Active nav link highlighting for clean URLs
-    const currentPath = window.location.pathname.replace(/\/$/, '') || '/home';
-    document.querySelectorAll('.nav-links a, .mobile-menu a.mobile-link').forEach(link => {
+    const currentPath = window.location.pathname.replace(/\/$/, '') || '/';
+    document.querySelectorAll('.nav-links > li > a, .mobile-menu a.mobile-link').forEach(link => {
         const href = link.getAttribute('href');
         if (!href) return;
-        const normalizedHref = href.split('#')[0].replace(/\/$/, '');
-        const isHome = (currentPath === '' || currentPath === '/' || currentPath === '/home') && (normalizedHref === '/home' || normalizedHref === 'home');
+        const normalizedHref = href.split('#')[0].replace(/\/$/, '') || '/';
+        const isHome = (currentPath === '' || currentPath === '/' || currentPath === '/home' || currentPath === '/index' || currentPath === '/index.html') &&
+                       (normalizedHref === '/' || normalizedHref === '/home' || normalizedHref === '/index' || normalizedHref === '/index.html' || normalizedHref === 'home');
+        const isResourcesGroup = (currentPath === '/resources' || currentPath === '/testimonials') && normalizedHref === '/resources';
         const isMatch = normalizedHref && normalizedHref === currentPath;
-        if (isHome || isMatch) {
+        if (isHome || isResourcesGroup || isMatch) {
             link.classList.add('active');
-        } else if (normalizedHref.startsWith('/')) {
+        } else if (href.startsWith('/')) {
             link.classList.remove('active');
         }
     });

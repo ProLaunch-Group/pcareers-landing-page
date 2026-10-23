@@ -25,8 +25,8 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=Lato:wght@300;400;700&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
 
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/anniversary.css">
+    <link rel="stylesheet" href="assets/css/main.css?v=7">
+    <link rel="stylesheet" href="assets/css/anniversary.css?v=7">
 
 </head>
 
@@ -148,20 +148,37 @@
 
     <!-- NAV -->
     <nav id="navbar">
-        <a href="/home" class="nav-logo">
+        <a href="/" class="nav-logo">
             <img src="assets/images/logo2.webp" width="38" height="38" alt="ProLaunch Logo" class="logo-mark">
             <span class="logo-text">ProLaunch Careers</span>
         </a>
         <ul class="nav-links">
-            <li><a href="/index" class="active">Home</a></li>
+            <li class="nav-dropdown">
+                <a href="/" class="nav-dropdown-trigger active">Home <svg class="dropdown-chevron" viewBox="0 0 24 24" width="13" height="13"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/#anniversary-spotlight">🎉 1-Year Milestone</a></li>
+                    <li><a href="/#about-us">Who We Are</a></li>
+                    <li><a href="/#services">Our Services</a></li>
+                    <li><a href="/#ceo">Leadership</a></li>
+                    <li><a href="/#testimonials">Featured Testimonials</a></li>
+                    <li><a href="/#signup">Contact / Get Started</a></li>
+                </ul>
+            </li>
             <li><a href="/cgc">Career Grooming Camp</a></li>
             <li><a href="/mentorship">Mentorship (PMI)</a></li>
             <li><a href="/events">Events</a></li>
-            <li><a href="/resources">Resources</a></li>
+            <li class="nav-dropdown">
+                <a href="/resources" class="nav-dropdown-trigger">Resources <svg class="dropdown-chevron" viewBox="0 0 24 24" width="13" height="13"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/testimonials">Testimonials</a></li>
+                    <li><a href="/resources#articles">Articles / Blog</a></li>
+                    <li><a href="/events">Webinars &amp; Replays</a></li>
+                    <li><a href="/cv-optimizer">LaunchIQ (AI CV Tool)</a></li>
+                </ul>
+            </li>
             <li><a href="/cv-optimizer">CV Optimizer</a></li>
             <li><a href="/contact">Contact</a></li>
             <li><a href="/anniversary" style="color: #19a08c; font-weight: 700;">Anniversary @ 1 🎉</a></li>
-            <!-- <li><a href="/cgc" class="nav-cta">Secure Your Seat &rarr;</a></li> -->
         </ul>
         <div class="nav-cta-container">
             <button type="button" class="nav-cta" onclick="window.location.href='/cgc'">Secure Your Seat &rarr;</button>
@@ -172,12 +189,25 @@
     </nav>
 
     <div class="mobile-menu" id="mobileMenu">
-        <a href="/home" class="mobile-link">Home</a>
+        <a href="/" class="mobile-link mobile-has-sub">Home</a>
+        <div class="mobile-sublinks">
+            <a href="/#anniversary-spotlight" class="mobile-sublink">1-Year Milestone</a>
+            <a href="/#about-us" class="mobile-sublink">Who We Are</a>
+            <a href="/#services" class="mobile-sublink">Our Services</a>
+            <a href="/#ceo" class="mobile-sublink">Leadership</a>
+            <a href="/#testimonials" class="mobile-sublink">Featured Testimonials</a>
+            <a href="/#signup" class="mobile-sublink">Get Started</a>
+        </div>
         <a href="/anniversary" class="mobile-link" style="color: #19a08c; font-weight: 700;">Anniversary @ 1 🎉</a>
         <a href="/cgc" class="mobile-link">Career Grooming Camp</a>
         <a href="/mentorship" class="mobile-link">Mentorship (PMI)</a>
         <a href="/events" class="mobile-link">Events</a>
-        <a href="/resources" class="mobile-link">Resources</a>
+        <a href="/resources" class="mobile-link mobile-has-sub">Resources</a>
+        <div class="mobile-sublinks">
+            <a href="/testimonials" class="mobile-sublink">Testimonials</a>
+            <a href="/resources#articles" class="mobile-sublink">Articles / Blog</a>
+            <a href="/events" class="mobile-sublink">Webinars &amp; Replays</a>
+        </div>
         <a href="/cv-optimizer" class="mobile-link">CV Optimizer</a>
         <a href="/contact" class="mobile-link">Contact</a>
         <a href="/cgc" class="mobile-cta">Secure Your Seat &rarr;</a>
@@ -223,7 +253,7 @@
         </header>
 
         <!-- ANNIVERSARY SPOTLIGHT SECTION -->
-        <section style="padding: 40px 24px; background: linear-gradient(180deg, #f8faf3 0%, #eef4e8 100%); border-bottom: 1px solid rgba(13, 59, 56, 0.08);">
+        <section id="anniversary-spotlight" style="padding: 40px 24px; background: linear-gradient(180deg, #f8faf3 0%, #eef4e8 100%); border-bottom: 1px solid rgba(13, 59, 56, 0.08);">
             <div style="max-width: 1100px; margin: 0 auto; background: #ffffff; border-radius: 28px; padding: 44px 36px; border: 1.5px solid rgba(25, 160, 140, 0.3); box-shadow: 0 20px 60px rgba(13, 59, 56, 0.08); position: relative; overflow: hidden;">
                 <!-- Decorative Teal Accent Ribbon -->
                 <div style="position: absolute; top: 0; right: 0; background: linear-gradient(135deg, #124745, #19a08c); color: #ffffff; font-size: 0.75rem; font-weight: 800; padding: 6px 36px; transform: rotate(45deg) translate(28px, -20px); letter-spacing: 0.5px; text-transform: uppercase; box-shadow: 0 4px 12px rgba(25, 160, 140, 0.3);">
@@ -383,39 +413,12 @@
                     </div>
                     <div class="service-card reveal reveal-delay-2">
                         <div class="service-icon"><svg class="icon">
-                                <use href="#icon-file"></use>
-                            </svg></div>
-                        <h4>Expert CV Rewrite (Human-Led)</h4>
-                        <p>Professional CV rewrites aligned to ATS systems and global hiring standards, making you
-                            visible to the right recruiters.</p>
-                        <a href="/contact">Get a Professional Makeover &rarr;</a>
-                    </div>
-                    <div class="service-card reveal">
-                        <div class="service-icon"><svg class="icon">
                                 <use href="#icon-robot"></use>
                             </svg></div>
-                        <h4>AI CV Optimizer (LaunchIQ)</h4>
-                        <p>Our proprietary web tool that analyzes your CV against job descriptions to deliver instant
-                            ATS positioning scores.</p>
+                        <h4>LaunchIQ &ndash; AI Optimization Tool</h4>
+                        <p>Our proprietary AI tool that analyzes your CV against job descriptions to deliver instant
+                            ATS positioning scores and actionable fixes.</p>
                         <a href="/cv-optimizer">Optimize My CV &rarr;</a>
-                    </div>
-                    <div class="service-card reveal reveal-delay-1">
-                        <div class="service-icon"><svg class="icon">
-                                <use href="#icon-target"></use>
-                            </svg></div>
-                        <h4>LinkedIn Optimization</h4>
-                        <p>Strategic profile rewrites built for visibility and recruiter attraction in the competitive
-                            remote job market.</p>
-                        <a href="/contact">Optimize My Profile &rarr;</a>
-                    </div>
-                    <div class="service-card reveal reveal-delay-2">
-                        <div class="service-icon"><svg class="icon">
-                                <use href="#icon-folder"></use>
-                            </svg></div>
-                        <h4>Portfolio Building</h4>
-                        <p>Guided creation of professional portfolios tailored for non-technical remote workers seeking
-                            global opportunities.</p>
-                        <a href="/contact">Build Portfolio &rarr;</a>
                     </div>
                 </div>
             </div>
@@ -564,46 +567,6 @@
                                     <div class="author-service">Career Grooming Camp (Cohort 5)</div>
                                 </div>
                             </article>
-
-                            <article class="testimonial-card reveal reveal-delay-5">
-                                <div class="testimonial-media">
-                                    <img src="assets/images/Testimonials/amarachi.jpg" alt="Moses Amarachi Crystal">
-                                </div>
-                                <span class="quote-mark"><svg class="icon">
-                                        <use href="#icon-quote"></use>
-                                    </svg></span>
-                                <p class="testimonial-text"
-                                    data-full-text="Before joining the program, I struggled deeply with self-confidence. I was terrified of messing up and felt like I wasn't skilled enough to get hired. Coach MQ teachings completely calmed all my nervousness and brought true career clarity. She helped me overcome self-doubt and realize the value of my skills. If you’re considering joining, it is 100% worth it—I promise you, your confidence will grow!">
-                                    Before joining the program, I struggled deeply with self-confidence. I was terrified of messing up 
-                                    and felt like I wasn't skilled enough to get hired. Coach MQ teachings completely calmed all my nervousness 
-                                    and brought true career clarity. She helped me overcome self-doubt and realize the value of my skills. 
-                                    If you’re considering joining, it is 100% worth it—I promise you, your confidence will grow!</p>
-                                <div class="testimonial-author-info">
-                                    <div class="author-name">Moses Amarachi Crystal</div>
-                                    <div class="author-role">Virtual Assistant</div>
-                                    <div class="author-service">Career Grooming Camp (Cohort 6)</div>
-                                </div>
-                            </article>
-
-                            <article class="testimonial-card reveal reveal-delay-1">
-                                <div class="testimonial-media">
-                                    <img src="assets/images/Testimonials/abigail.jpg" alt="Abigail Ihejieto">
-                                </div>
-                                <span class="quote-mark"><svg class="icon">
-                                        <use href="#icon-quote"></use>
-                                    </svg></span>
-                                <p class="testimonial-text"
-                                    data-full-text="Before joining ProLaunch, I was getting constant rejection emails or no response at all because I lacked direction—applying to random jobs with the same unoptimized CV. ProLaunch completely shifted my approach. I learned how to analyze job descriptions, tailor my CV, specialize in my skill set, and organize my professional brand. Today, I have the clarity, confidence, and positioning needed to succeed.">
-                                    Before joining ProLaunch, I was getting constant rejection emails or no response at all 
-                                    because I lacked direction—applying to random jobs with the same unoptimized CV. ProLaunch completely shifted 
-                                    my approach. I learned how to analyze job descriptions, tailor my CV, specialize in my skill set, and organize 
-                                    my professional brand. Today, I have the clarity, confidence, and positioning needed to succeed.</p>
-                                <div class="testimonial-author-info">
-                                    <div class="author-name">Abigail Ihejieto</div>
-                                    <div class="author-role">Customer Support</div>
-                                    <div class="author-service">1:1 Coaching</div>
-                                </div>
-                            </article>
                         </div>
                     </div>
 
@@ -623,7 +586,7 @@
                 </div>
 
                 <div style="text-align:center; margin-top: 2.5rem;">
-                    <a href="/resources" class="btn-text">Read More Success Stories &rarr;</a>
+                    <a href="/testimonials" class="cta-btn">Load More <svg class="icon"><use href="#icon-arrow"></use></svg></a>
                 </div>
             </div>
         </section>
@@ -680,10 +643,11 @@
             <div class="footer-col">
                 <h2>Quick Links</h2>
                 <ul class="footer-links-list">
-                    <li><a href="/index#about-us">About ProLaunch</a></li>
+                    <li><a href="/#about-us">About ProLaunch</a></li>
                     <li><a href="/cgc">Career Grooming Camp</a></li>
                     <li><a href="/mentorship">Mentorship (PMI)</a></li>
                     <li><a href="/events">Events</a></li>
+                    <li><a href="/testimonials">Testimonials</a></li>
                     <li><a href="/resources">Resources</a></li>
                     <li><a href="https://prolaunch-cv-optimizer.vercel.app/" target="_blank" rel="noopener">CV Optimizer
                             Tool</a></li>

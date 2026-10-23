@@ -23,8 +23,8 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=Lato:wght@300;400;700&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
 
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/pmi-wizard.css">
+    <link rel="stylesheet" href="assets/css/main.css?v=7">
+    <link rel="stylesheet" href="assets/css/pmi-wizard.css?v=7">
 </head>
 
 <body>
@@ -87,16 +87,34 @@
 
     <!-- NAV -->
     <nav id="navbar">
-        <a href="/index.html" class="nav-logo">
+        <a href="/" class="nav-logo">
             <img src="assets/images/logo2.webp" width="38" height="38" alt="ProLaunch Logo" class="logo-mark">
             <span class="logo-text">ProLaunch Careers</span>
         </a>
         <ul class="nav-links">
-            <li><a href="/index.html">Home</a></li>
+            <li class="nav-dropdown">
+                <a href="/" class="dropdown-trigger">Home <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/#anniversary-spotlight">Anniversary Spotlight</a></li>
+                    <li><a href="/#about-us">About Us</a></li>
+                    <li><a href="/#services">Services</a></li>
+                    <li><a href="/#ceo">Meet the Founder</a></li>
+                    <li><a href="/#testimonials">Testimonials</a></li>
+                    <li><a href="/#signup">Join the Community</a></li>
+                </ul>
+            </li>
             <li><a href="/cgc">Career Grooming Camp</a></li>
             <li><a href="/mentorship">Mentorship (PMI)</a></li>
             <li><a href="/events">Events</a></li>
-            <li><a href="/resources">Resources</a></li>
+            <li class="nav-dropdown">
+                <a href="/resources" class="dropdown-trigger">Resources <svg class="chevron-icon" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/testimonials">Testimonials</a></li>
+                    <li><a href="/resources#articles">Articles / Blog</a></li>
+                    <li><a href="/resources#webinars">Webinars &amp; Replays</a></li>
+                    <li><a href="/cv-optimizer">LaunchIQ (AI CV Tool)</a></li>
+                </ul>
+            </li>
             <li><a href="/cv-optimizer">CV Optimizer</a></li>
             <li><a href="/contact" class="active">Contact</a></li>
         </ul>
@@ -109,11 +127,23 @@
     </nav>
 
     <div class="mobile-menu" id="mobileMenu">
-        <a href="/index.html" class="mobile-link">Home</a>
+        <a href="/" class="mobile-link">Home</a>
+        <div class="mobile-sublinks">
+            <a href="/#anniversary-spotlight" class="mobile-sublink">Anniversary Spotlight</a>
+            <a href="/#about-us" class="mobile-sublink">About Us</a>
+            <a href="/#services" class="mobile-sublink">Services</a>
+            <a href="/#ceo" class="mobile-sublink">Meet the Founder</a>
+            <a href="/#testimonials" class="mobile-sublink">Testimonials</a>
+            <a href="/#signup" class="mobile-sublink">Join the Community</a>
+        </div>
         <a href="/cgc" class="mobile-link">Career Grooming Camp</a>
         <a href="/mentorship" class="mobile-link">Mentorship (PMI)</a>
         <a href="/events" class="mobile-link">Events</a>
         <a href="/resources" class="mobile-link">Resources</a>
+        <div class="mobile-sublinks">
+            <a href="/testimonials" class="mobile-sublink">Testimonials</a>
+            <a href="/resources#articles" class="mobile-sublink">Articles / Blog</a>
+        </div>
         <a href="/cv-optimizer" class="mobile-link">CV Optimizer</a>
         <a href="/contact" class="mobile-link">Contact</a>
         <a href="/cgc" class="mobile-cta">Secure Your Seat &rarr;</a>
@@ -249,10 +279,11 @@
             <div class="footer-col">
                 <h2>Quick Links</h2>
                 <ul class="footer-links-list">
-                    <li><a href="/index.html#about-us">About ProLaunch</a></li>
+                    <li><a href="/#about-us">About ProLaunch</a></li>
                     <li><a href="/cgc">Career Grooming Camp</a></li>
                     <li><a href="/mentorship">Mentorship (PMI)</a></li>
                     <li><a href="/events">Events</a></li>
+                    <li><a href="/testimonials">Testimonials</a></li>
                     <li><a href="/resources">Resources</a></li>
                     <li><a href="https://prolaunch-cv-optimizer.vercel.app/" target="_blank" rel="noopener">CV Optimizer Tool</a></li>
                 </ul>
