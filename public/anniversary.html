@@ -24,8 +24,8 @@
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700&family=Lato:wght@300;400;700&display=swap"
         rel="stylesheet" media="print" onload="this.media='all'">
 
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/anniversary.css">
+    <link rel="stylesheet" href="assets/css/main.css?v=6">
+    <link rel="stylesheet" href="assets/css/anniversary.css?v=6">
 </head>
 
 <body>
@@ -168,8 +168,8 @@
 
                 <div class="webinar-card-feature reveal">
                     <!-- Left Column: Event Flyer Banner (Framed with uniform padding) -->
-                    <div class="webinar-flyer-col">
-                        <img src="assets/images/anniversary-main-flyer.png" alt="ProLaunch 1-Year Anniversary Masterclass Flyer" class="anniversary-flyer-img">
+                    <div class="webinar-flyer-col" style="background: #0d3b38; padding: 16px; display: flex; align-items: center; justify-content: center; box-sizing: border-box;">
+                        <img src="assets/images/anniversary-main-flyer.png" alt="ProLaunch 1-Year Anniversary Masterclass Flyer" class="anniversary-flyer-img" style="width: 100%; height: auto; min-height: 0; max-height: none; object-fit: contain; border-radius: 14px; box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25); display: block;">
                     </div>
 
                     <!-- Right Column: Details & RSVP Form -->
@@ -204,11 +204,13 @@
                                 <div class="form-group" style="margin-bottom: 10px;">
                                     <input type="text" name="full_name" class="control-input" style="padding: 10px 12px; font-size: 0.9rem;" placeholder="Full Name" required>
                                 </div>
-                                <div class="form-group" style="margin-bottom: 10px;">
-                                    <input type="email" name="email" class="control-input" style="padding: 10px 12px; font-size: 0.9rem;" placeholder="Email Address" required>
-                                </div>
-                                <div class="form-group" style="margin-bottom: 10px;">
-                                    <input type="tel" name="whatsapp" class="control-input" style="padding: 10px 12px; font-size: 0.9rem;" placeholder="WhatsApp Phone Number" required>
+                                <div class="rsvp-form-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                                    <div class="form-group" style="margin-bottom: 0;">
+                                        <input type="email" name="email" class="control-input" style="padding: 10px 12px; font-size: 0.9rem;" placeholder="Email Address" required>
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 0;">
+                                        <input type="tel" name="whatsapp" class="control-input" style="padding: 10px 12px; font-size: 0.9rem;" placeholder="WhatsApp Number" required>
+                                    </div>
                                 </div>
                                 <div class="form-group" style="margin-bottom: 12px;">
                                     <select name="career_stage" class="control-input" style="padding: 10px 12px; font-size: 0.9rem;" required>
