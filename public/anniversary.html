@@ -167,49 +167,51 @@
                 </div>
 
                 <div class="webinar-card-feature reveal">
-                    <!-- Left Column: Event Flyer Banner (Fills Container Completely) -->
+                    <!-- Left Column: Event Flyer Banner (Framed with uniform padding) -->
                     <div class="webinar-flyer-col">
                         <img src="assets/images/anniversary-main-flyer.png" alt="ProLaunch 1-Year Anniversary Masterclass Flyer" class="anniversary-flyer-img">
                     </div>
 
                     <!-- Right Column: Details & RSVP Form -->
                     <div class="webinar-content">
-                        <span class="webinar-meta-badge">Free Live Masterclass</span>
-                        <h3 style="font-size: 1.6rem; margin-bottom: 12px; line-height: 1.25;">Getting Hired is Only the Beginning: Build a Career That Creates Opportunities</h3>
-                        <p style="margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">
+                        <div>
+                            <span class="webinar-meta-badge" style="margin-bottom: 10px;">Free Live Masterclass</span>
+                        </div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 10px; line-height: 1.25;">Getting Hired is Only the Beginning: Build a Career That Creates Opportunities</h3>
+                        <p style="margin-bottom: 14px; font-size: 0.92rem; line-height: 1.55;">
                             Landing the job is step one. Staying relevant, commanding higher compensation, and creating an undeniable professional pipeline is what transforms a job into a global, sustainable career.
                         </p>
-                        <ul class="webinar-details-list" style="margin-bottom: 24px;">
-                            <li>
-                                <svg class="icon" width="20" height="20"><use href="#icon-calendar"></use></svg>
+                        <ul class="webinar-details-list" style="margin-bottom: 16px;">
+                            <li style="margin-bottom: 8px; font-size: 0.9rem;">
+                                <svg class="icon" width="18" height="18"><use href="#icon-calendar"></use></svg>
                                 <span>Saturday, October 31st, 2026</span>
                             </li>
-                            <li>
-                                <svg class="icon" width="20" height="20"><use href="#icon-clock"></use></svg>
+                            <li style="margin-bottom: 8px; font-size: 0.9rem;">
+                                <svg class="icon" width="18" height="18"><use href="#icon-clock"></use></svg>
                                 <span>7:00 PM WAT (West Africa Time)</span>
                             </li>
-                            <li>
-                                <svg class="icon" width="20" height="20"><use href="#icon-gift"></use></svg>
+                            <li style="margin-bottom: 0; font-size: 0.9rem;">
+                                <svg class="icon" width="18" height="18"><use href="#icon-gift"></use></svg>
                                 <span>Live Announcement of &#8358;50K Giveaway Winners</span>
                             </li>
                         </ul>
 
-                        <div style="background: var(--cream); border-radius: 18px; padding: 22px 24px; border: 1px solid rgba(13, 59, 56, 0.08);">
-                            <h4 style="font-size: 1.15rem; color: var(--forest); margin-bottom: 6px; font-family: 'Playfair Display', serif;">Reserve Your Spot &amp; Enter Giveaway Draw</h4>
-                            <p style="font-size: 0.84rem; color: var(--text-muted); margin-bottom: 16px;">100% Free Access. Live access link will be sent to your email &amp; WhatsApp.</p>
+                        <div style="background: var(--cream); border-radius: 16px; padding: 18px 20px; border: 1px solid rgba(13, 59, 56, 0.08);">
+                            <h4 style="font-size: 1.1rem; color: var(--forest); margin-bottom: 4px; font-family: 'Playfair Display', serif;">Reserve Your Spot &amp; Enter Giveaway Draw</h4>
+                            <p style="font-size: 0.82rem; color: var(--text-muted); margin-bottom: 12px;">100% Free Access. Live access link will be sent to your email &amp; WhatsApp.</p>
 
                             <form id="anniversaryRsvpForm" novalidate>
-                                <div class="form-group" style="margin-bottom: 12px;">
-                                    <input type="text" name="full_name" class="control-input" placeholder="Full Name" required>
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    <input type="text" name="full_name" class="control-input" style="padding: 10px 12px; font-size: 0.9rem;" placeholder="Full Name" required>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    <input type="email" name="email" class="control-input" style="padding: 10px 12px; font-size: 0.9rem;" placeholder="Email Address" required>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 10px;">
+                                    <input type="tel" name="whatsapp" class="control-input" style="padding: 10px 12px; font-size: 0.9rem;" placeholder="WhatsApp Phone Number" required>
                                 </div>
                                 <div class="form-group" style="margin-bottom: 12px;">
-                                    <input type="email" name="email" class="control-input" placeholder="Email Address" required>
-                                </div>
-                                <div class="form-group" style="margin-bottom: 12px;">
-                                    <input type="tel" name="whatsapp" class="control-input" placeholder="WhatsApp Phone Number" required>
-                                </div>
-                                <div class="form-group" style="margin-bottom: 16px;">
-                                    <select name="career_stage" class="control-input" required>
+                                    <select name="career_stage" class="control-input" style="padding: 10px 12px; font-size: 0.9rem;" required>
                                         <option value="" disabled selected>Select Your Current Stage</option>
                                         <option value="ProLaunch Alum">Proud ProLaunch Alum</option>
                                         <option value="Early-Career Pro">Early-Career Professional</option>
@@ -217,10 +219,10 @@
                                         <option value="Experienced Senior">Experienced Professional</option>
                                     </select>
                                 </div>
-                                <button type="submit" class="btn-anniversary-primary" style="width: 100%; justify-content: center; border: none; font-size: 1rem; cursor: pointer;">
+                                <button type="submit" class="btn-anniversary-primary" style="width: 100%; justify-content: center; border: none; font-size: 0.95rem; padding: 12px 20px; cursor: pointer;">
                                     Confirm My Free Seat &rarr;
                                 </button>
-                                <div id="rsvpFormFeedback" style="margin-top: 12px; font-size: 0.88rem; display: none;"></div>
+                                <div id="rsvpFormFeedback" style="margin-top: 10px; font-size: 0.85rem; display: none;"></div>
                             </form>
                         </div>
                     </div>
