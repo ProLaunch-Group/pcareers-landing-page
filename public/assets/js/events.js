@@ -1,5 +1,5 @@
 /* Events page — full webinar listing (mirrors the WEBINARS source of truth in app.js).
-   To add a new webinar each month, add an object here AND in app.js. */
+   To add a new webinar each month, add an object here */
 const EVENTS_WEBINARS = [
      {
         id: "The Remote Playbook",
@@ -14,10 +14,10 @@ const EVENTS_WEBINARS = [
         id: "1-year-anniversary-masterclass",
         title: "1-Year Anniversary Masterclass: Getting Hired is Only the Beginning: Build a Career That Creates Opportunities",
         date: "2026-10-31",
-        status: "upcoming",
+        status: "past",
         image: "assets/images/anniversary-main-flyer.png",
         description: "Celebrate ProLaunch Careers' 1st Anniversary! Featuring Keynote by Coach MQ, Joyce Ubani (Founder, ApplyPadi), and Cornelius Abeken Christopher. Includes live ₦50,000+ scholarship giveaways.",
-        formUrl: "/anniversary#webinar"
+        formUrl: "https://forms.gle/hB1mKGCn5JpQTh967"
     },
     {
         id: "Stop Applying Blindly",
