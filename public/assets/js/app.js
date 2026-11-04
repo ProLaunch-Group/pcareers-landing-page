@@ -1,12 +1,3 @@
-/* =========================================================================
-   Single source of truth for all webinars — featured cards + archive.
- 
-   HOW TO ADD A NEW WEBINAR EACH MONTH:
-   Just add a new object to the top of the WEBINARS array below.
-   Everything else (which 3 show as cards, which get pushed into the
-   "Access Older Webinars" archive list) is handled automatically.
-   ========================================================================= */
-
 document.addEventListener('DOMContentLoaded', () => {
 
     // ── FORM SUBMISSION (ZAPIER + SUCCESS REDIRECT)
